@@ -12,22 +12,23 @@ function get-installed-packages() {
 
 #sync dotfiles and return in dotfiles dir
 function sync-dots() {
+  cd /home/joel/Documents/data/code/docs/dotfiles/mine/
   #zsh
-  cp  ~/.zshrc /home/joel/Documents/data/code/docs/dotfiles/.zshrc
+  cp  ~/.zshrc /home/joel/Documents/data/code/docs/dotfiles/mine/.zshrc
   #git
-  cp  ~/.gitconfig /home/joel/Documents/data/code/docs/dotfiles/.gitconfig
+  cp  ~/.gitconfig /home/joel/Documents/data/code/docs/dotfiles/mine/.gitconfig
   #vim
-  cp ~/.vimrc /home/joel/Documents/data/code/docs/dotfiles/.vimrc 
+  cp ~/.vimrc /home/joel/Documents/data/code/docs/dotfiles/mine/.vimrc 
   #myfuncs
-  cp ~/.zsh/.my_funcs.zsh /home/joel/Documents/data/code/docs/dotfiles/.my_funcs.zsh 
+  cp ~/.zsh/.my_funcs.zsh /home/joel/Documents/data/code/docs/dotfiles/mine/.my_funcs.zsh 
   #tmux
-  cp ~/.tmux.conf /home/joel/Documents/data/code/docs/dotfiles/.tmux.conf
+  cp ~/.tmux.conf /home/joel/Documents/data/code/docs/dotfiles/mine/.tmux.conf
   #bash
-  cp ~/.bashrc /home/joel/Documents/data/code/docs/dotfiles/.bashrc 
+  cp ~/.bashrc /home/joel/Documents/data/code/docs/dotfiles/mine/.bashrc 
   #p10k
-  cp ~/.p10k.zsh /home/joel/Documents/data/code/docs/dotfiles/.p10k.zsh
+  cp ~/.p10k.zsh /home/joel/Documents/data/code/docs/dotfiles/mine/.p10k.zsh
 
-  #git status
+  git status
 }
 
 #sync vscode addons and settings
