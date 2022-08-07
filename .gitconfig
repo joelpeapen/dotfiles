@@ -1,0 +1,11 @@
+[user]
+	email = joelpeapen@protonmail.com
+	name = Joel Eapen
+[core]
+	editor = vim
+[alias]
+	oneline = log --all --graph --decorate --oneline
+[init]
+	defaultBranch = main
+[color]
+	ui = auto
