@@ -46,7 +46,8 @@ function syncsub(){
 function sync-c() {
 cp -r /home/joel/Documents/mysore_bca/c/cs50  /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/c
 cp -r /home/joel/Documents/mysore_bca/c/deitel  /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/c
-cp -r /home/joel/Documents/mysore_bca/c_lab/ /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/c 
+cp -r /home/joel/Documents/mysore_bca/c/c_lab/ /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/c/
+cp -r /home/joel/Documents/mysore_bca/c/examples/ /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/c
 }
 
 #enable oh-my-zsh
