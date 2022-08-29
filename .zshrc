@@ -70,8 +70,7 @@ alias lla='ls -lah'
 alias clearhist='rm ~/.zsh_history'
 alias ccc="cd /mnt/windata/joel/joeldata/webCourse/yelpCamp/course"
 alias python="python3.10"
-alias status="echo $?"
-alias mathcopy="cp /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/Mathematics_detailed_outline.html /home/joel/Documents/mysore_bca/math/Mathematics_detailed_outline.html"
+alias mathcopy="cp /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/Mathematics_detailed_outline.html /home/joel/Documents/mysore_bca/math/notes/Mathematics_detailed_outline.html"
 
 # session
 alias quit="gnome-session-quit"

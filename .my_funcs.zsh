@@ -339,7 +339,7 @@ function convert-video(){
     ffmpeg -i $1 $1.$2
    
     #remove old file extension
-    mv "$2" `echo "$2" | tr -d "$1"`;
+    #mv "$2" `echo "$2" | tr -d "$1"`;
 }
 
 #concat vidoes into one file
