@@ -324,22 +324,35 @@ function convert-images(){
         echo "$image converted to $2"
     done
 
-    #rename screenshots
-#    for image in *.$2; do
-#        mv "$image" `echo "$image" | tr -d "Screenshot from "`
-#        mv "$image" `echo "$image" | tr -d ".$1"`
-#        mv "$image" `echo "$image" | tr " " "_"`
-#    done
-
     rm *.$1
+
+    #rename screenshots
+    for file in *.$2; do
+        mv $file ${file//Screenshot from /}
+    done
+
+    #remove space
+    for file in *.$2; do
+        mv $file ${file// /_}
+    done
+
+    #remove previous file extension
+    for file in *.$2; do
+        mv $file ${file//.$1/}
+    done
 }
 
 #convert video from type to type
-function convert-video(){
-    ffmpeg -i $1 $1.$2
+function convert-videos(){
+    for video in *.$1; do
+        ffmpeg -i $video $video.$2
+        echo "$video converted to $2"
+    done
    
     #remove old file extension
-    #mv "$2" `echo "$2" | tr -d "$1"`;
+    for file in *.$2; do
+        mv $file ${file//.$1/}
+    done
 }
 
 #concat vidoes into one file
