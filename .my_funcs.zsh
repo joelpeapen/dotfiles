@@ -326,20 +326,25 @@ function convert-images(){
 
     rm *.$1
 
-    #rename screenshots
-    for file in *.$2; do
-        mv $file ${file//Screenshot from /}
-    done
+    echo "Rename Screenshots [y/n]? " 
+    read input
 
-    #remove space
-    for file in *.$2; do
-        mv $file ${file// /_}
-    done
+    if [[ $input == "y" || $input == "y" ]]; then
+        #rename screenshots
+        for file in *.$2; do
+            mv $file ${file//Screenshot from /}
+        done
 
-    #remove previous file extension
-    for file in *.$2; do
-        mv $file ${file//.$1/}
-    done
+        #remove space
+        for file in *.$2; do
+            mv $file ${file// /_}
+        done
+
+        #remove previous file extension
+        for file in *.$2; do
+            mv $file ${file//.$1/}
+        done
+    fi
 }
 
 #convert video from type to type
@@ -350,9 +355,14 @@ function convert-videos(){
     done
    
     #remove old file extension
-    for file in *.$2; do
-        mv $file ${file//.$1/}
-    done
+    echo "Rename Videos [y/n]? " 
+    read input
+
+    if [[ $input == "y" || $input == "y" ]]; then
+        for file in *.$2; do
+            mv $file ${file//.$1/}
+        done
+    fi
 }
 
 #concat vidoes into one file
