@@ -319,10 +319,20 @@ function files(){
 
 #convert images from type to type
 function convert-images(){
-    for image in *.$1; do
-        convert $image $image.$2
-        echo "$image converted to $2"
-    done
+    #echo "Use imageMagik Or ffmpeg [i/v]? " 
+    #read input
+
+    #if [[ $input == "i" || $input == "I" ]]; then
+    #    for image in *.$1; do
+    #        convert $image $image.$2
+    #        echo "$image converted to $2"
+    #    done
+    #elif [[ $input == "v" || $input == "V" ]]; then
+        for image in *.$1; do
+            ffmpeg -i $image $image.$2
+            echo "$image converted to $2"
+        done
+    #fi
 
     rm *.$1
 
