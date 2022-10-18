@@ -329,7 +329,7 @@ function convert-images(){
     #    done
     #elif [[ $input == "v" || $input == "V" ]]; then
         for image in *.$1; do
-            ffmpeg -i $image $image.$2
+            ffmpeg -loglevel panic -i $image $image.$2
             echo "$image converted to $2"
         done
     #fi
@@ -360,7 +360,7 @@ function convert-images(){
 #convert video from type to type
 function convert-videos(){
     for video in *.$1; do
-        ffmpeg -i $video $video.$2
+        ffmpeg -loglevel warning -i $video $video.$2
         echo "$video converted to $2"
     done
    
