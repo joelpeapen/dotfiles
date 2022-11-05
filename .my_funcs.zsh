@@ -28,6 +28,12 @@ function sync-dots() {
   #p10k
   cp ~/.p10k.zsh /home/joel/Documents/data/code/docs/dotfiles/mine/.p10k.zsh
 
+  #nvim config
+  cp ~/.config/nvim/*.(vim|json) /home/joel/Documents/data/code/docs/dotfiles/mine/config/nvim
+  #vim config
+  cp ~/.vim/*.vim /home/joel/Documents/data/code/docs/dotfiles/mine/vim
+  
+
   git status
 }
 
