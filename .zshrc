@@ -90,7 +90,7 @@ alias temps='watch -n 1 sensors'
 # Path to your oh-my-zsh installation.
 export ZSH="/home/joel/.zsh/.oh-my-zsh"
 
-#ZSH_THEME="robbyrussell" #gallois minimal sammy
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 #ZSH_DISABLE_COMPFIX="true"
 
@@ -146,7 +146,7 @@ plugins=(git colored-man-pages catimg)
 #---Custom files------------------------------------------------------------
 source ~/.zsh/.my_funcs.zsh
 #source /home/kids/.config/broot/launcher/bash/br
-source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
+#source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
