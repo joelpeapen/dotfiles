@@ -88,7 +88,7 @@ alias temps='watch -n 1 sensors'
 
 #----OMYZSH------------------------------------------------------------------
 # Path to your oh-my-zsh installation.
-###export ZSH="/home/kids/.oh-my-zsh"
+export ZSH="/home/joel/.zsh/.oh-my-zsh"
 
 #ZSH_THEME="robbyrussell" #gallois minimal sammy
 
@@ -127,10 +127,10 @@ HYPHEN_INSENSITIVE="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-###source $ZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
 
 #zsh plugins
-plugins=(colored-man-pages catimg)
+plugins=(git colored-man-pages catimg)
 
 # User configuration
 
