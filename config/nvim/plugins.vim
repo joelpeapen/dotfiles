@@ -1,16 +1,26 @@
-" Plugins will be downloaded under the specified directory.
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
-" Declare the list of plugins.
-
+"UTIL
+""""""
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"or use coq.nvim
+
 "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-"Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-"Plug 'kyazdani42/nvim-web-devicons'
-"Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
-"Plug 'nvim-lualine/lualine.nvim'
+
+"Telescope
+"Plug 'nvim-lua/plenary.nvim'
+"Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+
+"THEMES
+"""""""
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'kyazdani42/nvim-web-devicons'
+
+"FILE manager
+"Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m pip install chadtree && python -m pip chadtree deps'}
+
 "Plug 'romgrk/barbar.nvim'
+Plug 'nvim-lualine/lualine.nvim'
+"Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
 
-
-" List ends here. Plugins become visible to Vim after this call.
 call plug#end()

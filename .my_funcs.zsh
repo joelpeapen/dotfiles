@@ -4,12 +4,6 @@ function get-installed-packages() {
   apt list --installed | sed 's/\/.*//' | sort | uniq | tee Documents/LINUX_SOFTWARE/installed_packages
 }
 
-#function syncall(){
-#    sync-dots()
-#    syncvs()
-#    syncsub()
-#}
-
 #sync dotfiles and return in dotfiles dir
 function sync-dots() {
   cd /home/joel/Documents/data/code/docs/dotfiles/mine/
@@ -85,6 +79,21 @@ function light-mode() {
  sed -i 's/colorscheme gruvbox/colorscheme PaperColor/' ~/.vim/ui.vim
  sed -i 's/gruvbox/PaperColor/' ~/.vim/lightline.vim
 }
+
+function nvimconfig() {
+    echo "init.vim or plugins [i/p]? " 
+    read input
+
+    if [[ $input == "i" || $input == "I" ]]; then
+        $EDITOR ~/.config/nvim/init.vim 
+    elif [[ $input == "p" || $input == "p" ]]; then
+        $EDITOR ~/.config/nvim/plugins.vim 
+    else
+        cd ~/.config/nvim
+    fi
+}
+
+
 
 function ergo() {
   sed -i 's/xkb_variant/#xkb_variant/' ~/.config/sway/config
@@ -412,4 +421,4 @@ function clearing() {
 
 zle -N exiter exiting
 bindkey ',q'  exiter
-bindkey ',ll' clear
+bindkey ',l' clear

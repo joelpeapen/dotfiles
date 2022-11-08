@@ -78,49 +78,7 @@ let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 """"""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Tokyonight
-
-"require("tokyonight").setup({
-"  -- your configuration comes here
-"  -- or leave it empty to use the default settings
-"  style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-"  light_style = "day", -- The theme is used when the background is set to light
-"  transparent = false, -- Enable this to disable setting the background color
-"  terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
-"  styles = {
-"    -- Style to be applied to different syntax groups
-"    -- Value is any valid attr-list value for `:help nvim_set_hl`
-"    comments = { italic = true },
-"    keywords = { italic = true },
-"    functions = {},
-"    variables = {},
-"    -- Background styles. Can be "dark", "transparent" or "normal"
-"    sidebars = "dark", -- style for sidebars, see below
-"    floats = "dark", -- style for floating windows
-"  },
-"  sidebars = { "qf", "help" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
-"  day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
-"  hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
-"  dim_inactive = false, -- dims inactive windows
-"  lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
-"
-"  --- You can override specific color groups to use other groups or a hex color
-"  --- function will be called with a ColorScheme table
-"  ---@param colors ColorScheme
-"  on_colors = function(colors) end,
-"
-"  --- You can override specific highlights to use other groups or a hex color
-"  --- function will be called with a Highlights and ColorScheme table
-"  ---@param highlights Highlights
-"  ---@param colors ColorScheme
-"  on_highlights = function(highlights, colors) end,
-"})
-"
-""""""""""""""""""""
-"
-"
-"" coc
+" coc code completion
 """""""""""""""""""""""""""""""""
 "" May need for vim (not neovim) since coc.nvim calculate byte offset by count
 "" utf-8 byte sequence.
@@ -278,52 +236,20 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 "
 "autocmd FileType json syntax match Comment +\/\/.\+$+
 "
-""barbar
-""""""""""""""""""""""""""""""""""""""""""""""""""
-"" Move to previous/next
-"nnoremap <silent>    <A-,> <Cmd>BufferPrevious<CR>
-"nnoremap <silent>    <A-.> <Cmd>BufferNext<CR>
-"" Re-order to previous/next
-"nnoremap <silent>    <A-<> <Cmd>BufferMovePrevious<CR>
-"nnoremap <silent>    <A->> <Cmd>BufferMoveNext<CR>
-"" Goto buffer in position...
-"nnoremap <silent>    <A-1> <Cmd>BufferGoto 1<CR>
-"nnoremap <silent>    <A-2> <Cmd>BufferGoto 2<CR>
-"nnoremap <silent>    <A-3> <Cmd>BufferGoto 3<CR>
-"nnoremap <silent>    <A-4> <Cmd>BufferGoto 4<CR>
-"nnoremap <silent>    <A-5> <Cmd>BufferGoto 5<CR>
-"nnoremap <silent>    <A-6> <Cmd>BufferGoto 6<CR>
-"nnoremap <silent>    <A-7> <Cmd>BufferGoto 7<CR>
-"nnoremap <silent>    <A-8> <Cmd>BufferGoto 8<CR>
-"nnoremap <silent>    <A-9> <Cmd>BufferGoto 9<CR>
-"nnoremap <silent>    <A-0> <Cmd>BufferLast<CR>
-"" Pin/unpin buffer
-"nnoremap <silent>    <A-p> <Cmd>BufferPin<CR>
-"" Close buffer
-"nnoremap <silent>    <A-c> <Cmd>BufferClose<CR>
-"" Wipeout buffer
-""                          :BufferWipeout
-"" Close commands
-""                          :BufferCloseAllButCurrent
-""                          :BufferCloseAllButVisible
-""                          :BufferCloseAllButPinned
-""                          :BufferCloseAllButCurrentOrPinned
-""                          :BufferCloseBuffersLeft
-""                          :BufferCloseBuffersRight
-"" Magic buffer-picking mode
-"nnoremap <silent> <C-p>    <Cmd>BufferPick<CR>
-"" Sort automatically by...
-"nnoremap <silent> <Space>bb <Cmd>BufferOrderByBufferNumber<CR>
-"nnoremap <silent> <Space>bd <Cmd>BufferOrderByDirectory<CR>
-"nnoremap <silent> <Space>bl <Cmd>BufferOrderByLanguage<CR>
-"nnoremap <silent> <Space>bw <Cmd>BufferOrderByWindowNumber<CR>
+
+"Telescope
+""""""""""
+" Show all builtin pickers
+":Telescope
 "
-"" Other:
-"" :BarbarEnable - enables barbar (enabled by default)
-"" :BarbarDisable - very bad command, should never be used
-""""""""""""""""""""""""""""""""""""""""""""""
+"" Tab completion
+":Telescope |<tab>
+":Telescope find_files
+"
+"" Setting options
+":Telescope find_files prompt_prefix=🔍
 
-
+""""""""CUSTOM FUNCTIONS
 
 " Writer mode
 func! WriterMode()
