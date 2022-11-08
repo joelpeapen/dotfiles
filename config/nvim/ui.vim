@@ -1,9 +1,9 @@
 " Colors
 set termguicolors
-hi Normal guibg=NONE ctermbg=NONE
+"hi Normal guibg=NONE ctermbg=NONE
 
 "colorscheme gruvbox
-set background=dark
+"set background=dark
 
 "THEMES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -60,9 +60,9 @@ lua << END
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'tokyonight',
-    component_separators = { left = '|', right = '|'},
-    section_separators = { left = '', right = ''},
+    theme = 'palenight',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
     disabled_filetypes = {
       statusline = {},
       winbar = {},
