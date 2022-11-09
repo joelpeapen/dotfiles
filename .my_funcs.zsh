@@ -81,19 +81,9 @@ function light-mode() {
 }
 
 function nvimconfig() {
-    echo "init.vim or plugins [i/p]? " 
-    read input
-
-    if [[ $input == "i" || $input == "I" ]]; then
-        $EDITOR ~/.config/nvim/init.vim 
-    elif [[ $input == "p" || $input == "p" ]]; then
-        $EDITOR ~/.config/nvim/plugins.vim 
-    else
-        cd ~/.config/nvim
-    fi
+  cd ~/.config/nvim
+  $EDITOR ~/.config/nvim/$1.vim 
 }
-
-
 
 function ergo() {
   sed -i 's/xkb_variant/#xkb_variant/' ~/.config/sway/config
