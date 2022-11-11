@@ -74,10 +74,11 @@ set mouse+=a
 let NERDTreeHijackNetrw=1
 " let NERDTreeQuitOnOpen=1
 let g:NERDTreeWinPos = "left"
-let g:NERDTreeWinSize=30
+let g:NERDTreeWinSize=40
 
-let g:NERDTreeDirArrowExpandable = '￫'
-let g:NERDTreeDirArrowCollapsible = 'ꜜ'
+"￫ꜜ
+let g:NERDTreeDirArrowExpandable = '☉'
+let g:NERDTreeDirArrowCollapsible = '◉'
 
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
