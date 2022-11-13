@@ -22,6 +22,7 @@ HISTFILESIZE=2000
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
+#var=$(date +"%Y-%m-%d-%H%M%S")
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
@@ -50,7 +51,7 @@ alias backup="rsync -avh --filter='- /NIOS/01_accounting_320/video/***' --filter
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
-
+file=$var.jpg
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
@@ -132,4 +133,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
