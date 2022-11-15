@@ -9,6 +9,14 @@ Plug 'tpope/vim-obsession'
 Plug 'mhinz/vim-startify'
 let g:startify_session_persistence = 1
 let g:startify_session_autoload = 1
+let g:startify_fortune_use_unicode = 0
+
+" read ~/.NERDTreeBookmars file and takes its second column
+let g:startify_lists = [
+        \ { 'type': 'files',     'header': ['   MRU']            },
+        "\ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+        \ { 'type': 'sessions',  'header': ['   Sessions']       },
+        \]
 
 " file manager:
 Plug 'preservim/nerdtree'
@@ -32,7 +40,7 @@ Plug 'preservim/nerdtree'
 " indent blank line
 "Plug 'Yggdroot/indentLine'  ?? correct plugin ??
   
-" brackets auto fill
+" brackets auto fill ?? needed ??
    
 " multiple cursor
    

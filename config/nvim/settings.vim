@@ -11,8 +11,8 @@ set showcmd
 " linebreak at spaces
 set linebreak
 
-set colorcolumn=80
-au BufEnter *.md,*.rmd,*.Rmd,*.tex,*.qmd set textwidth=80
+"in txt,md... files textwidth and colorcolumn
+au BufEnter *.md,*.rmd,*.Rmd,*.tex,*.qmd,*.txt set textwidth=80 set colorcolumn=80
 
 "show trailing spaces
 set list
