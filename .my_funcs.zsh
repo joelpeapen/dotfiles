@@ -306,7 +306,7 @@ function ydl() {
 
 #------------------COMPILE-----------------------------------------------
 function c-compile(){
-    gcc $1.c -o $1 -lm
+    gcc -std=c18 $1.c -o $1 -lm
     #can check if compilation error else run
     ./$1
 }
