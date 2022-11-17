@@ -12,7 +12,7 @@ set showcmd
 set linebreak
 
 "in txt,md... files textwidth and colorcolumn
-au BufEnter *.md,*.rmd,*.Rmd,*.tex,*.qmd,*.txt set textwidth=80 set colorcolumn=80
+au BufEnter *.md,*.rmd,*.Rmd,*.tex,*.qmd,*.txt set textwidth=80
 
 "show trailing spaces
 set list
@@ -94,8 +94,9 @@ let g:NERDTreeWinPos = "left"
 let g:NERDTreeWinSize=40
 
 "icons
-let g:NERDTreeDirArrowExpandable = '☉'
-let g:NERDTreeDirArrowCollapsible = '◉'
+let g:NERDTreeDirArrowExpandable = '◉'
+let g:NERDTreeDirArrowCollapsible = '㋣'
+
 
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
