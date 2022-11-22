@@ -13,7 +13,7 @@ let g:startify_fortune_use_unicode = 0
 
 " read ~/.NERDTreeBookmars file and takes its second column
 let g:startify_lists = [
-        \ { 'type': 'files',     'header': ['   MRU']            },
+        \ { 'type': 'files',     'header': ['   Recent']            },
         "\ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
         \ { 'type': 'sessions',  'header': ['   Sessions']       },
         \]
@@ -99,13 +99,16 @@ let g:AutoPairsShortcutToggleMultilineClose = ""
   "For luasnip users.
     "Plug 'L3MON4D3/LuaSnip'
     "Plug 'saadparwaiz1/cmp_luasnip'
-            
-" language pack
-Plug 'sheerun/vim-polyglot'
 
 " treesitter
 "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 "Plug 'nvim-treesitter/nvim-treesitter-refactor'
+
+"-----------------------------------------"Language:
+Plug 'sheerun/vim-polyglot'
+
+" Python
+"Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 
 "------------------------------------------"UI:
 
@@ -114,6 +117,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 
 " themes
 Plug 'sainnhe/gruvbox-material'
+"Plug 'ellisonleao/gruvbox.nvim'
 
 " status line
 Plug 'nvim-lualine/lualine.nvim'

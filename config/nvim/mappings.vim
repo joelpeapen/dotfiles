@@ -36,6 +36,6 @@ nnoremap <Leader>vh :split<CR>
 
 "NERDtree
 nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-n> :NERDTreeVCS<CR>
 map <A-e> :NERDTreeToggle<cr>
 nnoremap <C-f> :NERDTreeFind<CR>

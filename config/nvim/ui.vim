@@ -1,7 +1,9 @@
 " Colors
 set termguicolors
-"hi Normal guibg=NONE ctermbg=NONE
+"au ColorScheme * hi Normal ctermbg=none guibg=none
 
+" Indent line
+" let g:indentLine_setColors = 0
 
 "THEMES
 """""""""""""""""""""""
