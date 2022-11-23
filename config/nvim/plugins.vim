@@ -36,18 +36,18 @@ Plug 'preservim/nerdtree'
 " ale - add prettier to this also
 
 " nerdcommenter/vim-commentary
- 
-" indent blank line
-"Plug 'Yggdroot/indentLine'  ?? correct plugin ??
+Plug 'tpope/vim-commentary'
+autocmd FileType apache setlocal commentstring=#\ %s
   
-" brackets auto fill ?? needed ??
-   
 " multiple cursor
    
 " emmet
+Plug 'mattn/emmet-vim'
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
 
 " git
-"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
     
 " vim-cool smart search highlighting
 Plug 'romainl/vim-cool'
@@ -125,7 +125,5 @@ Plug 'nvim-lualine/lualine.nvim'
 " tab stuff
 "Plug 'romgrk/barbar.nvim'
 "Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
-
-"rainbow brackets
 
 call plug#end()
