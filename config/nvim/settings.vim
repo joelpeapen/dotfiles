@@ -142,6 +142,12 @@ autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_
 "}
 "EOF
 "-----------------------------------------------
+"
+"-----------------------------------------------VIM-NOTIFY
+lua << EOF
+vim.notify = require("notify")
+EOF
+"-----------------------------------------------
 
 "Telescope
 """"""""""

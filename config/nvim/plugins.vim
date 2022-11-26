@@ -24,7 +24,7 @@ Plug 'preservim/nerdtree'
 " chadtree
 "Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m pip install chadtree && python -m pip chadtree deps'}
 
-" nvimtree
+" nvimtree - USE WHEN NVIM VERSION >= 0.7.0
 "Plug 'nvim-tree/nvim-tree.lua'
 
 " fzf finder
@@ -67,13 +67,20 @@ let g:AutoPairsMoveExpression = ""
 let g:AutoPairsShortcutIgnore = ""
 let g:AutoPairsShortcutToggleMultilineClose = ""
 
-" Snippets
+" Snippets:
 "Plug 'SirVer/ultisnips'
 "let g:UltiSnipsExpandTrigger="<C-I>"
 "let g:UltiSnipsJumpForwardTrigger="<c-j>"
 "let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 "Plug 'honza/vim-snippets'
+
+"DEBUGGER:
+"Plug 'mfussenegger/nvim-dap'
+"Plug 'rcarriga/nvim-dap-ui'
+
+"notification
+Plug 'rcarriga/nvim-notify'
 
 "-----------------------------------------"LSP:
 
@@ -118,6 +125,9 @@ Plug 'kyazdani42/nvim-web-devicons'
 " themes
 Plug 'sainnhe/gruvbox-material'
 "Plug 'ellisonleao/gruvbox.nvim'
+
+" kanagawa
+"Plug 'rebelot/kanagawa.nvim'
 
 " status line
 Plug 'nvim-lualine/lualine.nvim'

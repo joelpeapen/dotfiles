@@ -18,6 +18,8 @@ nnoremap <Leader>11 :q!<CR>
 nnoremap <Leader>wq :wq<CR>
 nnoremap <Leader>w :w<CR>
 
+nnoremap <C-n> :new<CR>
+
 " tabs
 nnoremap <A-t>     :tabnew<CR>
 nnoremap <A-w>     :tabclose<CR>
@@ -36,6 +38,6 @@ nnoremap <Leader>vh :split<CR>
 
 "NERDtree
 nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTreeVCS<CR>
+nnoremap <A-n> :NERDTreeCWD<CR>
 map <A-e> :NERDTreeToggle<cr>
 nnoremap <C-f> :NERDTreeFind<CR>
