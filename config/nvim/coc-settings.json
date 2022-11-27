@@ -1,8 +1,34 @@
-function! SetupCommandAbbrs(from, to)
-  exec 'cnoreabbrev <expr> '.a:from
-        \ .' ((getcmdtype() ==# ":" && getcmdline() ==# "'.a:from.'")'
-        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
-endfunction
+{
+  "coc.preferences.colorSupport": true,
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.formatOnSaveFiletypes": ["*"],
 
-" Use C to open coc config
-call SetupCommandAbbrs('C', 'CocConfig')
+  // suggestions
+  "suggest.noselect": true,
+  "suggest.autoTrigger": "always",
+  "suggest.floatEnable": true,
+  "suggest.minTriggerInputLength": 2,
+  "list.indicator": ">",
+  "coc.source.omni.filetypes": ["rmd"],
+  "coc.source.omni.enable": true,
+  "coc.source.omni.triggerCharacters": ["@"],
+
+  // snippets
+
+  // bash
+  "languageserver": {
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["bash", "zsh"],
+      "ignoredRootPaths": ["~"]
+    }
+  },
+
+  // diagnostics
+  "diagnostic-languageserver.filetypes": {
+    "sh": "shellcheck",
+    "bash": "shellcheck",
+    "zsh": "shellcheck"
+  }
+}

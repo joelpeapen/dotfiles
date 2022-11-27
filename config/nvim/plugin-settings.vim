@@ -1,5 +1,5 @@
-"---------------------------------------------- NERDTree
-"
+" NERDTree
+
 " Start NERDTree and put the cursor back in the other window.
 " autocmd VimEnter * NERDTree | wincmd p
 
@@ -29,7 +29,7 @@ autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_
 
 "----------------------------------------------
 
-"---------------------------------------------- Treesitter
+" Treesitter
 "lua <<EOF
 "require'nvim-treesitter.configs'.setup {
 "  ensure_installed = { "python"}, -- one of "all", "maintained"
@@ -65,14 +65,14 @@ autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_
 "}
 "EOF
 "----------------------------------------------
-"
-"---------------------------------------------- nvim-notify
+
+" nvim-notify
 lua << EOF
 vim.notify = require("notify")
 EOF
 "----------------------------------------------
 
-"---------------------------------------------- Telescope
+" Telescope
 "lua << EOF
 " require('telescope').setup{
 "   defaults = {

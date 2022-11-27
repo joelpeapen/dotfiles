@@ -12,9 +12,6 @@ imap <A-CR> <Esc>$a
 "ctrl-shift-d to duplicate line
 "map <C-S-d> yyp
 
-" comments
-nnoremap <C-.> :Commentary<CR>
-
 " nvim write and quit shortcuts
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>11 :q!<CR>
