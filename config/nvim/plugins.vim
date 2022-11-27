@@ -28,8 +28,9 @@ Plug 'preservim/nerdtree'
 "Plug 'nvim-tree/nvim-tree.lua'
 
 " fzf finder
-"Plug 'nvim-lua/plenary.nvim'
+"Plug 'nvim-lua/plenary.nvim' - USE WHEN NVIM VERSION >= 0.7.0
 "Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+"Plug 'nvim-telescope/telescope-file-browser.nvim'
 "OR: 
 "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     
@@ -68,12 +69,13 @@ let g:AutoPairsShortcutIgnore = ""
 let g:AutoPairsShortcutToggleMultilineClose = ""
 
 " Snippets:
-"Plug 'SirVer/ultisnips'
-"let g:UltiSnipsExpandTrigger="<C-I>"
-"let g:UltiSnipsJumpForwardTrigger="<c-j>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+Plug 'SirVer/ultisnips'
+let g:UltiSnipsExpandTrigger="<C-I>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
-"Plug 'honza/vim-snippets'
+" snipper library
+Plug 'honza/vim-snippets'
 
 "DEBUGGER:
 "Plug 'mfussenegger/nvim-dap'
@@ -84,9 +86,13 @@ Plug 'rcarriga/nvim-notify'
 
 "-----------------------------------------"LSP:
 
-" Coc completion
+" Coc.nvim 
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"or use coq.nvim
+
+" coq.nvim
+"Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+"Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+"Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
     
 " nvim/lsp-config and configure it
 "Plug 'neovim/nvim-lspconfig'
@@ -127,10 +133,13 @@ Plug 'sainnhe/gruvbox-material'
 "Plug 'ellisonleao/gruvbox.nvim'
 
 " kanagawa
-"Plug 'rebelot/kanagawa.nvim'
+Plug 'rebelot/kanagawa.nvim'
 
 " status line
 Plug 'nvim-lualine/lualine.nvim'
+
+" color highlighter
+Plug 'norcalli/nvim-colorizer.lua'
 
 " tab stuff
 "Plug 'romgrk/barbar.nvim'
