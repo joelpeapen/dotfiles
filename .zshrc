@@ -64,9 +64,8 @@ alias la='ls -ah'
 alias ll="ls -lh"
 alias lla='ls -lah'
 alias clearhist='rm ~/.zsh_history'
-alias ccc="cd /mnt/windata/joel/joeldata/webCourse/yelpCamp/course"
 alias python="python3.10"
-alias mathcopy="cp /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/Math_notes/Mathematics_detailed_outline.html /home/joel/Documents/mysore_bca/math/notes/Mathematics_detailed_outline.html"
+alias grep="grep -i -r"
 
 # session
 alias quit="gnome-session-quit"

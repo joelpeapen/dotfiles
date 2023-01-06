@@ -318,12 +318,19 @@ function mcd() {
 }
 
 #open directory in file manager
-function files(){
+function files() {
 	nautilus file:$(pwd)
 }
 
+#find and replace filename
+function mv-replace() {
+    for file in *.$1; do
+        mv $file ${file//$2/$3}
+    done
+}
+
 #convert images from type to type
-function convert-images(){
+function convert-images() {
     echo "Use imageMagik Or ffmpeg [i/v]? " 
     read input
 
@@ -346,29 +353,24 @@ function convert-images(){
 
     if [[ $input == "y" || $input == "y" ]]; then
         #rename screenshots
-        for file in *.$2; do
-            mv $file ${file//Screenshot from /}
-        done
+        mv-replace $2 "Screenshot from"
 
         #remove space
-        for file in *.$2; do
-            mv $file ${file// /_}
-        done
+        mv-replace $2 " " _
 
         #remove previous file extension
-        for file in *.$2; do
-            mv $file ${file//.$1/}
-        done
+        mv-replace $2 .$1
+
     fi
 }
 
 #convert video from type to type
-function convert-videos(){
+function convert-videos() {
     for video in *.$1; do
         ffmpeg -loglevel warning -i $video $video.$2
         echo "$video converted to $2"
     done
-   
+
     #remove old file extension
     echo "Rename Videos [y/n]? " 
     read input
@@ -380,7 +382,7 @@ function convert-videos(){
     fi
 }
 
-#concat vidoes into one file
+#concat videos into one file
 function mp4concatall(){
     for file in *.mp4; do
         echo "file $file" >> list.txt
@@ -394,11 +396,21 @@ function mp4concatall(){
 
 
 #concat specified files
-function mp4concat(){
+function mp4concat() {
     ffmpeg -f concat -safe 0 -i list.txt -c copy $1.mp4
     read -p "Delete list.txt?" yn
     if [$yn] ;
         rm list.txt
+}
+
+#OCR PDFs
+function ocr () {
+    for file in *.pdf; do
+        ocrmypdf "$file" "${file}_OCR.pdf"
+        echo "\n$file OCRed successfully\n"
+    done
+
+    mv-replace pdf .pdf_OCR
 }
 
 function exiting(){

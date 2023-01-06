@@ -84,6 +84,9 @@ Plug 'honza/vim-snippets'
 "notification
 Plug 'rcarriga/nvim-notify'
 
+" terminal - USE WHEN NVIM VERSION >= 0.7.0
+"Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+
 "-----------------------------------------"LSP:
 
 " Coc.nvim 

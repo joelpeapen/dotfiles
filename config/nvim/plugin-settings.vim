@@ -4,7 +4,7 @@
 " autocmd VimEnter * NERDTree | wincmd p
 
 " set working directory to buffer directory
- autocmd BufEnter * lcd %:p:h
+autocmd BufEnter * lcd %:p:h
 
 " Exit Vim if NERDTree is the only window left.
 " autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |

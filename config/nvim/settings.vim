@@ -75,6 +75,8 @@ nmap Q <Nop> " 'Q' in normal mode enters Ex mode. You almost never want this.
 set noerrorbells visualbell t_vb=
 set mouse+=a
 
+let g:node_host_prog = '$(npm root -g)'
+
 """"""""CUSTOM FUNCTIONS
 
 " Writer mode
