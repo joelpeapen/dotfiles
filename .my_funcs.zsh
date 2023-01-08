@@ -26,7 +26,6 @@ function sync-dots() {
   cp ~/.config/nvim/*.(vim|json) /home/joel/Documents/data/code/docs/dotfiles/mine/config/nvim
   #vim config
   cp ~/.vim/*.vim /home/joel/Documents/data/code/docs/dotfiles/mine/vim
-  
 
   git status
 }
@@ -333,6 +332,8 @@ function mv-replace() {
 function convert-images() {
     echo "Use imageMagik Or ffmpeg [i/v]? " 
     read input
+    echo "Rename Screenshots [y/n]? " 
+    read rename
 
     if [[ $input == "i" || $input == "I" ]]; then
         for image in *.$1; do
@@ -348,12 +349,9 @@ function convert-images() {
 
     rm *.$1
 
-    echo "Rename Screenshots [y/n]? " 
-    read input
-
-    if [[ $input == "y" || $input == "y" ]]; then
+    if [[ $rename == "y" || $rename == "y" ]]; then
         #rename screenshots
-        mv-replace $2 "Screenshot from"
+        mv-replace $2 "Screenshot from "
 
         #remove space
         mv-replace $2 " " _
@@ -372,7 +370,7 @@ function convert-videos() {
     done
 
     #remove old file extension
-    echo "Rename Videos [y/n]? " 
+    echo "Rename Videos [y/n]? "
     read input
 
     if [[ $input == "y" || $input == "y" ]]; then
@@ -405,10 +403,10 @@ function mp4concat() {
 
 #OCR PDFs
 function ocr () {
-    for file in *.pdf; do
-        ocrmypdf "$file" "${file}_OCR.pdf"
-        echo "\n$file OCRed successfully\n"
-    done
+    ocrmypdf "$1" "${1}_OCR.pdf"
+    echo "\n$1 OCRed successfully\n"
+    mv $1 $HOME/Documents
+    echo "original moved to HOME/Documents\n"
 
     mv-replace pdf .pdf_OCR
 }
