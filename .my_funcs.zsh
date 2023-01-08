@@ -4,6 +4,12 @@ function get-installed-packages() {
   apt list --installed | sed 's/\/.*//' | sort | uniq | tee Documents/LINUX_SOFTWARE/installed_packages
 }
 
+function sync-all() {
+    sync-dots
+    syncvs
+    syncsub
+}
+
 #sync dotfiles and return in dotfiles dir
 function sync-dots() {
   cd /home/joel/Documents/data/code/docs/dotfiles/mine/
@@ -40,13 +46,6 @@ function syncvs(){
 #sync sublime text settings
 function syncsub(){
     cp ~/.config/sublime-text-3/Packages/User/*.sublime-(keymap|settings) /home/joel/Documents/data/code/docs/addon/sublime/
-}
-
-function sync-c() {
-cp -r /home/joel/Documents/mysore_bca/c/cs50  /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/c
-cp -r /home/joel/Documents/mysore_bca/c/deitel  /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/c
-cp -r /home/joel/Documents/mysore_bca/c/c_lab/ /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/c/
-cp -r /home/joel/Documents/mysore_bca/c/examples/ /run/user/1002/gvfs/smb-share:server=mediaserver.local,share=sambashare/joel/c
 }
 
 #enable oh-my-zsh
