@@ -1,0 +1,72 @@
+format = """
+[░▓](#394260)\
+$username$hostname$directory\
+[](#394260) \
+$git_branch\
+$git_status\
+$fill\
+$cmd_duration $jobs $time\
+$line_break\
+$character
+"""
+
+add_newline = false
+continuation_prompt = '---> '
+
+[fill]
+symbol = " "
+
+[username]
+show_always = false
+style_root = "red"
+
+[hostname]
+ssh_symbol = " "
+
+[directory]
+style = "bold #35abff bg:#394260"
+read_only = ""
+read_only_style = "red bg:#394260"
+truncation_length = 3
+truncation_symbol = "../"
+format = "[$read_only]($read_only_style)[ $path]($style)"
+
+[character]
+success_symbol = "[❯](green)"
+error_symbol = "[❯](red)"
+vimcmd_symbol = "[❮](purple)"
+
+[git_branch]
+symbol = "[]()"
+style = "bold bright-green"
+format = "[$symbol $branch]($style)"
+
+[git_status]
+style = "bold green"
+ahead = " [⇡${count}]"
+conflicted = " [¿${count}](bold red)"
+behind = " [⇣${count}](bold orange)"
+staged = " [+${count}](bold green)"
+modified = " [!${count}](bold yellow)"
+untracked = " [?${count}](black)"
+renamed = " [⟲${count}](bold cyan)"
+deleted = " [✘${count}](bold red)"
+stashed = " [≡${count}](bold purple)"
+diverged = " [⇕⇡${ahead_count}⇣${behind_count}]"
+format = "[$all_status$diverged]($style)"
+
+[git_metrics]
+disabled = false
+
+[cmd_duration]
+# when $THEME_MODE light style=black
+style = "yellow"
+min_time = 100
+show_milliseconds = true
+format = "[$duration]($style) "
+
+[time]
+# when $THEME_MODE light style=black
+disabled = false
+style = "bold white"
+format = "[$time]($style)"

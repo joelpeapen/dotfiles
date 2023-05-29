@@ -1,0 +1,85 @@
+local function on_attach(bufnr)
+    local api = require('nvim-tree.api')
+
+    local function opts(desc)
+        return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    end
+
+    api.config.mappings.default_on_attach(bufnr)
+
+    MAP('n', 'u', api.tree.change_root_to_parent, opts('Up'))
+    MAP('n', '?', api.tree.toggle_help, opts('Help'))
+
+    MAP('n', 'P', function()
+        local node = api.tree.get_node_under_cursor()
+        print(node.absolute_path)
+    end, opts('Print Node Path'))
+
+    MAP('n', 'T', function()
+        local node = api.tree.get_node_under_cursor()
+        api.node.open.tab(node)
+        vim.cmd.tabprev()
+    end, opts('Open: Silent Tab'))
+end
+
+local function Focus()
+    if vim.bo.filetype ~= "NvimTree" then
+        vim.cmd("NvimTreeFocus")
+    else vim.cmd("wincmd p") end
+end
+local function Toggle()
+    if vim.bo.filetype ~= "NvimTree" then
+        vim.cmd("NvimTreeFindFile!")
+    else vim.cmd("wincmd p") end
+end
+
+if LAYOUT == "colemak" then
+    MAP("n", "<M-m>", "<cmd>NvimTreeToggle<cr>")
+    MAP("n", "<M-k>", function() Toggle() end)
+else
+    MAP("n", "<M-e>", "<cmd>NvimTreeToggle<CR>")
+    MAP("n", "<M-m>", function() Focus() end)
+    MAP("n", "<M-n>", function() Toggle() end)
+end
+
+require("nvim-tree").setup({
+    sort_by = "case_sensitive",
+    hijack_cursor = true,
+    hijack_netrw = false,
+    sync_root_with_cwd = true,
+    reload_on_bufenter = true,
+    respect_buf_cwd = true,
+    on_attach = on_attach,
+    update_focused_file = {
+        enable = false,
+        update_root = true,
+    },
+    view = {
+        adaptive_size = true,
+        number = true,
+        relativenumber = true,
+        centralize_selection = false,
+    },
+    renderer = {
+        group_empty = true,
+        indent_markers = { enable = true }
+    },
+    modified = { enable = true, },
+    diagnostics = {
+        enable = true,
+        show_on_dirs = true,
+        show_on_open_dirs = true,
+        debounce_delay = 50,
+        severity = {
+            min = vim.diagnostic.severity.HINT,
+            max = vim.diagnostic.severity.ERROR,
+        },
+        icons = {
+            hint = "",
+            info = "",
+            warning = "",
+            error = "",
+        },
+    },
+    notify = { threshold = vim.log.levels.ERROR }
+})

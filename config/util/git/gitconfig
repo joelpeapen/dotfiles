@@ -1,0 +1,29 @@
+[user]
+	email = joelpeapen@protonmail.com
+	name = Joel Eapen
+[core]
+	editor = nvim
+    pager = delta
+[alias]
+    same = commit -a --amend --no-edit
+	oneline = log --all --graph --decorate --oneline
+	squash = "!f(){ git reset --soft HEAD~${1} && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; };f"
+[init]
+	defaultBranch = main
+[color]
+	ui = auto
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false
+    dark = true
+    minus-style                   = syntax "#3a273a"
+    minus-non-emph-style          = syntax "#3a273a"
+    minus-emph-style              = syntax "#6b2e43"
+    minus-empty-line-marker-style = syntax "#3a273a"
+    line-numbers-minus-style      = "#b55a67"
+    plus-style                    = syntax "#273849"
+    plus-non-emph-style           = syntax "#273849"
+    plus-emph-style               = syntax "#305f6f"
+    plus-empty-line-marker-style  = syntax "#273849"
+    line-numbers-plus-style       = "#627259"
+    line-numbers-zero-style       = "#3b4261"
