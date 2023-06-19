@@ -32,9 +32,10 @@ alias fd="fd -H"
 alias firefox="/opt/firefox/firefox"
 alias grep="grep -i --color=auto"
 alias icat="kitty +kitten icat"
+alias less="less -R"
+alias nvim="nvim --listen /tmp/mykitty"
 alias python="python3.10"
 alias sed="sed -E"
-alias nvim="nvim --listen /tmp/mykitty"
 alias vim="nvim"
 
 # session
@@ -43,6 +44,7 @@ alias :q="exit"
 
 # git
 alias fcho="git for-each-ref --format='%(refname:short)' refs/heads |fzf|xargs git checkout"
+alias kdiff="git difftool --no-symlinks --dir-diff"
 alias gcommit="git commit -v "
 alias gq="git same"
 

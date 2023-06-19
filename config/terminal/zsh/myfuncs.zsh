@@ -33,7 +33,7 @@ function sync-dots() {
     cp $HOME/.tmux.conf $DOTDIR/config/terminal/tmux.conf # tmux
     cp -r $XDG_CONFIG_HOME/lf/ $DOTDIR/config/util/ # lf
     cp $XDG_CONFIG_HOME/starship.toml $DOTDIR/config/terminal/ # starship
-    cp $XDG_CONFIG_HOME/kitty/kitty.conf $DOTDIR/config/terminal/ # kitty
+    cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/terminal/kitty # kitty
     cp -r $XDG_CONFIG_HOME/nvim/ $DOTDIR/config/ # nvim
 
     git status
@@ -106,11 +106,11 @@ function stats() {
     done
 }
 
-function c-compile() {
+function ccompile() {
     gcc -std=c18 "$1" -o "${1//.c/}" -lm
 }
 
-function cpp-compile() {
+function cpcompile() {
     g++ -Wall -std=c++17 -o "${1//.cpp/}" "$1"
 }
 
@@ -419,7 +419,6 @@ function nopencils() {
     restart; kill -SIGUSR1 $(pidof kitty)
 }
 
-
 function dark-mode() {
     kitty +kitten themes Gruvbox\ Material\ Dark\ Hard
     sed -i 's/=light"/=dark"/' $XDG_CONFIG_HOME/nvim/lua/user/colors.lua
@@ -446,6 +445,8 @@ zle -N pencils pencils
 zle -N nopencils nopencils
 bindkey -s ',g' 'git status\n'
 bindkey -s ',v' 'vim\n'
+bindkey -s ',f' 'l\n'
+bindkey -s ',a' 'll\n'
 bindkey ',q' exiter
 bindkey ',r' restart
 bindkey ',c' theme

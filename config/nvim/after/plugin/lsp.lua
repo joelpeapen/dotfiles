@@ -57,7 +57,6 @@ lsp.setup_nvim_cmp({
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 lspconfig['clangd'].setup { capabilities = capabilities }
 lspconfig['pyright'].setup { capabilities = capabilities }
-lspconfig['tsserver'].setup { capabilities = capabilities }
 lspconfig['bashls'].setup { capabilities = capabilities }
 
 lsp.on_attach(function(client, bufnr)
