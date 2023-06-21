@@ -5,10 +5,20 @@ local function on_attach(bufnr)
         return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
     end
 
+    local function copy_file_to()
+        local node = api.tree.get_node_under_cursor()
+        local file_src = node['absolute_path']
+        local file_out = vim.fn.input("COPY TO: ", file_src, "file")
+        local dir = vim.fn.fnamemodify(file_out, ":h")
+        vim.fn.system { 'mkdir', '-p', dir }
+        vim.fn.system { 'cp', '-R', file_src, file_out }
+    end
+
     api.config.mappings.default_on_attach(bufnr)
 
     MAP('n', 'u', api.tree.change_root_to_parent, opts('Up'))
     MAP('n', '?', api.tree.toggle_help, opts('Help'))
+    MAP('n', 'C', copy_file_to, opts('Copy File To'))
 
     MAP('n', 'P', function()
         local node = api.tree.get_node_under_cursor()
@@ -43,13 +53,13 @@ else
 end
 
 require("nvim-tree").setup({
+    on_attach = on_attach,
     sort_by = "case_sensitive",
     hijack_cursor = true,
     hijack_netrw = false,
     sync_root_with_cwd = true,
     reload_on_bufenter = true,
     respect_buf_cwd = true,
-    on_attach = on_attach,
     update_focused_file = {
         enable = false,
         update_root = true,
