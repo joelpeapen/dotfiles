@@ -23,7 +23,7 @@ local gitui = Terminal:new({
     hidden = false
 })
 
-MAP("t", "<esc>", "<C-\\><C-n>");
+MAP("t", "<M-Space>", "<C-\\><C-n>");
 MAP({"n", "t"}, "<M-\\>", function() vertical() end)
 MAP({"n", "t"}, "<M-/>", function() horizontal() end)
 MAP("n", "<leader>gi", function() gitui:toggle() end)

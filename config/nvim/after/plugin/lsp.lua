@@ -43,8 +43,6 @@ cmp.setup {
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-        { name = 'nvim_lua' },
-        { name = 'path' },
         { name = 'cmdline' },
         { name = 'help' },
     })
