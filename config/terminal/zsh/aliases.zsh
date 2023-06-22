@@ -46,7 +46,7 @@ alias :q="exit"
 alias fcho="git for-each-ref --format='%(refname:short)' refs/heads |fzf|xargs git checkout"
 alias kdiff="git difftool --no-symlinks --dir-diff"
 alias gcommit="git commit -v "
-alias gq="git same"
+alias gq="git amend"
 
 # config editing
 alias tmuxconfig="$EDITOR $HOME/.tmux.conf"
