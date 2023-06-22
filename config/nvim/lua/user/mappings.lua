@@ -39,18 +39,11 @@ MAP("n", "||", ":set wrap!<CR>", SILENT)
 -- format
 MAP("v", "<leader>v", "=")
 
-if LAYOUT == "colemak" then
-    MAP("v", "N", ":m '>+1<CR>gv=gv")
-    MAP("v", "E", ":m '<-2<CR>gv=gv")
+-- move lines up and down in visual mode
+MAP("v", "J", ":m '>+1<CR>gv=gv")
+MAP("v", "K", ":m '<-2<CR>gv=gv")
 
-    MAP({"n", "v"}, "N", "mzJ`z")
-else
-    -- move lines up and down in visual mode
-    MAP("v", "J", ":m '>+1<CR>gv=gv")
-    MAP("v", "K", ":m '<-2<CR>gv=gv")
-
-    MAP("n", "J", "mzJ`z") -- join bottom line
-end
+MAP("n", "J", "mzJ`z") -- join bottom line
 
 -- select all
 MAP("n", "<M-a>", "ggVG")
@@ -100,29 +93,17 @@ MAP("n", "<M-W>", ":bdelete<CR>", SILENT)
 MAP("n", "<M-w>", ":tabclose<CR>", SILENT)
 MAP("n", "<M-T>", ":wincmd T<CR>", SILENT)
 
-if LAYOUT == "colemak" then
-    MAP({"n", "t"}, "<C-e>", "<cmd>wincmd k<CR>", SILENT)
-    MAP({"n", "t"}, "<C-n>","<cmd>wincmd j<CR>", SILENT)
-    MAP({"n", "t"}, "<C-h>", "<cmd>wincmd h<CR>", SILENT)
-    MAP("n", "<C-i>", "<cmd>wincmd l<CR>", SILENT)
+-- pane switching
+MAP({"n", "t"}, "<C-k>", "<cmd>wincmd k<CR>", SILENT)
+MAP({"n", "t"}, "<C-j>","<cmd>wincmd j<CR>", SILENT)
+MAP({"n", "t"}, "<C-h>", "<cmd>wincmd h<CR>", SILENT)
+MAP("n", "<C-l>", "<cmd>wincmd l<CR>", SILENT)
 
-    MAP({"n", "t"}, "<C-M-E>", "<cmd>wincmd K<CR>", SILENT)
-    MAP({"n", "t"}, "<C-M-N>", "<cmd>wincmd J<CR>", SILENT)
-    MAP({"n", "t"}, "<C-M-H>", "<cmd>wincmd H<CR>", SILENT)
-    MAP({"n", "t"}, "<C-M-I>", "<cmd>wincmd L<CR>", SILENT)
-else
-    -- pane switching
-    MAP({"n", "t"}, "<C-k>", "<cmd>wincmd k<CR>", SILENT)
-    MAP({"n", "t"}, "<C-j>","<cmd>wincmd j<CR>", SILENT)
-    MAP({"n", "t"}, "<C-h>", "<cmd>wincmd h<CR>", SILENT)
-    MAP("n", "<C-l>", "<cmd>wincmd l<CR>", SILENT)
-
-    -- pane movements
-    MAP({"n", "t"}, "<C-M-K>", "<cmd>wincmd K<CR>", SILENT) -- very top
-    MAP({"n", "t"}, "<C-M-J>", "<cmd>wincmd J<CR>", SILENT) -- very bottom
-    MAP({"n", "t"}, "<C-M-H>", "<cmd>wincmd H<CR>", SILENT) -- far left
-    MAP({"n", "t"}, "<C-M-L>", "<cmd>wincmd L<CR>", SILENT) -- far right
-end
+-- pane movements
+MAP({"n", "t"}, "<C-M-K>", "<cmd>wincmd K<CR>", SILENT) -- very top
+MAP({"n", "t"}, "<C-M-J>", "<cmd>wincmd J<CR>", SILENT) -- very bottom
+MAP({"n", "t"}, "<C-M-H>", "<cmd>wincmd H<CR>", SILENT) -- far left
+MAP({"n", "t"}, "<C-M-L>", "<cmd>wincmd L<CR>", SILENT) -- far right
 MAP("n", "<C-p>", ":wincmd p<CR>", SILENT)
 
 MAP("n", "=", "<cmd>wincmd +<CR>", SILENT) -- height++
@@ -170,43 +151,3 @@ MAP("n", "<F7>", function()
         vim.notify("invalid filetype", vim.log.levels.WARN)
     end
 end)
-
--- colemak
--- MAP("n", "<leader><leader>c", function()
-    LAYOUT = ""
---     MAP({"n", "v"}, "n", "j")
---     MAP({"n", "v"}, "k", "n")
---
---     MAP({"n", "v"}, "e", "k")
---     MAP({"n", "v"}, "m", "e")
---
---     MAP({"n", "v"}, "i", "l")
---     MAP({"n", "v"}, "u", "i")
---     MAP({"n", "v"}, "l", "u")
---
---     MAP("n", "<M-:>", "<cmd>Telescope commands theme=ivy<CR>")
---     vim.cmd([[ so ~/.config/nvim/lua/user/mappings.lua
---     so ~/.config/nvim/after/plugin/filexplorer.lua
---     so ~/.config/nvim/after/plugin/scroll.lua
---     ]])
--- end)
---
--- MAP("n", "<leader><leader>C", function()
---     LAYOUT = "qwerty"
---
---     MAP({"n", "v"}, "n", "j") -- n+ = j
---
---     MAP({"n", "v"}, "m", "e") -- m = e
---     MAP({"n", "v"}, "e", "k") -- e+ = k
---     MAP({"n", "v"}, "e", "m") -- e- = m
---
---     MAP({"n", "v"}, "i", "l") -- i = l
---     MAP({"n", "v"}, "u", "i") -- u = i
---     MAP({"n", "v"}, "l", "u") -- l = u
---
---     MAP("n", "<M-p>", "<cmd>Telescope commands theme=ivy<CR>")
---     vim.cmd([[ so ~/.config/nvim/lua/user/mappings.lua
---     so ~/.config/nvim/after/plugin/filexplorer.lua
---     so ~/.config/nvim/after/plugin/scroll.lua
---     ]])
--- end)

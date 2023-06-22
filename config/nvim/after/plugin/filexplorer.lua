@@ -14,11 +14,21 @@ local function on_attach(bufnr)
         vim.fn.system { 'cp', '-R', file_src, file_out }
     end
 
+    local function move_file_to()
+        local node = api.tree.get_node_under_cursor()
+        local file_src = node['absolute_path']
+        local file_out = vim.fn.input("MOVE TO: ", file_src, "file")
+        local dir = vim.fn.fnamemodify(file_out, ":h")
+        vim.fn.system { 'mkdir', '-p', dir }
+        vim.fn.system { 'mv', file_src, file_out }
+    end
+
     api.config.mappings.default_on_attach(bufnr)
 
     MAP('n', 'u', api.tree.change_root_to_parent, opts('Up'))
     MAP('n', '?', api.tree.toggle_help, opts('Help'))
     MAP('n', 'C', copy_file_to, opts('Copy File To'))
+    MAP('n', 'X', move_file_to, opts('Move File To'))
 
     MAP('n', 'P', function()
         local node = api.tree.get_node_under_cursor()
@@ -43,14 +53,9 @@ local function Toggle()
     else vim.cmd("wincmd p") end
 end
 
-if LAYOUT == "colemak" then
-    MAP("n", "<M-m>", "<cmd>NvimTreeToggle<cr>")
-    MAP("n", "<M-k>", function() Toggle() end)
-else
-    MAP("n", "<M-e>", "<cmd>NvimTreeToggle<CR>")
-    MAP("n", "<M-m>", function() Focus() end)
-    MAP("n", "<M-n>", function() Toggle() end)
-end
+MAP("n", "<M-e>", "<cmd>NvimTreeToggle<CR>")
+MAP("n", "<M-m>", function() Focus() end)
+MAP("n", "<M-n>", function() Toggle() end)
 
 require("nvim-tree").setup({
     on_attach = on_attach,
@@ -65,15 +70,7 @@ require("nvim-tree").setup({
         update_root = true,
     },
     view = {
-        adaptive_size = function()
-            if not ZEN then
-                print("zen is false")
-                return true
-            else
-                print("zen is true")
-                return false
-            end
-        end,
+        adaptive_size = true,
         width = function()
             return math.floor(vim.opt.columns:get() * 0.5)
         end,

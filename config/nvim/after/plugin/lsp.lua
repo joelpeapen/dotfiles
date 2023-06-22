@@ -25,11 +25,11 @@ cmp.setup {
         entries = { name = 'custom', selection_order = 'near_cursor' },
     },
     sources = cmp.config.sources({
+        { name = 'path' },
+        { name = 'buffer' },
+        { name = 'luasnip' },
         { name = 'nvim_lua' },
         { name = 'nvim_lsp' },
-        { name = 'buffer' },
-        { name = 'path' },
-        { name = 'luasnip' },
     }),
     window = {
         completion = cmp.config.window.bordered(),
@@ -43,8 +43,15 @@ cmp.setup {
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-        { name = 'cmdline' },
-        { name = 'help' },
+       { name = "path"},
+       { name = "cmdline" },
+    })
+})
+
+cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = ({
+        { name = 'buffer' }
     })
 })
 
@@ -56,6 +63,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 lspconfig['clangd'].setup { capabilities = capabilities }
 lspconfig['pyright'].setup { capabilities = capabilities }
 lspconfig['bashls'].setup { capabilities = capabilities }
+lspconfig['marksman'].setup { capabilities = capabilities }
 
 lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }

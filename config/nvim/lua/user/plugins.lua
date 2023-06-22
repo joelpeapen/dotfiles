@@ -43,7 +43,6 @@ require("lazy").setup({
     -- TODO: "folke/todo-comments.nvim",
 
     "ThePrimeagen/harpoon",
-    -- "ThePrimeagen/vim-be-good",
     -- TODO: "ThePrimeagen/refactoring.nvim",
 
     { -- Telescope

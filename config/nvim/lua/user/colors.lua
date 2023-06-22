@@ -35,7 +35,7 @@ vim.g.gruvbox_material_diagnostic_text_highlight = 1
 vim.g.gruvbox_material_diagnostic_line_highlight = 1
 vim.g.gruvbox_material_diagnostic_virtual_text = 'highlighted'
 
-vim.cmd [[
+vim.cmd([[
     let g:gruvbox_material_colors_override = {
        \ 'bg_dim':           ['#1f2223', '232'],
        \ 'bg0':              ['#1f2223', '234'],
@@ -43,7 +43,7 @@ vim.cmd [[
        \ 'bg_statusline2':   ['#1f2233', '235'],
        \ 'bg_statusline3':   ['#2f2d2c', '239'],
   \ }
-]]
+]])
 
 require("tokyonight").setup({
     style = "night",

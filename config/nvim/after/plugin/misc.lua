@@ -51,7 +51,7 @@ vim.api.nvim_create_autocmd("CursorMoved", { command = "IndentBlanklineRefresh"}
 -- HARPOON
 local mark = require('harpoon.mark')
 local ui = require('harpoon.ui')
-MAP("n", "<leader>a", mark.add_file)
+MAP("n", "<leader>r", mark.add_file)
 MAP("n", "<M-v>", ui.toggle_quick_menu)
 MAP("n", "<leader>!", function() ui.nav_file(1) end)
 MAP("n", "<leader>@", function() ui.nav_file(2) end)
