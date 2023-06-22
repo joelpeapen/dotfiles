@@ -444,6 +444,7 @@ zle -N dark-mode dark-mode
 zle -N pencils pencils
 zle -N nopencils nopencils
 bindkey -s ',g' 'git status\n'
+bindkey -s ',b' 'git oneline\n'
 bindkey -s ',v' 'vim\n'
 bindkey -s ',f' 'l\n'
 bindkey -s ',a' 'll\n'

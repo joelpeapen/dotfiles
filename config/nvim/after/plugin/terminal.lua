@@ -1,18 +1,18 @@
 local Terminal  = require('toggleterm.terminal').Terminal
 
 local function horizontal()
-    if not ZEN then
-        vim.cmd(("ToggleTerm dir=p direction=horizontal"):gsub('p', BUFDIR))
-    else
+    if ZEN then
         vim.cmd(("ToggleTerm dir=p direction=float"):gsub('p', BUFDIR))
+    else
+        vim.cmd(("ToggleTerm dir=p direction=horizontal"):gsub('p', BUFDIR))
     end
 end
 
 local function vertical()
-    if not ZEN then
-        vim.cmd(("ToggleTerm size=70 dir=p direction=vertical"):gsub('p', BUFDIR))
-    else
+    if ZEN then
         vim.cmd(("ToggleTerm dir=p direction=float"):gsub('p', BUFDIR))
+    else
+        vim.cmd(("ToggleTerm size=70 dir=p direction=vertical"):gsub('p', BUFDIR))
     end
 end
 
