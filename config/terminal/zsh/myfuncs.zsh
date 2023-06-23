@@ -404,21 +404,6 @@ function theme() {
     fi
 }
 
-# transparent
-function pencils() {
-    sed -E -i "s/#+\sbackground_opacity 0.70/ background_opacity 0.70/" $XDG_CONFIG_HOME/kitty/kitty.conf
-    sed -E -i "s/fg=#\w+,/fg=#8d8678,/" $ZDOTDIR/completion.zsh
-    sed -E -i "s/bg=#\w+\"/bg=#TRANSPARENT\"/" $ZDOTDIR/completion.zsh
-    restart; kill -SIGUSR1 $(pidof kitty)
-}
-
-function nopencils() {
-    sed -E -i "s/ background_opacity 0.70/# background_opacity 0.70/" $XDG_CONFIG_HOME/kitty/kitty.conf
-    sed -E -i "s/fg=#\w+,/fg=#8d8678,/" $ZDOTDIR/completion.zsh
-    sed -E -i "s/bg=#\w+\"/bg=#TRANSPARENT\"/" $ZDOTDIR/completion.zsh
-    restart; kill -SIGUSR1 $(pidof kitty)
-}
-
 function dark-mode() {
     kitty +kitten themes Gruvbox\ Material\ Dark\ Hard
     sed -i 's/=light"/=dark"/' $XDG_CONFIG_HOME/nvim/lua/user/colors.lua
@@ -453,5 +438,3 @@ bindkey ',r' restart
 bindkey ',c' theme
 bindkey ',l' light-mode
 bindkey ',d' dark-mode
-bindkey ',t' pencils
-bindkey ',o' nopencils
