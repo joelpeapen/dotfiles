@@ -34,7 +34,16 @@ MAP("n", "<M-CR>", "$a")
 MAP("v", "$", "$<Left>") -- !copy EOL char
 
 -- wrap
-MAP("n", "||", ":set wrap!<CR>", SILENT)
+MAP("n", "||", function()
+    local win = vim.api.nvim_get_current_win()
+    if vim.wo[win].wrap then
+        vim.notify("wrap off", vim.log.levels.WARN)
+        vim.wo[win].wrap = false
+    else
+        vim.notify("wrap on", vim.log.levels.WARN)
+        vim.wo[win].wrap = true
+    end
+end, SILENT)
 
 -- format
 MAP("v", "<leader>v", "=")

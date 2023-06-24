@@ -27,6 +27,7 @@ map e
 map n
 map f
 map u
+map R
 map "'"
 map '"'
 map <enter>
@@ -51,7 +52,7 @@ map <delete> delete
 
 map r rename
 map e rename-name
-map R bulk-rename
+map R bmv
 
 map L bottom
 map R reload
@@ -174,7 +175,8 @@ cmd rename-name ${{
     lf -remote "send $id push :rename<space>$filename<a-b><c-b>"
 }}
 
-cmd bulk-rename ${{
+# bulk rename
+cmd bmv ${{
     old="$(mktemp)"
     new="$(mktemp)"
     if [ -n "$fs" ]; then

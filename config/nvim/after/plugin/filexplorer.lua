@@ -1,5 +1,6 @@
 local function on_attach(bufnr)
     local api = require('nvim-tree.api')
+    api.config.mappings.default_on_attach(bufnr)
 
     local function opts(desc)
         return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
@@ -23,23 +24,25 @@ local function on_attach(bufnr)
         vim.fn.system { 'mv', file_src, file_out }
     end
 
-    api.config.mappings.default_on_attach(bufnr)
-
-    MAP('n', 'u', api.tree.change_root_to_parent, opts('Up'))
-    MAP('n', '?', api.tree.toggle_help, opts('Help'))
-    MAP('n', 'C', copy_file_to, opts('Copy File To'))
-    MAP('n', 'X', move_file_to, opts('Move File To'))
-
-    MAP('n', 'P', function()
+    local function printpath()
         local node = api.tree.get_node_under_cursor()
         print(node.absolute_path)
-    end, opts('Print Node Path'))
+    end
 
-    MAP('n', 'T', function()
+    local function silenttab()
         local node = api.tree.get_node_under_cursor()
         api.node.open.tab(node)
         vim.cmd.tabprev()
-    end, opts('Open: Silent Tab'))
+    end
+
+    MAP('n', 'C', copy_file_to, opts('Copy File To'))
+    MAP('n', 'X', move_file_to, opts('Move File To'))
+    MAP('n', '?', api.tree.toggle_help, opts('Help'))
+    MAP('n', ';', api.tree.change_root_to_parent, opts('Up'))
+    MAP('n', 'l', api.node.open.edit, opts('Open'))
+    MAP('n', 'h', api.node.navigate.parent_close, opts('Parent dir'))
+    MAP('n', 'gY', function() printpath() end)
+    MAP('n', 'T', function() silenttab() end)
 end
 
 local function Focus()
@@ -47,6 +50,7 @@ local function Focus()
         vim.cmd("NvimTreeFocus")
     else vim.cmd("wincmd p") end
 end
+
 local function Toggle()
     if vim.bo.filetype ~= "NvimTree" then
         vim.cmd("NvimTreeFindFile!")
@@ -100,26 +104,12 @@ require("nvim-tree").setup({
             end,
         },
     },
-    renderer = {
-        group_empty = true,
-        indent_markers = { enable = true }
-    },
+    renderer = { indent_markers = { enable = true } },
     modified = { enable = true, },
     diagnostics = {
         enable = true,
         show_on_dirs = true,
         show_on_open_dirs = true,
-        debounce_delay = 50,
-        severity = {
-            min = vim.diagnostic.severity.HINT,
-            max = vim.diagnostic.severity.ERROR,
-        },
-        icons = {
-            hint = "",
-            info = "",
-            warning = "",
-            error = "",
-        },
     },
     notify = { threshold = vim.log.levels.ERROR }
 })
