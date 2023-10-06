@@ -1,0 +1,4 @@
+-pS.
+--column
+--glob
+!{node_modules, .cache, .nvm}

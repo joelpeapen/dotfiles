@@ -1,9 +1,8 @@
 format = """
 [░▓](#394260)\
 $username$hostname$directory\
-[](#394260) \
-$git_branch\
-$git_status\
+[](fg:#394260) \
+$git_branch$git_status\
 $fill\
 $cmd_duration $jobs $time\
 $line_break\
@@ -21,7 +20,7 @@ show_always = false
 style_root = "red"
 
 [hostname]
-ssh_symbol = " "
+ssh_symbol = "󰖟 "
 
 [directory]
 style = "bold #35abff bg:#394260"
@@ -37,15 +36,15 @@ error_symbol = "[❯](red)"
 vimcmd_symbol = "[❮](purple)"
 
 [git_branch]
-symbol = "[]()"
-style = "bold bright-green"
+symbol = ""
+style = "italic bold dimmed"
 format = "[$symbol $branch]($style)"
 
 [git_status]
 style = "bold green"
 ahead = " [⇡${count}]"
 conflicted = " [¿${count}](bold red)"
-behind = " [⇣${count}](bold orange)"
+behind = " [⇣${count}](bold bg:#f7768e)"
 staged = " [+${count}](bold green)"
 modified = " [!${count}](bold yellow)"
 untracked = " [?${count}](black)"
@@ -59,14 +58,12 @@ format = "[$all_status$diverged]($style)"
 disabled = false
 
 [cmd_duration]
-# when $THEME_MODE light style=black
 style = "yellow"
 min_time = 100
 show_milliseconds = true
 format = "[$duration]($style) "
 
 [time]
-# when $THEME_MODE light style=black
+style = "bold"
 disabled = false
-style = "bold white"
 format = "[$time]($style)"

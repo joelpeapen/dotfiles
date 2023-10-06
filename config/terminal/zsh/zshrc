@@ -1,27 +1,25 @@
-# TMUX AUTOSTART
+# tmux autostart
 # if [ -z "$TMUX" ] then
 #     tmux attach -t 0
 #     # || tmux new -s 0
 # fi
 
 setopt HIST_IGNORE_SPACE
+setopt HIST_IGNORE_ALL_DUPS
 
-# shell bindings: emacs or vim
+# emacs bindings
 bindkey -e
-# bindkey -v
-# bindkey '^[[1;3C' forward-word
-# bindkey '^[[1;3D' backward-word
 
 # Colors
-# export TERM="tmux-256color"
 set termguicolors
 
 # configs
 source "$ZDOTDIR/aliases.zsh"
+source "$ZDOTDIR/mappings.zsh"
 source "$ZDOTDIR/plugins.zsh"
 source "$ZDOTDIR/completion.zsh"
 source "$ZDOTDIR/myfuncs.zsh"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"

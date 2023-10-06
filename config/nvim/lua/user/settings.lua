@@ -1,124 +1,112 @@
-OPT = vim.opt
+vim.opt.number = true
+vim.opt.relativenumber = true
 
-vim.g.nocompatible = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 
-vim.cmd([[ syntax enable
-          syntax on
-          filetype plugin on
-]])
+vim.opt.winbar = "%m"
+vim.opt.laststatus = 2
+vim.opt.showmode = false
 
-vim.g.markdown_folding = 1
-
-OPT.guicursor:append("v-ci:hor100,a:reverse")
-
-OPT.nu = true
-OPT.relativenumber = true
-
-OPT.showcmd = true
-OPT.showmode = false
-
-OPT.winbar = "%m"
-OPT.laststatus=2
-
--- linebreak at spaces
-OPT.linebreak = true
-
--- show trailing spaces
-OPT.list = true
-OPT.listchars:append("trail:·", "tab: ")
-
-OPT.splitright = true
-OPT.splitbelow = true
-
-OPT.smartindent = true
-OPT.autoindent = true
-OPT.fillchars = { eob = " " }
-OPT.ignorecase = true
-OPT.smartcase = true
-
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 vim.g.noequalalways = true
 
-vim.wo.wrap = false
-OPT.scrollopt:append("hor")
+vim.opt.wrap = false
+vim.opt.linebreak = true
+vim.opt.smartcase = true
+vim.opt.ignorecase = true
+vim.opt.smartindent = true
+vim.opt.whichwrap:append("hl<>[]")
 
--- tabstop
-OPT.tabstop = 4
-OPT.softtabstop = 4
-OPT.shiftwidth = 4
-OPT.expandtab = true
+vim.opt.list = true
+vim.opt.listchars:append("trail:·", "tab: ")
+vim.opt.fillchars = {
+    eob = ' ',
+    diff = '╱',
+    fold = ' ',
+    foldsep = ' ',
+    foldopen = '',
+    foldclose = '',
+}
 
--- use OS clipboard
-OPT.clipboard:append("unnamedplus")
+vim.opt.scrolloff = 5
+vim.opt.signcolumn = "yes"
+vim.opt.inccommand = "split"
+vim.opt.nrformats:append("alpha")
+vim.opt.completeopt:append("menuone,noselect")
+vim.opt.guicursor:append("v-ci:hor100,a:reverse")
 
-OPT.path = { ".", ",", ",", "**" }
+vim.opt.backup = false
+vim.opt.updatetime = 50
+vim.opt.undofile = true
+vim.opt.swapfile = false
+vim.opt.path:append("**")
+vim.opt.isfname:append("@-@")
+vim.opt.shada = "!,'1000,<50,s10,h"
 
--- enchance command line completion
-OPT.wildmenu = true
-
-OPT.ttyfast = true
-OPT.updatetime = 50
-
-vim.cmd('set whichwrap+=h,l,<,>,[,]')
-OPT.backspace= { 'indent', 'eol', 'start' }
-OPT.autoread = true
-
-OPT.hidden = true
-OPT.swapfile = false
-OPT.backup = false
-OPT.undofile = true
-
-OPT.hlsearch = true
-OPT.incsearch = true
-OPT.inccommand="nosplit"
-
-OPT.scrolloff = 8
-OPT.signcolumn = "yes"
-OPT.isfname:append("@-@")
+vim.g.netrw_preview = 1
+vim.g.netrw_winsize = 30
+vim.g.netrw_bufsettings = "noma nomod nu nobl nowrap ro"
 
 -- folds
-OPT.foldmethod = "expr"
-vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-vim.cmd([[ set nofoldenable
-autocmd BufReadPost,FileReadPost * normal zR]])
+vim.opt.foldcolumn = "0"
+vim.opt.foldenable = false
+vim.g.markdown_folding = 1
 
---OPT.colorcolumn = "80"
+-- treesitter folds
+vim.opt.foldmethod = "expr"
+vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
--- writer mode
-function WriterMode()
-    vim.opt_local.textwidth = 80
-    vim.opt_local.smartindent= true
-    vim.opt_local.spell.spelllang = "en_us"
-    OPT.colorcolumn = "80"
-    OPT.spell = true
-end
--- vim.cmd("au BufEnter *.md,*.rmd,*.Rmd,*.tex,*.qmd,*.txt lua WriterMode()")
+local folds = vim.api.nvim_create_augroup("folds", { clear = true })
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+    group = folds,
+    callback = function()
+        vim.cmd([[normal zx
+        normal zR]])
+    end
+})
 
---in txt,md... files textwidth and colorcolumn
-vim.cmd("au BufEnter *.md,*.rmd,*.Rmd,*.tex,*.qmd,*.txt set textwidth=80")
+local texts = vim.api.nvim_create_augroup("texts", { clear = true })
+vim.api.nvim_create_autocmd({ "Filetype" }, {
+    group = texts,
+    pattern = { "markdown", "text" },
+    callback = function()
+        vim.wo.wrap = true
+        vim.opt_local.textwidth = 80
+    end
+})
 
 -- nice
-P = function(v)
+function Prose(o)
+    if o then
+        vim.wo.wrap = true
+        vim.opt_local.spell = true
+        vim.opt_local.textwidth = 80
+        vim.opt_local.colorcolumn = "80"
+    else
+        vim.wo.wrap = false
+        vim.opt_local.spell = false
+        vim.opt_local.textwidth = 0
+        vim.opt_local.colorcolumn = ""
+    end
+end
+
+function P(v)
     print(vim.inspect(v))
     return v
 end
 
-RELOAD = function(...)
-    return require("plenary.reload").reload_module(...)
+function FILE()
+    return vim.fn.expand("%:p")
 end
 
-R = function(name)
-    RELOAD(name)
-    return require(name)
+function BASENAME()
+    return vim.fn.expand("%:p:r")
 end
 
-BPATH = function() -- dir/file.ex
-    return tostring(vim.api.nvim_buf_get_name(0))
-end
-
-BPATHX = function() -- dir/file
-    return tostring(vim.api.nvim_buf_get_name(0):match("(.+)%..+$"))
-end
-
-BUFDIR = function() -- dir/
-    return tostring(vim.api.nvim_buf_get_name(0):match("(.-)[^%/]+$"))
+function BUFDIR()
+    return vim.fn.expand("%:p:h")
 end

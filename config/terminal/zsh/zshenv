@@ -1,40 +1,24 @@
-export PLATFORM="$(uname)"
-export OS_RELEASE=$(grep "^NAME" /etc/os-release | sed -E 's/^.*"(.*)"$/\1/')
-
-export EDITOR='nvim'
-
-# PATH
 export PATH=$HOME/.local/bin:$PATH
+
+export PLATFORM="$(uname)"
+export TERMINAL="$(ps -p $PPID -o comm=)"
+export OS_RELEASE="$(grep "^NAME" /etc/os-release | sed -E 's/^.*"(.*)"$/\1/')"
 
 # XDG
 export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 
 # ZSHCONFIG
 export HISTSIZE=10000
 export SAVEHIST=10000
+export HIST_STAMPS="%d/%m/%y %T"
 export HISTFILE="$HOME/.zsh_history"
-export HIST_STAMPS="mm/dd/yyyy"
 
 # DOTFILES
-export DOTDIR="$HOME/Documents/academics/code/docs/dotfiles/mine"
 export ZDOTDIR="$HOME/.zsh"
 export ZSHRC="$HOME/.zsh/.zshrc"
+export DOTDIR="$HOME/Documents/docs/dotfiles/mine"
 
-# PAGER
-# export MANPAGER="nvim +Man!"
-# export MANWIDTH=999 # softwrap in nvim
-
-# BROWSER
+export EDITOR="nvim"
 export BROWSER="firefox -private"
-
-# my files
-export CFILES="$HOME/Documents/academics/code"
-
-# Theme
-export THEME=$(cat $XDG_CONFIG_HOME/kitty/current-theme.conf | rg 'name' | sed 's/## name: //')
-# if [[ $THEME in darklist ]]; then
-    export THEME_MODE="dark"
-# else
-#     export THEME_MODE="light"
-# fi

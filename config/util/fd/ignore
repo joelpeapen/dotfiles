@@ -1,13 +1,9 @@
 .git
+.npm
+.nvm
+.cache
 lib*
-bin
 build
 debug
-share
 site-packages
 __pycache__
-_book
-_site
-forks
-*revealjs*
-Documents/software

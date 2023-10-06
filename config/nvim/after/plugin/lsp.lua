@@ -1,100 +1,82 @@
-local lsp = require('lsp-zero').preset("recommended")
-local lspconfig = require('lspconfig')
+local cmp = require("cmp")
+local lsp = require("lsp-zero").preset("recommended")
 
--- lsp.ensure_installed({'clangd'})
-
--- servers
-lsp.nvim_workspace({
-    library = vim.api.nvim_get_runtime_file('', true)
-})
-
--- completion
-local cmp = require('cmp')
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-    ["<M-p>"] = cmp.mapping.select_prev_item(cmp_select),
-    ["<M-n>"] = cmp.mapping.select_next_item(cmp_select),
-    ["<M-u>"] = cmp.mapping.scroll_docs(-4),
-    ["<M-d>"] = cmp.mapping.scroll_docs(4),
-    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-    ["<C-Space>"] = cmp.mapping.complete(),
-})
-
+local select = { behavior = cmp.SelectBehavior.Select }
 cmp.setup {
     view = {
-        entries = { name = 'custom', selection_order = 'near_cursor' },
+        entries = {
+            name = "custom",
+            selection_order = "near_cursor"
+        }
     },
-    sources = cmp.config.sources({
-        { name = 'path' },
-        { name = 'buffer' },
-        { name = 'luasnip' },
-        { name = 'nvim_lua' },
-        { name = 'nvim_lsp' },
-    }),
+    sources = cmp.config.sources {
+        { name = "path" },
+        { name = "buffer" },
+        { name = "luasnip" },
+        { name = "nvim_lua" },
+        { name = "nvim_lsp" }
+    },
     window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered()
     },
-    experimental = {
-        ghost_text = true
+    mapping = cmp.mapping.preset.insert {
+        ["<m-;>"] = cmp.mapping.select_next_item(select),
+        ["<m-'>"] = cmp.mapping.select_prev_item(select),
+        ["<c-Space>"] = cmp.mapping.complete(),
+        ["<m-Space>"] = cmp.mapping.confirm({ select = true }),
+        ["<m-d>"] = cmp.mapping.scroll_docs(4),
+        ["<m-u>"] = cmp.mapping.scroll_docs(-4),
+        ["<m-o>"] = function()
+            if cmp.visible_docs() then
+                cmp.close_docs()
+            else
+                cmp.open_docs()
+            end
+        end
     },
+    experimental = { ghost_text = true }
 }
 
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-       { name = "path"},
-       { name = "cmdline" },
-    })
+    sources = cmp.config.sources {
+        { name = "path" },
+        { name = "cmdline" }
+    }
 })
 
 cmp.setup.cmdline('/', {
     mapping = cmp.mapping.preset.cmdline(),
-    sources = ({
-        { name = 'buffer' }
-    })
+    sources = ({ { name = "buffer" } })
 })
 
-lsp.setup_nvim_cmp({
-    mapping = cmp_mappings,
-})
-
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-lspconfig['clangd'].setup { capabilities = capabilities }
-lspconfig['pyright'].setup { capabilities = capabilities }
-lspconfig['bashls'].setup { capabilities = capabilities }
-lspconfig['marksman'].setup { capabilities = capabilities }
+lsp.nvim_workspace()
 
 lsp.on_attach(function(client, bufnr)
-    local opts = { buffer = bufnr, remap = false }
-    MAP("n", "gd", function() vim.lsp.buf.definition() end, opts)
-    MAP("n", "gt", function() vim.lsp.buf.type_definition() end, opts)
-    MAP("n", "gi", function() vim.lsp.buf.implementation() end, opts)
-    MAP("n", "gh", function() vim.lsp.buf.hover() end, opts)
-    MAP("n", "<leader>gH", function() vim.lsp.buf.signature_help() end, opts)
-    MAP("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-    MAP("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-    MAP("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-    MAP("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-    MAP("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
-    MAP("n", "<leader>rf", function() vim.lsp.buf.references() end, opts)
-    MAP("n", "<leader>S", function() vim.lsp.buf.rename() end, opts)
+    local lmap = function(mode, key, func, desc)
+        vim.keymap.set(mode, key, func, { buffer = bufnr, desc = desc })
+    end
+    lmap('n', "gd", vim.lsp.buf.definition, "lsp: go to definition")
+    lmap('n', "[d", vim.diagnostic.goto_next, "lsp: next diagnostic")
+    lmap('n', "]d", vim.diagnostic.goto_prev, "lsp: prev diagnostic")
+    lmap('n', "<leader>ca", vim.lsp.buf.code_action, "lsp: code actions")
+    lmap('n', "gi", vim.lsp.buf.implementation, "lsp: go to implementation")
+    lmap('n', "<leader>vd", vim.diagnostic.open_float, "lsp: diagnostic float")
+    lmap('n', "<leader>ws", vim.lsp.buf.workspace_symbol, "lsp: workspace symbol")
 end)
 
 lsp.setup()
 
 vim.diagnostic.config({
-    virtual_text = true,
-    update_in_insert = false,
-    severity_sort = true,
-    float = true
+    float = true,
+    severity_sort = true
 })
 
 require("trouble").setup()
-
-MAP("n", "<leader>xx", "<cmd>TroubleToggle<cr>")
-MAP("n", "<leader>wx", "<cmd>TroubleToggle workspace_diagnostics<cr>")
-MAP("n", "<leader>dx", "<cmd>TroubleToggle document_diagnostics<cr>")
-MAP("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>")
-MAP("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>")
-MAP("n", "gR", "<cmd>TroubleToggle lsp_references<cr>")
+MAP('n', "<leader>xx", vim.cmd.TroubleToggle)
+MAP('n', "<leader>wx", "<cmd>TroubleToggle workspace_diagnostics<cr>")
+MAP('n', "<leader>dx", "<cmd>TroubleToggle document_diagnostics<cr>")
+MAP('n', "<leader>xq", "<cmd>TroubleToggle quickfix<cr>")
+MAP('n', "<leader>xl", "<cmd>TroubleToggle loclist<cr>")
+MAP('n', "<leader>gR", "<cmd>TroubleToggle lsp_references<cr>")

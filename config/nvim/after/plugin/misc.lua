@@ -1,98 +1,107 @@
--- FUGITIVE
-MAP("n", "<leader>gs", vim.cmd.Git)
+MAP('n', "<leader>gs", vim.cmd.Git)
 
-require('gitsigns').setup()
+require("gitsigns").setup()
+
+MAP('n', "<leader>dv", vim.cmd.DiffviewOpen)
+MAP('n', "<leader>dV", vim.cmd.DiffviewClose)
 
 require("Comment").setup()
-MAP('n', '<C-\\>', '<Plug>(comment_toggle_linewise_current)')
-MAP('v', '<C-\\>', '<Plug>(comment_toggle_linewise_visual)')
-
--- images
--- require('hologram').setup{
---     auto_display = true
--- }
-
-require("scrollbar").setup({
-    hide_if_all_visible = true,
-    handle = { blend = 0 },
-    handlers = { gitsigns = false },
-    excluded_buftypes = {
-        "nofile",
-        "terminal"
-    },
-})
+MAP('n', "<c-/>", "<Plug>(comment_toggle_linewise_current)")
+MAP('v', "<c-/>", "<Plug>(comment_toggle_linewise_visual)")
 
 require("nvim-autopairs").setup({
     ignored_next_char = "[%w%.%'%\"%{]",
-    enable_check_bracket_line = false,
     fast_wrap = {
-        map = "<M-\\>",
-        chars = { '{', '[', '(', '"', "'", '<' },
-        pattern = [=[[%'%"%>%]%)%}%,]]=],
-        end_key = " ",
-        keys = 'qwertyuiopzxcvbnmasdfghjkl',
-        check_comma = true,
-        highlight = 'Search',
-        highlight_grey='Comment'
-    },
+        map = "<m-\\>",
+        chars = { '{', '[', '(', '"', "'", '<', '`' },
+        end_key = " "
+    }
 })
 
-require("indent_blankline").setup {
-    show_current_context = false, -- shiny scope line
-    show_current_context_start = true,
-    show_trailing_blankline_indent = false,
-    use_treesitter = true,
-    space_char_blankline = " ",
-    -- char_blankline = " ",
-    filetype_exclude = { "startify", "help" }
-}
-vim.api.nvim_create_autocmd("CursorMoved", { command = "IndentBlanklineRefresh"})
+require("tabline").setup({
+    padding = 1,
+    separator = '',
+    close_icon = '󰅖',
+    show_icon = true,
+    modified_icon = '',
+    color_all_icons = true
+})
 
--- HARPOON
-local mark = require('harpoon.mark')
-local ui = require('harpoon.ui')
-MAP("n", "<leader>r", mark.add_file)
-MAP("n", "<M-v>", ui.toggle_quick_menu)
-MAP("n", "<leader>!", function() ui.nav_file(1) end)
-MAP("n", "<leader>@", function() ui.nav_file(2) end)
-MAP("n", "<leader>#", function() ui.nav_file(3) end)
-MAP("n", "<leader>$", function() ui.nav_file(4) end)
+require("scrollbar").setup({
+    hide_if_all_visible = true,
+    handle = { blend = 60 },
+    excluded_buftypes = { "nofile" }
+})
 
--- UNDOTREE
+require("ibl").setup({
+    scope = { enabled = false },
+    exclude = {
+        filetypes = {
+            "markdown",
+            "text",
+            "startify"
+        }
+    }
+})
+
+MAP('n', "<m-S>", vim.cmd.TSJSplit)
+MAP('n', "<m-J>", vim.cmd.TSJJoin)
+MAP('n', "<m-M>", vim.cmd.TSJToggle)
+require("treesj").setup({ use_default_keymaps = false })
+
+require("nvim-surround").setup({
+    keymaps = {
+        insert = "<m-g>s",
+        insert_line = "<m-g>S"
+    }
+})
+
+require("marks").setup()
+vim.g.matchup_matchparen_enabled = 0
+
+-- harpoon
+local ui = require("harpoon.ui")
+local mark = require("harpoon.mark")
+MAP('n', "<m-r>", mark.add_file)
+MAP('n', "<m-v>", ui.toggle_quick_menu)
+MAP('n', "<leader>!", function() ui.nav_file(1) end)
+MAP('n', "<leader>@", function() ui.nav_file(2) end)
+MAP('n', "<leader>#", function() ui.nav_file(3) end)
+MAP('n', "<leader>$", function() ui.nav_file(4) end)
+require("harpoon").setup({
+    save_on_toggle = true,
+    menu = { width = vim.api.nvim_win_get_width(0) - 4 }
+})
+
+-- undotree
 vim.g.undotree_WindowLayout = 2
-vim.g.undotree_SetFocusWhenToggle = 1
 vim.g.undotree_ShortIndicators = 1
-MAP("n", "<leader>u", vim.cmd.UndotreeToggle)
+vim.g.undotree_SetFocusWhenToggle = 1
+MAP('n', "<leader>u", vim.cmd.UndotreeToggle)
+
+-- scrolling
+require("neoscroll").setup({
+    mappings = {
+        "<m-e>", "<m-n>",
+        "<m-f>", "<m-h>",
+        "zt", "zz", "zb"
+    }
+})
+require("neoscroll.config").set_mappings({
+    ["<m-j>"] = { "scroll", { "vim.wo.scroll", "true", "100", nil } },
+    ["<m-k>"] = { "scroll", { "-vim.wo.scroll", "true", "100", nil } },
+    ["<m-f>"] = { "scroll", { "-0.10", "false", "100", nil } },
+    ["<m-h>"] = { "scroll", { "0.10", "false", "100", nil } },
+    ["zt"] = { "zt", { "300" } },
+    ["zz"] = { "zz", { "300" } },
+    ["zb"] = { "zb", { "300" } }
+})
 
 require("zen-mode").setup({
-    window = {
-        backdrop = 0.85, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
-        width = 0.7,
-        height = 1,
-    },
-    options = {
-        number = true,
-        relativenumber = true,
-    },
-    plugins = {
-        options = { enabled = true, ruler = true, showcmd = true },
-        gitsigns = { enabled = true },
-    },
-    on_open = function() -- transparent
-        ZEN = true
-        vim.cmd("so ~/.config/nvim/after/plugin/terminal.lua")
-    end,
-    on_close = function()
-        ZEN = false
-        vim.cmd("so ~/.config/nvim/after/plugin/terminal.lua")
-    end,
+    window = { backdrop = 0.85 },
+    options = { number = true, relativenumber = true },
+    plugins = { options = { enabled = true, ruler = true } },
+    on_open = function() ZEN = true end,
+    on_close = function() ZEN = false end
 })
-MAP("n", "<leader>z", "<cmd>ZenMode<CR>", SILENT)
-
--- notify
--- vim.notify = require("notify")
--- vim.notify.setup({
---     render = "minimal",
---     stages = "static",
---     timeout = 5000,
--- })
+MAP('n', "<leader>z", vim.cmd.ZenMode)

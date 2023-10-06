@@ -1,56 +1,65 @@
-# nav
-alias -g ..="cd .."
-alias -g ...="cd ../.."
-alias -g ....="cd ../../.."
-alias -g .....="cd ../../../.."
-
 # files
-alias md="mkdir -p"
-alias ls='ls --color=auto'
-# alias l='ls'
-# alias la='ls -ah'
-# alias ll="ls -lh"
-# alias lla='ls -lah'
-alias exa='exa --color=always --group-directories-first'
 alias l='exa'
 alias la='exa -a'
 alias ll="exa -l"
-alias lla="exa -la"
 alias lr="exa -R"
-alias open="xdg-open"
+alias lla="exa -la"
+alias md="mkdir -p"
+alias ls='ls --color=auto --hyperlink=auto'
 alias pwd="pwd | sed 's/ /\\ /'"
-alias bat="bat --color=always --style=numbers --theme gruvbox-dark"
 alias clearhist="rm ~/.zsh_history"
 
 # programs
-alias btop="bpytop"
-alias cat="bat"
-alias code='code --proxy-server="192.168.13.2:3128"'
-alias connect="kitty +kitten ssh"
-alias echo="echo -e"
 alias fd="fd -H"
-alias firefox="/opt/firefox/firefox"
-alias grep="grep -i --color=auto"
-alias icat="kitty +kitten icat"
-alias less="less -R"
-alias nvim="nvim --listen /tmp/mykitty"
-alias python="python3.10"
-alias sed="sed -E"
+alias du="du -h"
 alias vim="nvim"
+alias sed="sed -E"
+alias echo="echo -e"
+alias less="less -R"
+alias wget="wget -c"
+alias open="xdg-open"
+alias nano="nano -ESljmibq"
+alias grep="grep -i --color=auto"
+alias sdiff='sdiff -tr --color=always'
+alias diff='/usr/bin/diff -trp --color=always'
+alias tree='exa -aT'
+alias exa='exa -F --color=always --group-directories-first'
+
+alias btop="bpytop"
+alias icat="kitty +kitten icat"
+alias python="python3.10"
+alias connect="kitty +kitten ssh"
+alias firefox="/opt/firefox/firefox"
+alias code='code --proxy-server="192.168.13.2:3128"'
+
+alias gcc="gcc -std=c18"
+alias g++="g++ -std=c++17"
+
+alias -g H='| head'
+alias -g T='| tail'
+alias -g G='| grep'
+alias -g L="| less"
+alias -g M="| most"
+alias -g LL="2>&1 | less"
+alias -g CA="2>&1 | cat -A"
+alias -g NE="2> /dev/null"
+alias -g NUL="&>/dev/null"
 
 # session
-alias quit="gnome-session-quit"
 alias :q="exit"
+alias quit="gnome-session-quit"
 
 # git
-alias fcho="git for-each-ref --format='%(refname:short)' refs/heads |fzf|xargs git checkout"
-alias kdiff="git difftool --no-symlinks --dir-diff"
-alias gcommit="git commit -v "
 alias gq="git amend"
+alias gcommit="git commit -v "
+alias kdiff="git difftool --no-symlinks --dir-diff"
+alias fcho="git for-each-ref --format='%(refname:short)' refs/heads |fzf|xargs git checkout"
 
 # config editing
-alias tmuxconfig="$EDITOR $HOME/.tmux.conf"
-alias gitconfig="$EDITOR $HOME/.gitconfig"
+alias zshconf="$EDITOR $ZSHRC"
+alias gitconf="$EDITOR $HOME/.gitconfig"
+alias tmuxconf="$EDITOR $HOME/.tmux.conf"
 alias myfuncs="$EDITOR $ZDOTDIR/myfuncs.zsh"
+alias nvimconf="$EDITOR $XDG_CONFIG_HOME/nvim/lua/user/settings.lua"
 
-alias temps="watch -n 1 sensors"
+alias temps="watch -n1 sensors"

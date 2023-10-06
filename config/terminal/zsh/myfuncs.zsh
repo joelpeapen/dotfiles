@@ -1,204 +1,154 @@
-#--------------------Configs, sync package lists-------------------------------------------------
-function get-installed-packages() {
-    apt list --installed | sed 's/\/.*//' | sort | uniq | tee $HOME/Documents/LINUX_SOFTWARE/apt_packages
-    npm list | sort | uniq | tee $HOME/Documents/LINUX_SOFTWARE/npm_packages
-    pip list | sort | uniq | tee $HOME/Documents/LINUX_SOFTWARE/pip_packages
-    ls $HOME/.local/user | sed 's/-/ /' | tee $HOME/Documents/LINUX_SOFTWARE/binaries
+#--------------------Configs, sync package lists--------------------
+function get-installed-packages {
+    pip list | sort | uniq | tee $HOME/Documents/LINUX_SOFTWARE/pip
+    ls $HOME/.local/user | tee $HOME/Documents/LINUX_SOFTWARE/binaries
+    apt list --installed | sed 's/\/.*//' | sort | uniq | tee $HOME/Documents/LINUX_SOFTWARE/apt
 }
 
-function is_bin_in_path {
-    if [[ -n $ZSH_VERSION ]]; then
-        builtin whence -p "$1" &> /dev/null
-    else  # bash:
-        builtin type -P "$1" &> /dev/null
-    fi
-}
+function sync-dots {
+    cd $DOTDIR/config
 
-function sync-all() {
-    sync-dots; syncvs; syncsub
-}
-
-function sync-dots() {
-    cd $DOTDIR/config/
-
-    cp $ZSHRC $DOTDIR/config/terminal/zsh/zshrc # zsh
+    cp $ZSHRC $DOTDIR/config/terminal/zsh/zshrc
+    cp $ZDOTDIR/*.zsh $DOTDIR/config/terminal/zsh/
     cp $HOME/.zshenv $DOTDIR/config/terminal/zsh/zshenv
-    cp $ZDOTDIR/aliases.zsh $DOTDIR/config/terminal/zsh/
-    cp $ZDOTDIR/plugins.zsh $DOTDIR/config/terminal/zsh/
-    cp $ZDOTDIR/completion.zsh $DOTDIR/config/terminal/zsh/
-    cp $ZDOTDIR/myfuncs.zsh $DOTDIR/config/terminal/zsh/
 
-    cp $HOME/.bashrc $DOTDIR/config/terminal/bashrc # bash
-    cp $HOME/.gitconfig $DOTDIR/config/util/git/gitconfig # git
-    cp $HOME/.tmux.conf $DOTDIR/config/terminal/tmux.conf # tmux
-    cp -r $XDG_CONFIG_HOME/lf/ $DOTDIR/config/util/ # lf
-    cp $XDG_CONFIG_HOME/starship.toml $DOTDIR/config/terminal/ # starship
-    cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/terminal/kitty # kitty
-    cp -r $XDG_CONFIG_HOME/nvim/ $DOTDIR/config/ # nvim
+    cp -r $XDG_CONFIG_HOME/nvim/ $DOTDIR/config/
+    cp -r $XDG_CONFIG_HOME/lf/ $DOTDIR/config/util/
+    cp $HOME/.bashrc $DOTDIR/config/terminal/bashrc
+    cp $HOME/.gitconfig $DOTDIR/config/util/git/gitconfig
+    cp $HOME/.tmux.conf $DOTDIR/config/terminal/tmux.conf
+    cp $XDG_CONFIG_HOME/starship.toml $DOTDIR/config/terminal/
+    cp $XDG_CONFIG_HOME/fd/ignore $DOTDIR/config/util/fd/ignore
+    cp $XDG_CONFIG_HOME/bat/config $DOTDIR/config/util/bat/config
+    cp $XDG_CONFIG_HOME/ripgrep/ripconf $DOTDIR/config/util/ripgrep/ripconf
+    cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/terminal/kitty/
 
     git status
 }
 
-function syncvs(){
-    cp $XDG_CONFIG_HOME/Code/User/keybindings.json $HOME/Documents/academics/code/docs/addon/vsx/keybindings.json
-    cp $XDG_CONFIG_HOME/Code/User/settings.json $HOME/Documents/academics/code/docs/addon/vsx/settings.json
-}
+#----------------------------UTIL----------------------------
 
-function syncsub(){
-    cp $XDG_CONFIG_HOME/sublime-text-3/Packages/User/*.sublime-(keymap|settings) $HOME/Documents/academics/code/docs/addon/sublime/
+function is_in_path {
+    command -v $1 &> /dev/null
 }
-
-function nvimconfig() {
-    cd $XDG_CONFIG_HOME/nvim
-    $EDITOR $XDG_CONFIG_HOME/nvim/lua/user/init.lua
-}
-
-function zshconfig() {
-  cd $ZDOTDIR && $EDITOR $ZSHRC
-}
-
-function ergo() {
-    sed -i 's/xkb_variant/#xkb_variant/' $XDG_CONFIG_HOME/sway/config
-    sed -i 's/xkb_options/#xkb_options/' $XDG_CONFIG_HOME/sway/config
-    swaymsg reload
-}
-
-function lap() {
-    sed -i 's/#xkb_variant/xkb_variant/' $XDG_CONFIG_HOME/sway/config
-    sed -i 's/#xkb_options/xkb_options/' $XDG_CONFIG_HOME/sway/config
-    swaymsg reload
-}
-
-#------------------UTIL----------------------------
 
 # f(filetype search replace)
-function substitute() {
-    if [[ "$1" == "-l" ]]; then
-        for file in *."$2"; do
-            mv "$file" "$(echo "$file" | sed -E "s/$3/$4/")";
+function sub {
+    if [[ $1 == "-l" ]]; then
+        for f in *.$2; do
+            mv $f ${f/$3/$4}
         done
     else
-        mv "$1" "$(echo "$1" | sed -E "s/$2/$3/")";
+        mv $1 ${1/$2/$3}
     fi
 }
 
-# mv to created time
-function mvd() {
-    for i in *.$1; do
-        new=$(stat --format=%y "$i" | sed 's/:/-/g' | sed 's/\.\w+ \+\w+//' | sed 's/ /_/')
-        ext=`echo $i|awk -F "." '{print $2}'`
-        mv "$i" "$new.$ext"
-    done
-
-    # ignore non-extension .s
-    # for i in *.(png|jpg|mp4); do
-    #     new=$(stat --format=%y "$i" | sed 's/:/-/g' | sed 's/\.\w+ \+\w+//' | sed 's/ /_/')
-    #     ext=`echo $i | awk -F "/.(?=[^.]*$)/" '{print $2}'`
-    #     mv "$i" "$new.$ext"
-    # done
-}
-
-function stats() {
-    for i in *; do
-        new=$(stat --format=%y "$i" | sed 's/\.\w+ \+\w+//g')
-        # printf '\e[31m%s\n\e[0m%s\n' "$i: " "$new"
-        printf '\e[31m%s\n\e[0m%s\n' "$i: " "$(stat "$i" | tail -n4 | sed 's/\.\w+ \+\w+//g')"
+# mv to modified time
+function mvd {
+    for a in *.$1; do
+        time=$(stat --format=%w "$a" | sed 's/:/-/g' | sed 's/ /_/')
+        mv "$a" ""${time%.*}"."${a##*.}""
     done
 }
 
-function ccompile() {
-    gcc -std=c18 "$1" -o "${1//.c/}" -lm
+function stats {
+    for a in *; do
+        s=$(stat "$a" | tail -n4 | sed 's/\.\w+ \+\w+//g')
+        pcol 34 4 "$a\n"
+        pcol "$s\n"
+    done
 }
 
-function cpcompile() {
-    g++ -Wall -std=c++17 -o "${1//.cpp/}" "$1"
+function compile {
+    case ${1##*.} in
+        c) gcc -g -Wall -std=c18 "$1" -o "${1%.*}" -lm;;
+        cpp) g++ -g -Wall -std=c++17 "$1" -o "${1%.*}";;
+    esac
 }
 
-function man() {
-    LESS_TERMCAP_mb=$'\e[01;31m' \
+function man {
     LESS_TERMCAP_md=$'\e[01;31m' \
+    LESS_TERMCAP_mb=$'\e[01;31m' \
     LESS_TERMCAP_me=$'\e[0m' \
     LESS_TERMCAP_se=$'\e[0m' \
-    LESS_TERMCAP_so=$'\e[01;100m' \
     LESS_TERMCAP_ue=$'\e[0m' \
-    LESS_TERMCAP_us=$'\e[4;93m' \
+    LESS_TERMCAP_us=$'\e[4;32m' \
+    LESS_TERMCAP_so=$'\e[01;07;01m' \
     command man "$@"
 }
 
-function lfcd () {
-    tmp="$(mktemp)"
-    # `command` is needed in case `lfcd` is aliased to `lf`
-    command lf -last-dir-path="$tmp" "$@"
-    if [ -f "$tmp" ]; then
-        dir="$(cat "$tmp")"
-        rm -f "$tmp"
-        if [ -d "$dir" ]; then
-            if [ "$dir" != "$(pwd)" ]; then
-                cd "$dir"
-            fi
-        fi
-    fi
+# f(color color|style|background)
+function pcol {
+    case $# in
+        1) printf $'\e[0;0m%b\e[0m' "$@";;
+        2) printf $'\e[0;%im%b\e[0m' "$1" "${@:2:$#-1}";;
+        3) printf $'\e[%i;%im%b\e[0m' "$2" "$1" "${@:3:$#-1}";;
+        4) printf $'\e[%i;%i;%im%b\e[0m' "$1" "$3" "$2" "${@:4:$#-1}";;
+    esac
 }
-bindkey -s '^o' 'lfcd\n'
 
-#--------------------Logs-------------------------------------------------
+function .. {
+    level=$1
+    [[ -z $level ]] && { level=1; }
+    for i in $(seq 1 $level); do cd ../; done
+}
+
+#----------------------------Logs----------------------------
 
 # get ssh logs with date and time
-function ssh-log() {
-    grep -a Accepted /var/log/auth.log | sed -r -e 's/^(.*)\s.*from\s([0-9]*.*)\sport.*$/\1 \2/'
+function ssh-log {
+    grep -a Accepted /var/log/auth.log |\
+        sed -r -e 's/^(.*)\s.*from\s([0-9]*.*)\sport.*$/\1 \2/'
 }
 
 # get ip addrs with counts
-function ssh-ips() {
-    grep -a Accepted /var/log/auth.log  | sed -r -e 's/.*from ([0-9]+.*) port ([0-9]+) .*/\1/'| sort | uniq -c | sort
+function ssh-ips {
+    grep -a Accepted /var/log/auth.log |\
+        sed -r -e 's/.*from ([0-9]+.*) port ([0-9]+) .*/\1/'| sort | uniq -c | sort
 }
 
 # get invalid ips, usernames
-function ssh-invalid() {
-    grep -a Invalid /var/log/auth.log | sed -r -e 's/^(.*)\s.*\suser\s(.*)from\s([0-9]*.*)\sport.*$/\1 \3 \2/'
+function ssh-invalid {
+    grep -a Invalid /var/log/auth.log |\
+        sed -r -e 's/^(.*)\s.*\suser\s(.*)from\s([0-9]*.*)\sport.*$/\1 \3 \2/'
 }
 
 # get sudo commands
-function sudo-log() {
+function sudo-log {
     ##non-systemd logs
-    #grep -a sudo /var/log/auth.log | grep COMMAND| sed -r -e 's/^(.*)\s.*(sudo).*COMMAND=\/.*bin\/(.*$)/\1 \2 \3/'
+    #grep -a sudo /var/log/auth.log | grep COMMAND |\
+    #sed -r -e 's/^(.*)\s.*(sudo).*COMMAND=\/.*bin\/(.*$)/\1 \2 \3/'
 
     #systemd
-    sudo journalctl /usr/bin/sudo | grep COMMAND | sed -r -e 's/(^.*).* (sudo).*COMMAND=.*\/s?bin\/(.*$)/\1 \2 \3/'
+    sudo journalctl /usr/bin/sudo | grep COMMAND |\
+        sed -r -e 's/(^.*).* (sudo).*COMMAND=.*\/s?bin\/(.*$)/\1 \2 \3/'
 }
 
-function crypt-log() {
-    sudo journalctl /usr/lib/systemd/systemd-cryptsetup | grep Failed | sed -r -e 's/(^.*).*: (Failed.*$)/\1 \2/'
+function crypt-log {
+    sudo journalctl /usr/lib/systemd/systemd-cryptsetup |\
+        grep Failed | sed -r -e 's/(^.*).*: (Failed.*$)/\1 \2/'
 }
 
 # check for recent intel atomic failures from syslog
-function atomic() {
+function atomic {
     cat /var/log/syslog | rg Atomic
 }
 
-#--------------------Searching------------------------------------------------
+#----------------------------Searching----------------------------
 
-# rg -i with fzf file preview
-rgf() {
-    local preview_cmd
-    preview_cmd="echo {} | sed 's/(.*:[0-9]+).*//' | xargs -0 preview {}"
-    if [ "$1" != "" ]; then
-        rg -i --line-number "$1" -g '!R' > /tmp/rgsearch
-        if [ $? -eq 0 ]; then
-            cat /tmp/rgsearch | \
-                fzf --delimiter : --preview="$preview_cmd" \
-                --preview-window=top,+{2}-20 \
-                --bind="enter:execute(less +{2} {1})"
-                        else
-                            echo "No results found for $1"
-        fi
-    else
-        echo "Enter a search string"
+# live grep
+function rgf {
+    c="rg --no-heading"
+    a="$(fzf --bind "change:reload:$c {q} || true" \
+        --ansi --preview '' --header 'Search in files')"
+    if [[ -n $a ]]; then
+        IFS=':' read -r file line char _ <<< "$a"
+        "$EDITOR" "$file" +"$line" -c "norm ${char}lh"
+        cd "$(dirname "$(readlink -f "$file")")"
     fi
-    return 0
 }
 
-agstring() {
+function agstring {
     local preview_cmd
     cmd="echo {} | sed 's/:.*//' | xargs -I% highlight -O ansi -l % 2> /dev/null"
     if [ "$1" != "" ]; then
@@ -210,19 +160,19 @@ agstring() {
 }
 
 # get number of non-empty lines from a folder and a file type
-code-lines() {
+function codelines {
     local files=$(grep -c -v --recursive "^$" "$1"/**/*."$2")
     echo $files
     echo "total:" $(echo $files | sed 's/.*://' | paste -sd+ | bc)
 }
 
-#--------------------Git------------------------------------------------------
-in-git () {
-    git rev-parse --is-inside-work-tree > /dev/null;
+#----------------------------Git----------------------------
+function in-git {
+    git rev-parse --is-inside-work-tree > /dev/null
 }
 
 # fuzzy search for modified files
-gcom () {
+function gcom {
     # check if git repo
     in-git || return 1
 
@@ -242,199 +192,200 @@ gcom () {
 }
 
 function gitpuller {
-    for f in *;  do
+    for f in *; do
         if [ -d $f  -a ! -h $f ]; then
-            cd -- "$f";
+            cd -- "$f"
             git pull
-            cd ..;
-        fi;
-    done;
-};
-
-function gclone() { git clone git@github.com:$1 }
-
-#--------------------Websites-------------------------------------------------
-function fox() {
-    firefox -private-window "$1" &
-}
-
-# search string must have '+' as delimiter
-function duck() {
-    search_url="https://duckduckgo.com/?q=${1}&t=canonical&ia=web"
-    firefox -private-window $search_url &
-}
-
-# increments in 5 seconds
-function stopwatch() {
-    date1=`date +%s`;
-    while true; do 
-        echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
-        sleep 5
-    done
-}
-
-function wordle() { ssh clidle.duckdns.org -p 3000 }
-
-#--------------------Media-------------------------------------------------
-
-function yt() {
-    if [[ "$1" == "-p" ]]; then
-        yt-dlp -f "mp4" "$2" -o "%(playlist_index)s - %(title)s.%(ext)s"
-    elif [[ "$1" == "-a" ]]; then
-        yt-dlp -f 'ba' -x --audio-format mp3 "$2" -o "%(playlist_index)s - %(title)s.%(ext)s"
-    else
-        yt-dlp -f "mp4" -o "%(title)s.%(ext)s" "$1"
-    fi
-}
-
-# f(from, to, method)
-function convert-images() {
-    if [[ $1 == $2 ]]; then
-        echo "\nCannot be same file type" && exit
-    elif [[ "$3" ]]; then
-        echo "$3"; i="$3"
-    elif ! command -v gum &> /dev/null; then
-        echo "Use imageMagik Or ffmpeg [i/v]? "
-        read -r i
-    else
-        echo "Use imageMagik Or ffmpeg? "
-        i=$(gum choose imageMagik ffmpeg)
-    fi
-
-    for img in *."$1"; do
-        if [[ "$i" == "imageMagik" || "$i" == "i" ]]; then
-            convert "$img" "$img"."$2"
-        elif [[ "$i" == "ffmpeg" || "$i" == "v" ]]; then
-            ffmpeg -loglevel panic -i "$img" "$img"."$2"
+            cd ..
         fi
-        printf '\e[31m%s\e[0m%s\n' "$img --> " "$2"
     done
+}
 
-    if [[ -n $i ]]; then
-        rm *."$1"
-        substitute -l $2 "Screenshot from "
-        substitute -l $2 " " "_"
-        substitute -l $2 ".$1"
+function gclone { git clone git@github.com:$1 }
+
+#----------------------------Websites----------------------------
+
+function duck {
+    s=$(gum choose url search)
+    if [[ -n $s ]]; then
+        if [[ $s == "url" ]]; then
+            q=$(gum input --placeholder="url")
+            url="$q"
+        else
+            q=$(gum input --placeholder="search")
+            url="https://duckduckgo.com/?q=${q}&t=canonical&ia=web"
+        fi
+        if [[ -n $q ]]; then
+            firefox -private-window $url &>/dev/null &
+            disown %/opt/firefox/firefox
+        fi
+    fi
+    zle reset-prompt
+}
+
+function stopwatch {
+    date1=`date +%s`;
+    while true; do
+        echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"
+        sleep 1
+    done
+}
+
+function wordle { ssh clidle.duckdns.org -p 3000 }
+
+#----------------------------Media----------------------------
+
+function yt {
+    while getopts "pa" o; do
+        case $o in
+            p) yt-dlp -f "mp4" "$2" -o "%(playlist_index)s - %(title)s.%(ext)s";;
+            a) yt-dlp -f 'ba' -x --audio-format mp3 "$2" -o "%(playlist_index)s - %(title)s.%(ext)s";;
+        esac
+    done
+    [[ "$OPTIND" -eq 1 ]] && yt-dlp -f "mp4" -o "%(title)s.%(ext)s" $1
+}
+
+# f(file, to, how)
+function convert-image {
+    if [[ -n $3 ]]; then
+        if [[ $3 == 'i' ]]; then
+            convert $1 "${1%.*}.${2}"
+        elif [[ $3 == 'f' ]]; then
+            ffmpeg -loglevel panic -i $1 "${1%.*}.${2}"
+        fi
+        [[ $? == 0 ]] && pcol 32 "$1 --> $2\n"
+    else
+        echo "f(file to how)"
     fi
 }
 
-# f(file, from, to)
-function convert-videos() {
-    ffmpeg -loglevel warning -i "$1" -vn -c:a copy "${1%.$2}"_c.$3
-    echo "$video converted to $3"
+# f(file, to)
+function convert-video {
+    ffmpeg -loglevel warning -i $1 "${1%.*}.${2}"
+    [[ $? == 0 ]] && pcol 32 "$1 --> $2\n"
 }
 
 # concat files from list
-function video-concat() {
+function video-concat {
     if [[ $1 ]]; then
         for file in *.mp4; do
             echo "file $file" >> list.txt
         done
     fi
     ffmpeg -f concat -safe 0 -i list.txt -c copy $1.mp4
-    read -pr "Delete list.txt?" yn
-    if [[ $yn ]]; then
-        rm list.txt
+    pcol 31 "Delete list? "; read yn
+    [[ $yn == 'y' ]] && rm list.txt
+}
+
+# f(file, from, till, [format])
+function mslice {
+    ss=$(( ${2%:*} * 60 + ${2#*:} ))
+    to=$(( ${3%:*} * 60 + ${3#*:} ))
+    if [[ $4 ]]; then ext=$4 else ext=${1##*.} fi
+    ffmpeg -i $1 -ss $ss -to $to "${1%.*}"_x.$ext
+    [[ $? == 0 ]] && pcol 32 "Extracted from $ss - $to\n"
+}
+
+# f(img, audio)
+function audio-overlay {
+    ffmpeg -loop 1 -i $1 -i $2\
+        -c:v libx264 -tune stillimage\
+        -c:a aac -b:a 192k -pix_fmt yuv420p\
+        -shortest "${1%.*}"_audio.mp4
+}
+
+function ocr {
+    pcol 34 "> OCR on $1\n"
+    ocrmypdf $1 "${1%.*}-OCR.pdf"
+    if [[ $? == 0 ]]; then
+        pcol 32 "> $1 OCRed successfully\n"
+        mv $1 $HOME/Documents
+        pcol 34 "> original moved to HOME/Documents\n"
     fi
 }
 
-# f(file, from, till)
-function video-extract() {
-    if [[ $2 ]]; then
-        echo "Extracting video from $2 - $3"
-        ffmpeg -ss $2 -to $3 -vn -acodec copy -i $1 ${1%.(mp4|webm)}_x.mp4
+# f(from, to, how)
+function screenshots {
+    if [[ $1 == $2 ]]; then
+        pcol 31 "same file type\n" && return 1
+    elif [[ "$3" ]]; then
+        echo "$3"; i="$3"
+    elif is_in_path gum; then
+        i=$(gum choose high low)
     else
-        echo "Enter start: "; read -r st
-        echo "Enter end: "; read -r end
-        echo "Extracting video from $st - $end"
-        ffmpeg -ss $st -to $end -vn -acodec copy -i $1 ${1%.(mp4|webm)}_x.mp4
+        pcol 34 "Use high or low [i/f]? "
+        read -r i
     fi
+    for f in *.$1; do
+        case $i in
+            high|i) convert-image $f $2 i;;
+            low|f) convert-image $f $2 f;;
+        esac
+    done
+    sub -l $2 "Screenshot from "
+    sub -l $2 " " "_"
+    mv *.$1 /tmp/
+    pcol 34 "old files moved to /tmp"
 }
 
-function audio-extract() {
-    if [[ $2 ]]; then
-        echo "Extracting audio from $2 - $3"
-        ffmpeg -i $1 -ss $2 -to $3 -vn -acodec copy $1.mp3
-    else
-        echo "Enter start: "; read -r s
-        echo "Enter end: "; read -r e
-        echo "Extracting audio from $s - $e"
-        ffmpeg -i $1 -ss $s -to $e -vn -acodec copy "${1%.(mp3|mp4)}"_x.mp3
+#----------------------------zsh----------------------------
+
+function mcd { mkdir -p "$1" && cd "$1" }
+function restart { source $ZSHRC && rehash }
+function diff { kdiff }
+
+function files {
+    nautilus file:$PWD &>/dev/null &;
+    disown %nautilus
+    zle reset-prompt
+}
+
+function zz {
+    dir=$(zoxide query -l | fzf --preview 'exa {} | bat'\
+        --height=~50%)
+    if [[ "$dir" ]]; then
+        cd "$dir"
     fi
+    zle reset-prompt
 }
 
-function audio-overlay() {
-    ffmpeg -loop 1 -i $1 -i $2 -c:v libx264 -tune stillimage -c:a aac -b:a 192k -pix_fmt yuv420p -shortest "${1%.(jpg|png)}"_audio.mp4
-    # ffmpeg -i $1 -i $2.mp3 -vf "overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2" ${1%.(jpg|png)}.mp4
-    # reduce video and audio bitrate for small size
-    # ffmpeg -i $1 -i $2.mp3 -vf "overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2" -b:v 1000k -b:a 128k ${1%.(jpg|png)}.mp4
-    # ffmpeg -loop 1 -y -i image8.jpg -i sound11.amr -shortest -acodec copy -vcodec mjpeg result.avi
-}
-
-function ocr () {
-    echo "\n> OCR on $1\n"
-    ocrmypdf "$1" "${1%.pdf}_OCR.pdf"
-    echo "\n> "$1" OCRed successfully"
-    mv "$1" $HOME/Documents
-    echo "> original moved to HOME/Documents\n"
-    substitute "$1" _OCR
-}
-
-#--------------------ZSH------------------------------
-
-function mcd() {
-    mkdir -p "$1" && cd "$1"
-}
-
-function files() { nautilus file:$(pwd) }
-function exiter() { exit }
-function restart() { source $ZSHRC && rehash }
-
-function theme() {
-    colors=("Tokyo Night" "Tokyo Night Moon" "Tokyo Night Storm"
-            "Gruvbox Material Dark Hard" "Gruvbox Material Light Medium"
-            "Github Dark Dimmed" "Aquarium Dark" "Hybrid" "Neutron" "N0tch2k"
-            "Aquarium Light" "Pencil Light" "Leaf Light"
-    )
-    config=$(printf "%s\n" "${colors[@]}" | fzf --preview="" --height=~50% --border -0 | sed 's/ /\\ /')
-    if [[ "$config" ]]; then
-        kitty +kitten themes "$config" || kitty +kitten themes Gruvbox\ Material\ Dark\ Hard
-        source $HOME/.zshenv; restart
-        kill -SIGUSR1 $(pidof kitty)
+function theme {
+    colors=$(< $ZDOTDIR/themes)
+    t=$(printf "%b\n" "${colors[@]}" | fzf --preview=""\
+        --height=~50%)
+    if [[ "$t" ]]; then
+        kitty +kitten themes "$t"
+        restart; kill -SIGUSR1 $(pidof kitty)
     fi
+    zle reset-prompt
 }
 
-function dark-mode() {
-    kitty +kitten themes Gruvbox\ Material\ Dark\ Hard
+function darkmode {
+    kitty +kitten themes "Gruvbox Material Dark Hard"
     sed -i 's/=light"/=dark"/' $XDG_CONFIG_HOME/nvim/lua/user/colors.lua
-    sed -E -i "s/fg=#\w+,/fg=#8d8678,/" $ZDOTDIR/completion.zsh
-    sed -E -i "s/bg=#\w+\"/bg=#TRANSPARENT\"/" $ZDOTDIR/completion.zsh
-    source $HOME/.zshenv; restart
-    kill -SIGUSR1 $(pidof kitty)
+    sed -E -i "s/240/250/" $ZDOTDIR/plugins.zsh
+    restart; kill -SIGUSR1 $(pidof kitty)
 }
 
-function light-mode() {
-    kitty +kitten themes Leaf\ Light
+function lightmode {
+    kitty +kitten themes "Leaf Light"
     sed -i 's/=dark"/=light"/' $XDG_CONFIG_HOME/nvim/lua/user/colors.lua
-    sed -E -i "s/fg=#\w+,/fg=#77706a,/" $ZDOTDIR/completion.zsh
-    source $HOME/.zshenv; restart
-    kill -SIGUSR1 $(pidof kitty)
+    sed -E -i "s/250/240/" $ZDOTDIR/plugins.zsh
+    restart; kill -SIGUSR1 $(pidof kitty)
 }
 
-zle -N exiter exiter
-zle -N restart restart
+zle -N zz zz
+zle -N rgf rgf
+zle -N duck duck
+zle -N diff diff
+zle -N files files
 zle -N theme theme
-zle -N light-mode light-mode
-zle -N dark-mode dark-mode
-zle -N pencils pencils
-zle -N nopencils nopencils
-bindkey -s ',g' 'git status\n'
-bindkey -s ',b' 'git oneline\n'
-bindkey -s ',v' 'vim\n'
-bindkey -s ',f' 'l\n'
-bindkey -s ',a' 'll\n'
-bindkey ',q' exiter
+zle -N restart restart
+
+bindkey ',z' zz
+bindkey '\er' rgf
+bindkey ',s' duck
+bindkey ',4' diff
+bindkey ',e' files
+bindkey ',0' theme
 bindkey ',r' restart
-bindkey ',c' theme
-bindkey ',l' light-mode
-bindkey ',d' dark-mode

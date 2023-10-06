@@ -1,162 +1,180 @@
 MAP = vim.keymap.set
-SILENT = { silent = true }
 
--- set leader
-vim.g.mapleader=" "
+vim.g.mapleader = " "
 
-MAP("i", "<M-8>", "<ESC>")
-
-MAP("n", "Q", "<nop>")
-
--- startify
-MAP("n", "<leader><BS>", ":Startify<CR>", SILENT)
-MAP("n", "<M-q>", function ()
-    vim.cmd([[NvimTreeClose
-              LspStop
-              SClose]])
-end, SILENT)
-
--- source file
-MAP("n", "<leader>2", function()
-    if (vim.bo.filetype == "lua") then
-        vim.cmd("so") end
-end, SILENT)
-
--- netrw
-MAP("n", "<leader>pv", ":Ex<CR>", SILENT)
-
--- plugins
-MAP("n", "<C-Space>p", ":Lazy home<CR>", SILENT)
-
--- alt-enter to EOL
-MAP("i", "<M-CR>", "<ESC>$a")
-MAP("n", "<M-CR>", "$a")
-MAP("v", "$", "$<Left>") -- !copy EOL char
-
--- wrap
-MAP("n", "||", function()
-    local win = vim.api.nvim_get_current_win()
-    if vim.wo[win].wrap then
-        vim.notify("wrap off", vim.log.levels.WARN)
-        vim.wo[win].wrap = false
-    else
-        vim.notify("wrap on", vim.log.levels.WARN)
-        vim.wo[win].wrap = true
-    end
-end, SILENT)
-
--- format
-MAP("v", "<leader>v", "=")
-
--- move lines up and down in visual mode
-MAP("v", "J", ":m '>+1<CR>gv=gv")
-MAP("v", "K", ":m '<-2<CR>gv=gv")
-
-MAP("n", "J", "mzJ`z") -- join bottom line
-
--- select all
-MAP("n", "<M-a>", "ggVG")
-
--- center cursor when C-d, C-u
-MAP("n", "<C-d", "<C-d>zz")
-MAP("n", "<C-u", "<C-u>zz")
-MAP("n", "G", "Gzz") -- center EOF jump
-
--- center cursor when search next instance
-MAP("n", "n", "nzzzv")
-MAP("n", "N", "Nzzzv")
-
--- preserve clipboard copy after delete word
-MAP("x", "<leader>p", "\"_dP")
-
--- delete to void register
-MAP("n", "<leader>dd", "\"_d<CR>")
-MAP("v", "<leader>dd", "\"_d<CR>")
-
--- copy to system clipboard
-MAP("n", "<leader>y", "\"+y")
-MAP("v", "<leader>y", "\"+y")
-MAP("n", "<leader>Y", "\"+Y")
-
--- cole folding
-MAP("n", "<leader>>", ":foldopen<CR>", SILENT)
-MAP("n", "<leader><", ":foldclose<CR>", SILENT)
-
--- horizontal scroll
-MAP("n", "<M-9>", "zhzhzhzhzhzhzhzhzhzh")
-MAP("n", "<M-0>", "zlzlzlzlzlzlzlzlzlzl")
-
--- write and quit
-MAP("n", "<Leader>wq", ":wq<CR>", SILENT)
-MAP("n", "<Leader>w", ":w<CR>")
-MAP("n", "<Leader>q", ":q<CR>", SILENT)
-MAP("n", "<Leader>11", ":q!<CR>", SILENT)
-
--- tabs
-MAP("n", "<M-.>", "gt", SILENT)
-MAP("n", "<M-,>", "gT", SILENT)
-MAP("n", "<M-S-.>", ":tabmove +<CR>", SILENT)
-MAP("n", "<M-S-,>", ":tabmove -<CR>", SILENT)
-MAP("n", "<M-t>", ":tabnew<CR>", SILENT)
-MAP("n", "<M-W>", ":bdelete<CR>", SILENT)
-MAP("n", "<M-w>", ":tabclose<CR>", SILENT)
-MAP("n", "<M-T>", ":wincmd T<CR>", SILENT)
-
--- pane switching
-MAP({"n", "t"}, "<C-k>", "<cmd>wincmd k<CR>", SILENT)
-MAP({"n", "t"}, "<C-j>","<cmd>wincmd j<CR>", SILENT)
-MAP({"n", "t"}, "<C-h>", "<cmd>wincmd h<CR>", SILENT)
-MAP("n", "<C-l>", "<cmd>wincmd l<CR>", SILENT)
-
--- pane movements
-MAP({"n", "t"}, "<C-M-K>", "<cmd>wincmd K<CR>", SILENT) -- very top
-MAP({"n", "t"}, "<C-M-J>", "<cmd>wincmd J<CR>", SILENT) -- very bottom
-MAP({"n", "t"}, "<C-M-H>", "<cmd>wincmd H<CR>", SILENT) -- far left
-MAP({"n", "t"}, "<C-M-L>", "<cmd>wincmd L<CR>", SILENT) -- far right
-MAP("n", "<C-p>", ":wincmd p<CR>", SILENT)
-
-MAP("n", "=", "<cmd>wincmd +<CR>", SILENT) -- height++
-MAP("n", "-", "<cmd>wincmd -<CR>", SILENT) -- height++
-MAP("n", "{", "<cmd>wincmd ><CR>", SILENT) -- width++
-MAP("n", "}", "<cmd>wincmd <<CR>", SILENT) -- width--
-MAP("n", "<leader>=", "<cmd>wincmd =<CR>", SILENT) -- equal size
-
--- splits
-MAP("n", "<leader>n", "<cmd>new<CR>", SILENT)
-MAP("n", "<leader>vn", "<cmd>vne<CR>", SILENT)
-MAP("n", "<leader>vs", "<cmd>vsplit<CR>", SILENT)
-MAP("n", "<leader>hs", "<cmd>split<CR>", SILENT)
-
--- replace word
-MAP("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
-
--- make file executable
-MAP("n", "<leader><leader>x", "<cmd>!chmod +x %<CR>", SILENT)
-MAP("n", "<leader><leader>X", "<cmd>!chmod -x %<CR>", SILENT)
-
--- open cwd in new kitty tab
-MAP("n", "<leader>pt", function()
-    os.execute(("kitty @launch --to unix:/tmp/mykitty --type=tab --cwd='dir'"):gsub('dir', BUFDIR))
+MAP('n', "Q", "<nop>")
+MAP('n', "<esc>", ":<c-c>")
+MAP('n', "<m-q>", function()
+    vim.cmd([[LspStop
+    SClose]])
 end)
 
--- open cwd in new tmux window
-MAP("n", "<leader>pT", function()
-    os.execute(("tmux new-window; cd dir"):gsub('dir', BUFDIR))
+-- netrw
+MAP('n', "<m-l>", function ()
+    if vim.bo.filetype ~= "netrw" then
+        vim.cmd("Ex")
+    else
+        vim.cmd("Rex")
+    end
+end)
+
+-- plugins
+MAP('n', "<c-Space>p", "<cmd>Lazy home<cr>")
+
+-- select all
+MAP('n', "<m-a>", "ggVG")
+
+-- insert mode movements
+MAP({ 'i', '!' }, "<m-h>", "<left>")
+MAP({ 'i', '!' }, "<m-l>", "<right>")
+MAP({ 'i', '!' }, "<m-k>", "<up>")
+MAP({ 'i', '!' }, "<m-j>", "<down>")
+MAP({ 'i', '!' }, "<m-b>", "<c-left>")
+MAP({ 'i', '!' }, "<m-f>", "<c-right>")
+MAP({ 'i', '!' }, "<c-d>", "<del>")
+MAP({ 'i', 'n', '!' }, "<m-cr>", "<end>")
+MAP('i', "<m-i>", "<esc>I")
+MAP('!', "<m-a>", "<home>")
+MAP('v', '<m-cr>', "g_")
+MAP('v', '$', "g_")
+
+-- write and quit
+MAP('n', "<leader>w", vim.cmd.w)
+MAP('n', "<leader>q", vim.cmd.q)
+MAP('n', "<leader>wq", vim.cmd.wq)
+MAP('n', "<leader>11", "<cmd>q!<cr>")
+
+-- center cursor on jumps
+MAP('n', 'G', "Gzz")
+MAP('n', "<c-d>", "<c-d>zz")
+MAP('n', "<c-u>", "<c-u>zz")
+
+-- center cursor when search next instance
+MAP('n', 'n', "nzzzv")
+MAP('n', 'N', "Nzzzv")
+
+-- keep clipboard copy after delete word
+MAP('x', "<leader>pp", "\"_dP")
+
+-- delete to void register
+MAP({ 'n', 'v' }, "<leader>dd", "\"_d<cr>")
+
+-- copy to system clipboard
+MAP({ 'n', 'v' }, "<leader>y", "\"+y")
+MAP('n', "<leader>Y", "\"+Y")
+
+-- code folding
+MAP('n', "[e", vim.cmd.foldopen)
+MAP('n', "]e", vim.cmd.foldclose)
+
+-- horizontal scroll
+MAP('n', "<m-9>", "10zh")
+MAP('n', "<m-0>", "10zl")
+
+-- join bottom line
+MAP('n', 'J', "mzJ`z")
+
+-- move lines up and down in visual mode
+MAP('v', 'J', ":m '>+1<cr>gv=gv", { silent = true })
+MAP('v', 'K', ":m '<-2<cr>gv=gv", { silent = true })
+
+-- tabs
+MAP('n', "<m-.>", "gt")
+MAP('n', "<m-,>", "gT")
+MAP('n', "<m-t>", vim.cmd.tabnew)
+MAP('n', "<m-W>", vim.cmd.bdelete)
+MAP('n', "<m-w>", vim.cmd.tabclose)
+MAP('n', "<m-S-.>", "<cmd>tabmove +<cr>")
+MAP('n', "<m-S-,>", "<cmd>tabmove -<cr>")
+MAP('n', "<m-T>", "<cmd>wincmd T<cr>")
+
+-- pane switching
+MAP('n', "<c-k>", "<cmd>wincmd k<cr>")
+MAP('n', "<c-h>", "<cmd>wincmd h<cr>")
+MAP('n', "<c-l>", "<cmd>wincmd l<cr>")
+MAP('n', "<c-p>", "<cmd>wincmd p<cr>")
+MAP({ 'n', 't' }, "<c-j>", "<cmd>wincmd j<cr>")
+
+-- pane movements
+MAP({ 'c', 't' }, "<c-m-K>", "<cmd>wincmd K<cr>") -- very top
+MAP({ 'n', 't' }, "<c-m-J>", "<cmd>wincmd J<cr>") -- very bottom
+MAP({ 'n', 't' }, "<c-m-H>", "<cmd>wincmd H<cr>") -- far left
+MAP({ 'n', 't' }, "<c-m-L>", "<cmd>wincmd L<cr>") -- far right
+
+-- pane sizes
+MAP('n', "=", "<cmd>wincmd +<cr>")     -- height++
+MAP('n', "-", "<cmd>wincmd -<cr>")     -- height--
+MAP({'n', 't'}, "<c-->", "<cmd>wincmd ><cr>") -- width++
+MAP({'n', 't'}, "<c-=>", "<cmd>wincmd <<cr>") -- width--
+
+-- splits
+MAP('n', "<leader>n", vim.cmd.new)
+MAP('n', "<leader>vn", vim.cmd.vne)
+MAP('n', "<leader>hs", vim.cmd.split)
+MAP('n', "<leader>vs", vim.cmd.vsplit)
+
+-- wrap
+MAP('n', "||", function()
+    vim.wo.wrap = not vim.wo.wrap
+    if vim.wo.wrap then
+        print("wrap on")
+    else
+        print("wrap off")
+    end
+end)
+
+-- replace word, cd into bufdir
+MAP('n', "<leader>s", ":%s/\\<<c-r><c-w>\\>/<c-r><c-w>/gI<Left><Left><Left>")
+MAP('n', "<leader>cd", "<cmd>lua vim.cmd(\"cd \" .. BUFDIR())<cr>")
+
+-- open cwd in new
+MAP('n', "<leader>pt", function() -- terminal tab
+    os.execute("newtab " .. os.getenv("TERMINAL") .. " " .. BUFDIR())
+end)
+MAP('n', "<leader>pT", function() -- tmux window
+    os.execute("tmux new-window; cd " .. BUFDIR())
+end)
+
+-- chmod
+MAP('n', "<leader><leader>x", "<cmd>!chmod +x %<cr>")
+MAP('n', "<leader><leader>X", "<cmd>!chmod -x %<cr>")
+
+MAP('n', "<c-Space>w", "<cmd>lua Prose(true)<cr>")
+MAP('n', "<c-Space>W", "<cmd>lua Prose(false)<cr>")
+
+-- = format
+MAP('n', "<leader>=", function()
+    vim.cmd([[
+        let v = winsaveview()
+        normal ggVG=
+        call winrestview(v)
+    ]])
+end)
+
+-- source file
+MAP('n', "<leader>2", function()
+    if vim.bo.filetype == "lua" then
+        vim.cmd([[ so
+            normal zx
+            normal zR
+        ]]) -- stop folding
+    end
+end)
+
+-- color picker
+MAP({ 'n', 'v' }, "<leader>qp", ":lua os.execute(\"zenity --color-selection --color=#<c-r><c-w>\")<cr>",
+{ silent = true })
+
+-- build file
+MAP('n', "<F9>", function()
+    os.execute("buildfile " .. vim.api.nvim_buf_get_name(0))
 end)
 
 -- file stats
-MAP({"n"}, "<leader>4", function()
+MAP('n', "<leader>4", function()
     local count, lines = vim.fn.wordcount(), vim.api.nvim_buf_line_count(0)
-    vim.notify((lines .. " lines -- " .. count.words .. " words -- " .. count.chars .. " characters"), vim.log.levels.WARN)
-end)
-
--- build file
-MAP("n", "<F7>", function()
-    if vim.bo.filetype == 'c' then
-        vim.cmd(("!gcc -std=c18 file dotc -o file -lm"):gsub('file', BPATHX):gsub(' dotc', ".c"))
-    elseif vim.bo.filetype == "cpp" then
-        vim.cmd(("!g++ -Wall -std=c++17 -o file file dotp"):gsub('file', BPATHX):gsub(' dotp', ".cpp"))
-    else
-        vim.notify("invalid filetype", vim.log.levels.WARN)
-    end
+    vim.notify((lines .. " lines -- " ..
+        count.words .. " words -- " ..
+        count.chars .. " characters"
+    ), vim.log.levels.WARN)
 end)

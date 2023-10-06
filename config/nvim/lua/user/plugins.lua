@@ -1,145 +1,117 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
+        "git", "clone", "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable",
-        lazypath,
+        "--branch=stable", lazypath
     })
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.mapleader=" "
-
--- TODO: treesj, cinnamon.nvim
-
 require("lazy").setup({
-    ------------------------------------------ UTIL
-    -- startup
+    ----------------- UTIL-----------------
+    -- dash
     "mhinz/vim-startify",
 
-    -- nvimtree
-    { "nvim-tree/nvim-tree.lua", lazy = true },
+    "is0n/fm-nvim",
+    "nvim-tree/nvim-tree.lua",
 
-    -- comment
     "numToStr/Comment.nvim",
-
-    "tpope/vim-fugitive",-- git
-    "lewis6991/gitsigns.nvim",
-    { "sindrets/diffview.nvim", lazy = true },
-
-    "tpope/vim-surround", -- pairs
+    "kylechui/nvim-surround",
     "windwp/nvim-autopairs",
     "windwp/nvim-ts-autotag",
+    "lewis6991/spaceless.nvim",
 
-    "romainl/vim-cool", -- :noh
-    "mbbill/undotree",
-    "karb94/neoscroll.nvim", -- scroll
-    "akinsho/toggleterm.nvim",
+    "Wansmer/treesj",
+    { "mbbill/undotree", event = "VeryLazy" },
+    { "romainl/vim-cool", event = "VeryLazy" }, -- noh
+    { "andymass/vim-matchup", event = "VeryLazy" },
+    { "nvim-pack/nvim-spectre", event = "VeryLazy" }, -- search & replace
 
     "folke/zen-mode.nvim",
-    -- TODO: "folke/todo-comments.nvim",
+    "karb94/neoscroll.nvim",
+    "akinsho/toggleterm.nvim",
 
+    "chentoast/marks.nvim",
     "ThePrimeagen/harpoon",
-    -- TODO: "ThePrimeagen/refactoring.nvim",
 
-    { -- Telescope
-    	"nvim-telescope/telescope.nvim", version = "0.1.x",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "debugloop/telescope-undo.nvim",
-            { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-        },
+    { "tpope/vim-fugitive", event = "VeryLazy" },
+    { "sindrets/diffview.nvim", event = "VeryLazy" },
+    "lewis6991/gitsigns.nvim",
+
+    { -- telescope
+        "nvim-telescope/telescope.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" }
     },
 
     { -- debugging
         "mfussenegger/nvim-dap",
         dependencies = {
             "rcarriga/nvim-dap-ui",
-            "theHamsta/nvim-dap-virtual-text",
-        },
-        lazy = true,
+            "theHamsta/nvim-dap-virtual-text"
+        }
     },
 
     "folke/trouble.nvim",
 
-    -- {"subnut/nvim-ghost.nvim", module = false},
-    --[[ {
-        'glacambre/firenvim', build = function()
-            vim.fn['firenvim#install'](0)
-        end
-    }, ]]
+    ----------------- LSP -----------------
 
-    { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
-
-    -- render images
-    { "edluffy/hologram.nvim" },
-
-    --------------------------------------- LSP
     {
         "VonHeikemen/lsp-zero.nvim",
         dependencies = {
-            -- LSP Support
-            "neovim/nvim-lspconfig",             -- Required
-            "williamboman/mason.nvim",           -- Optional
-            "williamboman/mason-lspconfig.nvim", -- Optional
+            -- LSP support
+            "neovim/nvim-lspconfig",
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
 
-            -- Autocompletion
-            "hrsh7th/nvim-cmp",         -- Required
-            "hrsh7th/cmp-path",         -- Optional
-            "hrsh7th/cmp-buffer",       -- Optional
-            "hrsh7th/cmp-cmdline",      -- Optional
-            "hrsh7th/cmp-nvim-lsp",     -- Required
-            "hrsh7th/cmp-nvim-lua",     -- Optional
-
-            { -- Snippets
-                "L3MON4D3/LuaSnip", -- Required
+            { -- autocompletion
+                "hrsh7th/nvim-cmp",
                 dependencies = {
-                    "saadparwaiz1/cmp_luasnip", -- Optional
-                    "rafamadriz/friendly-snippets", -- Optional
+                    "hrsh7th/cmp-path",
+                    "hrsh7th/cmp-buffer",
+                    "hrsh7th/cmp-cmdline",
+                    "hrsh7th/cmp-nvim-lsp",
+                    "hrsh7th/cmp-nvim-lua"
+                }
+            },
+
+            { -- snippets
+                "L3MON4D3/LuaSnip",
+                dependencies = {
+                    "saadparwaiz1/cmp_luasnip",
+                    "rafamadriz/friendly-snippets"
                 }
             }
         }
     },
 
-    { -- Treesitter
+    { -- treesitter
         "nvim-treesitter/nvim-treesitter-context",
         dependencies = {
-            "nvim-treesitter/nvim-treesitter", build = ":TSUpdate",
+            "nvim-treesitter/nvim-treesitter", build = ":TSUpdate"
         }
     },
 
-    -- "rhysd/vim-grammarous"
+    ----------------- UI -----------------
 
-    -------------------------------------------- UI
+    "rebelot/kanagawa.nvim",
 
-    "sainnhe/gruvbox-material",
-
-    { "folke/tokyonight.nvim", branch = "main", lazy = true },
-
-    { "rose-pine/neovim", name = "rose-pine" },
-
-    -- color highlighter
-    "norcalli/nvim-colorizer.lua",
-
+    "seblj/nvim-tabline",
     "petertriho/nvim-scrollbar",
+    "norcalli/nvim-colorizer.lua",
     "lukas-reineke/indent-blankline.nvim",
 
     { -- status line
         "nvim-lualine/lualine.nvim",
-        dependencies = {
-            "kyazdani42/nvim-web-devicons"
-        }
-    },
+        dependencies = { "kyazdani42/nvim-web-devicons" }
+    }
 
-    --[[ {
-        "noib3/nvim-cokeline",
-        config = function()
-            require("cokeline").setup()
-        end
+},
+{
+    ui = {
+        border = "rounded",
+        title = " Plugins "
     },
-
-    {"akinsho/bufferline.nvim"}, ]]
+    install = { missing = false },
+    diff = { cmd = "diffview.nvim" }
 })

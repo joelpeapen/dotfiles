@@ -1,108 +1,93 @@
-set shell zsh
-set drawbox true
-set icons true
-set ignorecase true
-set shellopts '-euy'
-set ifs "\n"
-set preview true
-set hidden true
-set mouse true
-set number true
-set relativenumber true
-set tabstop 4
+# vim:filetype=conf
 
-# space @ top & bottom
+set shell zsh
+set shellopts '-euy'
+
+set mouse
+set icons
+set hidden
+set drawbox
+set dirfirst
+set dircounts
+set info size
+set ignorecase
+
+set number
+set relativenumber
+set cursorpreviewfmt "\033[7m"
+set promptfmt "\033[32m%u \033[34m%d\033[0m%f"
+
+set ifs "\n"
+set period 1
+set tabstop 4
 set scrolloff 10
 
-# Use the `dim` attribute instead of underline for the cursor in the preview pane
-set cursorpreviewfmt "\033[7;2m"
+set preview
+set cleaner ~/.config/lf/cleaner
+set previewer ~/.config/lf/previewer
 
-# --------MAPPINGS--------
+# -------------------- MAPPINGS --------------------
 
-# unbind
-map c
-map m
-map n
-map e
-map n
-map f
-map u
-map R
-map "'"
-map '"'
-map <enter>
-
-map <c-<enter> cd-into
 map <!> shell
-
-map zp toggle-preview
+map i $less -f "$f"
 
 map o open
 map E open
-map ee $$EDITOR "$f"
-map u $view "$f"
-
-map sl select "$f"
-
-map p paste
 map x cut
 map y copy
-map D delete
-map <delete> delete
+map p paste
+map P fcp
+map d delete
+map e rename
+map r :rename; cmd-end
+map b bulkmv
 
-map r rename
-map e rename-name
-map R bmv
+map af touch
+map ad mkdir
+map <a-n> newfold
+map al %ln -s $f "${f} link"
+
+map at zip
+map au extract
+
+map ae xplus
+map aE xminus
+map aH chmod
+
+map D select-dirs
+map F select-files
 
 map L bottom
 map R reload
-map C clear
-map U unselect
-map J :updir; set dironly true; down; set dironly false; open
-map K :updir; set dironly true; up; set dironly false; open
-
 map <a-k> half-up
 map <a-j> half-down
 map <a-f> scroll-up
 map <a-h> scroll-down
+map K :updir; set dironly true; up; set dironly false; open
+map J :updir; set dironly true; down; set dironly false; open
 
-map F fzf_jump
-map f fzf_search
+map \\ zi
+map sf filexplore
+map f fzf_jump
+map <a-s> fzf_file
+map <a-r> fzf_search
 
-# map C open_config
+map <a-t> kitty-tab
+map <a-T> tmux-tab
+map <c-z> $ kill -STOP $PPID
 
-# trash
-# map d trash
-map tc clear_trash
-map tr restore_trash
+map zp toggle-preview
 
-map ss stripspace
+map ~ cd ~
+map ` !true # previous cmds output
+map <a-p> hists
+map <esc> :read; cmd-escape
+map . :read; cmd-history-prev; cmd-enter
+map <f-2> $$EDITOR $XDG_CONFIG_HOME/lf/lfrc
 
-map af mkfile
-map mr sudomkfile
-map ad mkdir
-map ms $mkscript
-map ch chmod
+# -------------------- GENERAL --------------------
 
-# execute current file (must be executable)
-map <x> $$f
-map <X> !$f
-
-# Archive
-map az zip
-map at tar
-map ag targz
-map ab targz
-map au unarchive
-
-# -------FUNCTIONS--------
-
-cmd cd-into %{{
-    # set lfcd to $fs
-    # exit and cd into $lfcd
-}}
-
-# dynamically set number of columns
+# auto size column
 ${{
     w=$(tput cols)
     if [ $w -le 80 ]; then
@@ -114,7 +99,20 @@ ${{
     fi
 }}
 
-cmd toggle-preview %{{
+cmd on-cd &{{
+    zoxide add "$PWD"
+    lf -remote 'send reload'
+}}
+
+cmd on-select &{{
+    lf -remote "send $id :set statfmt \"$(exa -ld --color=always "$f" | sed 's/\/\w.*$//')\""
+}}
+
+cmd on-quit &{{
+    < ~/.local/share/lf/history | sort | uniq | tee > ~/.local/share/lf/hists
+}}
+
+cmd toggle-preview &{{
     if [ "$lf_preview" = "true" ]; then
         lf -remote "send $id :set preview false; set ratios 1:5"
     else
@@ -122,61 +120,58 @@ cmd toggle-preview %{{
     fi
 }}
 
+# -------------------- FILES --------------------
+
 cmd open ${{
-    case $(file --mime-type -Lb $f) in
-        text/markdown|x-markdown) glow "$f";;
+    case $(file --mime-type -Lb "$f") in
         text/*|application/json) $EDITOR "$f";;
-        *) xdg-open "$f" ;;
+        *) xdg-open "$f" &>/dev/null &;;
     esac
 }}
 
-cmd mkdir ${{
-    printf "Directory Name: "
+cmd fcp &{{
+    set -- $(cat ~/.local/share/lf/files)
+    mode="$1"
+    shift
+    case "$mode" in
+        copy) fcp "$@" "$PWD";;
+        move) mv -n "$@" .;;
+    esac
+    rm ~/.local/share/lf/files
+    lf -remote "send clear"
+}}
+
+cmd touch %{{
+    printf " File name: "
+    read file
+    touch $file
+    lf -remote "send $id select \"$file\""
+}}
+
+cmd mkdir %{{
+    printf " Folder name: "
+    read folder
+    mkdir $folder
+    lf -remote "send $id select \"$file\""
+}}
+
+cmd newfold %{{
+    set -f
+    printf " Folder name: "
+    read ned
+    mkdir -- "$ned"
+    mv -- $fx "$ned"
+}}
+
+cmd delete %{{
+    set -f
+    printf " delete? [y/n]: "
     read ans
-    mkdir $ans
-}}
-
-cmd mkfile ${{
-    printf "File Name: "
-    read ans
-    touch $ans
-}}
-
-cmd chmod ${{
-    printf "Mode Bits: "
-    read ans
-
-    for file in "$fx" do
-        chmod $ans $file
-    done
-
-    lf -remote 'send reload'
-}}
-
-cmd sudomkfile ${{
-    printf "File Name: "
-    read ans
-    sudo touch $ans
-}}
-
-# filename
-cmd rename ${{
-    filename="${f##*/}"
-    filename="$(printf '%q' "$filename")"
-    filename="${filename// /<space>}"
-    lf -remote "send $id push :rename<space>$filename"
-}}
-
-# filename w/o extension
-cmd rename-name ${{
-    filename="${f##*/}"
-    filename="$(printf '%q' "$filename")"
-    filename="${filename// /<space>}"
-    lf -remote "send $id push :rename<space>$filename<a-b><c-b>"
+    [ "$ans" = "y" ] && rm -rf $fx
 }}
 
 # bulk rename
-cmd bmv ${{
+cmd bulkmv ${{
     old="$(mktemp)"
     new="$(mktemp)"
     if [ -n "$fs" ]; then
@@ -184,13 +179,10 @@ cmd bmv ${{
     else
         fs="$(ls)"
     fi
-
     printf '%s\n' "$fs" >"$old"
     printf '%s\n' "$fs" >"$new"
     $EDITOR "$new"
-
     [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
-
     paste "$old" "$new" | while IFS= read -r names; do
         src="$(printf '%s' "$names" | cut -f1)"
         dst="$(printf '%s' "$names" | cut -f2)"
@@ -203,90 +195,119 @@ cmd bmv ${{
     lf -remote "send $id unselect"
 }}
 
-cmd delete ${{
-    set -f
-    printf "$fx\n"
-    printf "delete?[y/n]"
-    read ans
-    [ "$ans" = "y" ] && rm -rf $fx
+cmd select-files &{{
+    get_files() {
+        if [ "$lf_hidden" = 'false' ]; then
+            find "$PWD" -mindepth 1 -maxdepth 1 -type f -not -name '.*' -print0
+        else
+            find "$PWD" -mindepth 1 -maxdepth 1 -type f -print0
+        fi |
+        xargs -0 printf ' %q'
+    }
+    lf -remote "send $id :unselect; toggle $(get_files)"
 }}
 
-cmd trash ${{
-    files=$(printf "$fx" | tr '\n' ';')
-    while [ "$files" ]; do
-    # extract the substring from start of string up to delimiter.
-    # this is the first "element" of the string.
-    file=${files%%;*}
+cmd select-dirs &{{
+    get_dirs() {
+        if [ "$lf_hidden" = 'false' ]; then
+            find "$PWD" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -print0
+        else
+            find "$PWD" -mindepth 1 -maxdepth 1 -type d -print0
+        fi |
+        xargs -0 printf ' %q'
+    }
+    lf -remote "send $id :unselect; toggle $(get_dirs)"
+}}
 
-    trash-put "$(basename "$file")"
-    # if there's only one element left, set `files` to an empty string.
-    # this causes us to exit this `while` loop.
-    # else, we delete the first "element" of the string from files, and move onto the next.
-    if [ "$files" = "$file" ]; then
-      files=''
-    else
-      files="${files#*;}"
-    fi
+cmd zip ${{
+    printf "\033[2J\033[1;1H"
+    printf "1. tar\n2. targz\n3. tarbz2\n4. zip\n"
+    printf "\nEnter type: "
+    read ans
+    case $ans in
+        1) tar -cvf "$f.tar" "$fx";;
+        2) tar -cvzf "$f.tar.gz" "$fx";;
+        3) tar -cvjf "$f.tar.bz2" "$fx";;
+        4) zip -r "$f" "$fx";;
+    esac
+}}
+
+cmd extract &{{
+    set -f
+    for file in "$fx"; do
+        case "$file" in
+            *.tar) tar -xf "$file" -C "$PWD";;
+            *.zip) unzip "$file" -d "$PWD";;
+            *.rar) unrar x "$file" "$PWD";;
+            *.7z) 7z x "$file" -o "$PWD";;
+            *.tar.bz2) tar -xjvf "$file" -C "$PWD";;
+            *.tar.gz|*.tgz) tar -xzvf "$file" -C "$PWD";;
+            *.tar.xz|*.txz) tar -xJvf "$file" -C "$PWD";;
+        esac
     done
 }}
 
-cmd clear_trash %trash-empty
+# -------------------- PERMISSIONS --------------------
 
-cmd restore_trash ${{
-  trash-restore
+cmd xplus &{{
+    chmod 775 $fx
+    lf -remote 'send reload'
 }}
 
-cmd stripspace %stripspace "$f"
+cmd xminus &{{
+    chmod 664 $fx
+    lf -remote 'send reload'
+}}
+
+cmd chmod %{{
+    printf "Mode Bits: "
+    read ans
+    for file in "$fx"; do
+        chmod $ans $file
+    done
+    lf -remote 'send reload'
+}}
+
+# -------------------- NAV --------------------
+
+cmd tmux-tab &{{ tmux new-window; cd "$f" }}
+cmd kitty-tab &{{ kitty @launch --type=tab --cwd="$f" }}
+
+cmd filexplore &{{
+    nautilus file:"$PWD" &>/dev/null &;
+}}
+
+cmd hists ${{
+    a="$(< ~/.local/share/lf/hists | fzf --preview '')" || true
+    m="$(echo $a | cut -b 1)"
+    d="$(echo $a | cut -b 2- | sed 's/ //')"
+    if [[ "$a" && "$m" && "$d" ]]; then
+        lf -remote "send $id $m$d"
+    fi
+}}
+
+cmd zi ${{
+    folder="$(zoxide query -l | fzf --preview 'exa {} | bat' --height=~50%)" || true
+    lf -remote "send $id cd \"$folder\""
+}}
 
 cmd fzf_jump ${{
-    res="$(find . -maxdepth 3 | fzf --reverse --header='Jump to location')"
-    if [ -f "$res" ]; then
-        cmd="select"
-    elif [ -d "$res" ]; then
-        cmd="cd"
-    fi
-    lf -remote "send $id $cmd \"$res\""
+    folder="$(fd -t d -LH | fzf --preview 'exa -l {} | bat' --header='cd into …')" || true
+    lf -remote "send $id cd \"$folder\""
+}}
+
+cmd fzf_file ${{
+    file="$(fd -t f -LH | fzf --preview 'bat -r :500 {}' --header='files …')" || true
+    lf -remote "send $id select \"$file\""
 }}
 
 cmd fzf_search ${{
-    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-    res="$(
-        FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
-            fzf --bind "change:reload:$RG_PREFIX {q} || true" \
-            --ansi --layout=reverse --header 'Search in files' \
-            | cut -d':' -f1 | sed 's/\\/\\\\/g;s/"/\\"/g'
-    )"
-    [ -n "$res" ] && lf -remote "send $id select \"$res\""
+    c="rg --no-heading"
+    a="$(fzf --bind "change:reload:$c {q} || true" \
+         --ansi --preview '' --header 'Search in files')" || true
+    if [[ -n "$a" ]]; then
+        IFS=':' read -r file line char _ <<< "$a"
+        lf -remote "send $id select \"$file\""
+        "$EDITOR" "$file" +"$line" -c "norm ${char}lh"
+    fi
 }}
-
-cmd open_config  ${{
-  $EDITOR $(bookmenu -b ~/.config/bookmenu/configs -f fzf -o)
-}}
-
-# extract the current file with the right command
-# (xkcd link: https://xkcd.com/1168/)
-cmd extract ${{
-    set -f
-        case $f in
-        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
-    *.tar.gz|*.tgz) tar xzvf $f;;
-    *.tar.xz|*.txz) tar xJvf $f;;
-    *.zip) unzip $f;;
-    *.rar) unrar x $f;;
-    *.7z) 7z x $f;;
-    esac
-}}
-
-cmd unarchive ${{
-    case "$f" in
-        *.zip) unzip "$f" ;;
-        *.tar.gz) tar -xzvf "$f" ;;
-        *.tar.bz2) tar -xjvf "$f" ;;
-        *.tar) tar -xvf "$f" ;;
-        *) echo "Unsupported format" ;;
-    esac
-}}
-cmd zip %zip -r "$f" "$f"
-cmd tar %tar cvf "$f.tar" "$f"
-cmd targz %tar cvzf "$f.tar.gz" "$f"
-cmd tarbz2 %tar cjvf "$f.tar.bz2" "$f"
