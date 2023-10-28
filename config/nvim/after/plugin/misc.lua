@@ -57,7 +57,6 @@ require("nvim-surround").setup({
 })
 
 require("marks").setup()
-vim.g.matchup_matchparen_enabled = 0
 
 -- harpoon
 local ui = require("harpoon.ui")

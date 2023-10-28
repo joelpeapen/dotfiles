@@ -32,6 +32,25 @@ function is_in_path {
     command -v $1 &> /dev/null
 }
 
+# bulk rename
+function bulkmv {
+    old="$(mktemp)"
+    new="$(mktemp)"
+    [[ $1 ]] && f="$(ls -a)" || f="$(ls)"
+    printf '%b\n' "$f" > "$old" > "$new"
+    $EDITOR "$new"
+    [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
+    paste "$old" "$new" | while IFS= read -r names; do
+        src="$(printf '%s' "$names" | cut -f1)"
+        dst="$(printf '%s' "$names" | cut -f2)"
+        if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
+            continue
+        fi
+        mv -- "$src" "$dst"
+    done
+    rm -- "$old" "$new"
+}
+
 # f(filetype search replace)
 function sub {
     if [[ $1 == "-l" ]]; then
@@ -206,19 +225,27 @@ function gclone { git clone git@github.com:$1 }
 #----------------------------Websites----------------------------
 
 function duck {
-    s=$(gum choose url search)
+    s=$(gum choose url search apps)
     if [[ -n $s ]]; then
         if [[ $s == "url" ]]; then
             q=$(gum input --placeholder="url")
             url="$q"
-        else
+        elif [[ $s == "search" ]]; then
             q=$(gum input --placeholder="search")
-            url="https://duckduckgo.com/?q=${q}&t=canonical&ia=web"
+            url="duckduckgo.com/?q=${q}&t=canonical&ia=web"
+        else
+            s=$(gum choose yt git)
+            case $s in
+                yt) q=$(gum input --placeholder="youtube")
+                    url="youtube.com/results?search_query=${q}";;
+                git) q=$(gum input --placeholder="github")
+                    url="github.com/search?q=${q}";;
+            esac
         fi
-        if [[ -n $q ]]; then
-            firefox -private-window $url &>/dev/null &
-            disown %/opt/firefox/firefox
-        fi
+    fi
+    if [[ -n $q ]]; then
+        firefox -private-window $url &>/dev/null &
+        disown ${%$(which firefox)}
     fi
     zle reset-prompt
 }
@@ -341,7 +368,7 @@ function files {
 }
 
 function zz {
-    dir=$(zoxide query -l | fzf --preview 'exa {} | bat'\
+    dir=$(zoxide query -l | fzf --preview 'eza --color=always {} | bat'\
         --height=~50%)
     if [[ "$dir" ]]; then
         cd "$dir"
@@ -380,6 +407,7 @@ zle -N duck duck
 zle -N diff diff
 zle -N files files
 zle -N theme theme
+zle -N bulkmv bulkmv
 zle -N restart restart
 
 bindkey ',z' zz
@@ -388,4 +416,5 @@ bindkey ',s' duck
 bindkey ',4' diff
 bindkey ',e' files
 bindkey ',0' theme
+bindkey ',b' bulkmv
 bindkey ',r' restart

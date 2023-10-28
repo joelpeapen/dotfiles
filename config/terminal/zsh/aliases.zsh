@@ -1,11 +1,10 @@
 # files
-alias l='exa'
-alias la='exa -a'
-alias ll="exa -l"
-alias lr="exa -R"
-alias lla="exa -la"
+alias l='eza'
+alias la='eza -a'
+alias ll="eza -l"
+alias lr="eza -R"
+alias lla="eza -la"
 alias md="mkdir -p"
-alias ls='ls --color=auto --hyperlink=auto'
 alias pwd="pwd | sed 's/ /\\ /'"
 alias clearhist="rm ~/.zsh_history"
 
@@ -22,8 +21,9 @@ alias nano="nano -ESljmibq"
 alias grep="grep -i --color=auto"
 alias sdiff='sdiff -tr --color=always'
 alias diff='/usr/bin/diff -trp --color=always'
-alias tree='exa -aT'
-alias exa='exa -F --color=always --group-directories-first'
+alias tree='eza -aT'
+alias ls='ls --color=auto --hyperlink=auto --group-directories-first'
+alias eza='eza -F --hyperlink --color=always --group-directories-first'
 
 alias btop="bpytop"
 alias icat="kitty +kitten icat"

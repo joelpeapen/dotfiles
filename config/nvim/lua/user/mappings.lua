@@ -10,7 +10,7 @@ MAP('n', "<m-q>", function()
 end)
 
 -- netrw
-MAP('n', "<m-l>", function ()
+MAP('n', "<m-i>", function ()
     if vim.bo.filetype ~= "netrw" then
         vim.cmd("Ex")
     else
@@ -48,6 +48,8 @@ MAP('n', "<leader>11", "<cmd>q!<cr>")
 MAP('n', 'G', "Gzz")
 MAP('n', "<c-d>", "<c-d>zz")
 MAP('n', "<c-u>", "<c-u>zz")
+MAP('n', "<c-f>", "<c-f>zz")
+MAP('n', "<c-b>", "<c-b>zz")
 
 -- center cursor when search next instance
 MAP('n', 'n', "nzzzv")

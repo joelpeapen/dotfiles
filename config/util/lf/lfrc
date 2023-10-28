@@ -34,6 +34,7 @@ map i $less -f "$f"
 map o open
 map E open
 map x cut
+map X run
 map y copy
 map p paste
 map P fcp
@@ -105,7 +106,7 @@ cmd on-cd &{{
 }}
 
 cmd on-select &{{
-    lf -remote "send $id :set statfmt \"$(exa -ld --color=always "$f" | sed 's/\/\w.*$//')\""
+    lf -remote "send $id :set statfmt \"$(eza -ld --color=always "$f" | sed 's/\/\w.*$//')\""
 }}
 
 cmd on-quit &{{
@@ -128,6 +129,8 @@ cmd open ${{
         *) xdg-open "$f" &>/dev/null &;;
     esac
 }}
+
+cmd run &{{ lf -remote "send $id &$f" }}
 
 cmd fcp &{{
     set -- $(cat ~/.local/share/lf/files)
@@ -174,13 +177,8 @@ cmd delete %{{
 cmd bulkmv ${{
     old="$(mktemp)"
     new="$(mktemp)"
-    if [ -n "$fs" ]; then
-        fs="$(basename -a $fs)"
-    else
-        fs="$(ls)"
-    fi
-    printf '%s\n' "$fs" >"$old"
-    printf '%s\n' "$fs" >"$new"
+    [[ -n "$fs" ]] && fs="$(basename -a $fs)" || fs="$(ls -a)"
+    printf '%b\n' "$fs" > "$old" > "$new"
     $EDITOR "$new"
     [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
     paste "$old" "$new" | while IFS= read -r names; do
@@ -270,8 +268,21 @@ cmd chmod %{{
 
 # -------------------- NAV --------------------
 
-cmd tmux-tab &{{ tmux new-window; cd "$f" }}
-cmd kitty-tab &{{ kitty @launch --type=tab --cwd="$f" }}
+cmd tmux-tab &{{
+    case $(file --mime-type -Lb "$f") in
+        inode/directory) c="$f" ;;
+        *) c="$(dirname "$(readlink -f "$f")")";;
+    esac
+    tmux new-window; cd "$c"
+}}
+
+cmd kitty-tab &{{
+    case $(file --mime-type -Lb "$f") in
+        inode/directory) c="$f" ;;
+        *) c="$(dirname "$(readlink -f "$f")")";;
+    esac
+    kitty @launch --type=tab --cwd="$c"
+}}
 
 cmd filexplore &{{
     nautilus file:"$PWD" &>/dev/null &;
@@ -287,12 +298,12 @@ cmd hists ${{
 }}
 
 cmd zi ${{
-    folder="$(zoxide query -l | fzf --preview 'exa {} | bat' --height=~50%)" || true
+    folder="$(zoxide query -l | fzf --preview 'eza --color=always {} | bat' --height=~50%)" || true
     lf -remote "send $id cd \"$folder\""
 }}
 
 cmd fzf_jump ${{
-    folder="$(fd -t d -LH | fzf --preview 'exa -l {} | bat' --header='cd into …')" || true
+    folder="$(fd -t d -LH | fzf --preview 'eza -l --color=always {} | bat' --header='cd into …')" || true
     lf -remote "send $id cd \"$folder\""
 }}
 

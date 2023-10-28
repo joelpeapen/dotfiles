@@ -27,33 +27,45 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
+# files
+alias l='eza'
+alias la='eza -a'
+alias ll="eza -l"
+alias lr="eza -R"
+alias lla="eza -la"
 alias md="mkdir -p"
-alias ls='ls --color=auto'
-alias l='exa'
-alias la='exa -a'
-alias ll="exa -l"
-alias lr="exa -R"
-alias lla="exa -la"
+alias ls='ls --color=auto --hyperlink=auto --group-directories-first'
 alias pwd="pwd | sed 's/ /\\ /'"
 alias clearhist="rm ~/.zsh_history"
 
+# programs
 alias fd="fd -H"
-alias rg="rg -p"
+alias du="du -h"
 alias vim="nvim"
 alias sed="sed -E"
-alias btop="bpytop"
 alias echo="echo -e"
 alias less="less -R"
+alias wget="wget -c"
 alias open="xdg-open"
-alias python="python3.10"
 alias nano="nano -ESljmibq"
-alias icat="kitty +kitten icat"
 alias grep="grep -i --color=auto"
-alias connect="kitty +kitten ssh"
-alias firefox="/opt/firefox/firefox"
-alias code='code --proxy-server="192.168.13.2:3128"'
-alias exa='exa --color=always --group-directories-first'
-alias bat="bat --color=always --style=numbers --theme gruvbox-dark"
+alias sdiff='sdiff -tr --color=always'
+alias diff='/usr/bin/diff -trp --color=always'
+alias tree='eza -aT'
+alias eza='eza -F --hyperlink --color=always --group-directories-first'
+
+alias gcc="gcc -std=c18"
+alias g++="g++ -std=c++17"
+
+alias H='| head'
+alias T='| tail'
+alias G='| grep'
+alias L="| less"
+alias M="| most"
+alias LL="2>&1 | less"
+alias CA="2>&1 | cat -A"
+alias NE="2> /dev/null"
+alias NUL="&>/dev/null"
 
 # session
 alias :q="exit"
@@ -65,6 +77,11 @@ alias gcommit="git commit -v "
 alias kdiff="git difftool --no-symlinks --dir-diff"
 alias fcho="git for-each-ref --format='%(refname:short)' refs/heads |fzf|xargs git checkout"
 
+# XDG
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+
 export PATH=$HOME/.local/bin:$PATH
 export PLATFORM=$(uname)
 export TERMINAL=$(ps -p $PPID -o comm=)
@@ -73,21 +90,16 @@ export EDITOR="nvim"
 export BROWSER="firefox -private"
 export DOTDIR="$HOME/Documents/docs/dotfiles/mine"
 
-# XDG
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
+# plugins
 
 # fzf
 [ -f ~/.fzf.bash ] && source /home/joel/.fzf.bash
 export FZF_DEFAULT_COMMAND="fd -t d -c=auto -LH"
 export FZF_CTRL_T_COMMAND="fd -t f -c=auto -LH"
 export FZF_ALT_C_COMMAND=$FZF_DEFAULT_COMMAND
-export FZF_ALT_C_OPTS="--preview 'exa -l {} | bat'"
-export FZF_DEFAULT_OPTS="--preview 'bat\
-    --style numbers,changes\
-    --color=always\
-    --line-range=:500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza -l {} | bat'"
+export FZF_DEFAULT_OPTS="--preview 'bat -r :500 {}'\
+    --reverse --bind=tab:down,btab:up"
 
 eval "$(zoxide init bash)"
 eval "$(starship init bash)"
