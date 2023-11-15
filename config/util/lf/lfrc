@@ -155,7 +155,7 @@ cmd mkdir %{{
     printf " Folder name: "
     read folder
     mkdir $folder
-    lf -remote "send $id select \"$file\""
+    lf -remote "send $id select \"$folder\""
 }}
 
 cmd newfold %{{
