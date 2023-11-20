@@ -177,7 +177,7 @@ cmd delete %{{
 cmd bulkmv ${{
     old="$(mktemp)"
     new="$(mktemp)"
-    [[ -n "$fs" ]] && fs="$(basename -a $fs)" || fs="$(ls -a)"
+    [[ -n "$fs" ]] && fs="$(basename -a $fs)" || fs="$(ls)"
     printf '%b\n' "$fs" > "$old" > "$new"
     $EDITOR "$new"
     [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit

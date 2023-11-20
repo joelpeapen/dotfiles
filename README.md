@@ -15,7 +15,7 @@
 ### util
 
 - [lf](https://github.com/gokcehan/lf) file manager
-- [exa](https://the.exa.website) ls replacement
+- [eza](https://github.com/eza-community/eza) ls replacement
 - [tmux](https://github.com/tmux/tmux) multiplexer
 - [fzf](https://github.com/junegunn/fzf) fuzzy finder
 - [ripgrep](https://github.com/BurntSushi/ripgrep) grep

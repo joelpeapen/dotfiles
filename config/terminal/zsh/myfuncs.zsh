@@ -288,7 +288,7 @@ function convert-image {
 
 # f(file, to)
 function convert-video {
-    ffmpeg -loglevel warning -i $1 "${1%.*}.${2}"
+    ffmpeg -loglevel warning -i $1 -preset medium -codec:a copy "${1%.*}"_output.$2
     [[ $? == 0 ]] && pcol 32 "$1 --> $2\n"
 }
 

@@ -21,7 +21,6 @@ alias nano="nano -ESljmibq"
 alias grep="grep -i --color=auto"
 alias sdiff='sdiff -tr --color=always'
 alias diff='/usr/bin/diff -trp --color=always'
-alias tree='eza -T --icons'
 alias ls='ls --color=auto --hyperlink=auto --group-directories-first'
 alias eza='eza -F --hyperlink --color=always --group-directories-first'
 
