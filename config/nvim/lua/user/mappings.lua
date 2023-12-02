@@ -21,28 +21,30 @@ end)
 -- plugins
 MAP('n', "<c-Space>p", "<cmd>Lazy home<cr>")
 
--- select all
-MAP('n', "<m-a>", "ggVG")
-
--- insert mode movements
-MAP({ 'i', '!' }, "<m-h>", "<left>")
-MAP({ 'i', '!' }, "<m-l>", "<right>")
-MAP({ 'i', '!' }, "<m-k>", "<up>")
-MAP({ 'i', '!' }, "<m-j>", "<down>")
-MAP({ 'i', '!' }, "<m-b>", "<c-left>")
-MAP({ 'i', '!' }, "<m-f>", "<c-right>")
-MAP({ 'i', '!' }, "<c-d>", "<del>")
-MAP({ 'i', 'n', '!' }, "<m-cr>", "<end>")
-MAP('i', "<m-i>", "<esc>I")
-MAP('!', "<m-a>", "<home>")
-MAP('v', '<m-cr>', "g_")
-MAP('v', '$', "g_")
-
 -- write and quit
 MAP('n', "<leader>w", vim.cmd.w)
 MAP('n', "<leader>q", vim.cmd.q)
 MAP('n', "<leader>wq", vim.cmd.wq)
 MAP('n', "<leader>11", "<cmd>q!<cr>")
+
+-- select all
+MAP('n', "<m-a>", "ggVG")
+
+-- insert mode movements
+MAP('i', "<m-i>", "<esc>I")
+MAP({ 'i', '!' }, "<m-k>", "<up>")
+MAP({ 'i', '!' }, "<m-j>", "<down>")
+MAP({ 'i', '!' }, "<m-h>", "<left>")
+MAP({ 'i', '!' }, "<m-l>", "<right>")
+MAP({ 'i', '!' }, "<m-b>", "<c-left>")
+MAP({ 'i', '!' }, "<m-f>", "<c-right>")
+MAP({ 'i', '!' }, "<c-d>", "<del>")
+
+-- start/eol movement
+MAP('v', '$', "g_")
+MAP('v', '<m-cr>', "g_")
+MAP({ 'n', '!' }, "<m-s-cr>", "_")
+MAP({ 'i', 'n', '!' }, "<m-cr>", "<end>")
 
 -- center cursor on jumps
 MAP('n', 'G', "Gzz")

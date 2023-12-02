@@ -44,9 +44,7 @@ function bulkmv {
     paste "$old" "$new" | while IFS= read -r names; do
         src="$(printf '%s' "$names" | cut -f1)"
         dst="$(printf '%s' "$names" | cut -f2)"
-        if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
-            continue
-        fi
+        [ "$src" = "$dst" ] || [ -e "$dst" ] && continue
         mv -- "$src" "$dst"
     done
     rm -- "$old" "$new"
@@ -81,8 +79,8 @@ function stats {
 
 function compile {
     case ${1##*.} in
-        c) gcc -g -Wall -std=c18 "$1" -o "${1%.*}" -lm;;
-        cpp) g++ -g -Wall -std=c++17 "$1" -o "${1%.*}";;
+        c) gcc -g -Wall -std=c18 "$@" -o "${1%.*}" -lm;;
+        cpp) g++ -g -Wall -std=c++17 "$@" -o "${1%.*}";;
     esac
 }
 
@@ -309,7 +307,7 @@ function video-concat {
 function mslice {
     ss=$(( ${2%:*} * 60 + ${2#*:} ))
     to=$(( ${3%:*} * 60 + ${3#*:} ))
-    if [[ $4 ]]; then ext=$4 else ext=${1##*.} fi
+    [ $4 ] && ext=$4 || ext=${1##*.}
     ffmpeg -i $1 -ss $ss -to $to "${1%.*}"_x.$ext
     [[ $? == 0 ]] && pcol 32 "Extracted from $ss - $to\n"
 }
@@ -371,9 +369,7 @@ function files {
 function zz {
     dir=$(zoxide query -l | fzf --preview 'eza --color=always {} | bat'\
         --height=~50%)
-    if [[ "$dir" ]]; then
-        cd "$dir"
-    fi
+    [ -d "$dir" ] && cd "$dir"
     zle reset-prompt
 }
 
