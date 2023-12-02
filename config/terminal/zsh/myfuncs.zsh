@@ -20,6 +20,7 @@ function sync-dots {
     cp $XDG_CONFIG_HOME/starship.toml $DOTDIR/config/terminal/
     cp $XDG_CONFIG_HOME/fd/ignore $DOTDIR/config/util/fd/ignore
     cp $XDG_CONFIG_HOME/bat/config $DOTDIR/config/util/bat/config
+    cp $XDG_CONFIG_HOME/kmonad/config.kdb $DOTDIR/config/util/kmonad/
     cp $XDG_CONFIG_HOME/ripgrep/ripconf $DOTDIR/config/util/ripgrep/ripconf
     cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/terminal/kitty/
 
