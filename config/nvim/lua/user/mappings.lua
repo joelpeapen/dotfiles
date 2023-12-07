@@ -31,7 +31,6 @@ MAP('n', "<leader>11", "<cmd>q!<cr>")
 MAP('n', "<m-a>", "ggVG")
 
 -- insert mode movements
-MAP('i', "<m-i>", "<esc>I")
 MAP({ 'i', '!' }, "<m-k>", "<up>")
 MAP({ 'i', '!' }, "<m-j>", "<down>")
 MAP({ 'i', '!' }, "<m-h>", "<left>")
@@ -43,7 +42,8 @@ MAP({ 'i', '!' }, "<c-d>", "<del>")
 -- start/eol movement
 MAP('v', '$', "g_")
 MAP('v', '<m-cr>', "g_")
-MAP({ 'n', '!' }, "<m-s-cr>", "_")
+MAP('n', "<m-s-cr>", "_")
+MAP('i', "<m-s-cr>", "<esc>I")
 MAP({ 'i', 'n', '!' }, "<m-cr>", "<end>")
 
 -- center cursor on jumps
