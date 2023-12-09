@@ -48,8 +48,8 @@ map ad mkdir
 map <a-n> newfold
 map al %ln -s $f "${f} link"
 
-map at zip
-map au extract
+map au zip
+map aU extract
 
 map ae xplus
 map aE xminus
@@ -219,15 +219,18 @@ cmd select-dirs &{{
 
 cmd zip ${{
     printf "\033[2J\033[1;1H"
-    printf "1. tar\n2. targz\n3. tarbz2\n4. zip\n"
+    printf "1. tar\n2. tar.gz\n3. tar.bz2\n4. zip\n"
     printf "\nEnter type: "
     read ans
+    printf "\nEnter name: "
+    read n
     case $ans in
-        1) tar -cvf "$f.tar" "$fx";;
-        2) tar -cvzf "$f.tar.gz" "$fx";;
-        3) tar -cvjf "$f.tar.bz2" "$fx";;
-        4) zip -r "$f" "$fx";;
+        1) tar -cvf "$n.tar" $fx; t=tar;;
+        2) tar -cvzf "$n.tar.gz" $fx; t=tar.gz;;
+        3) tar -cvjf "$n.tar.bz2" $fx; t=tar.bz2;;
+        4) zip -r "$n" $fx; t=zip;;
     esac
+    lf -remote "send $id select \"$n.$t\""
 }}
 
 cmd extract &{{
