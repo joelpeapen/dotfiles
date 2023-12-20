@@ -14,8 +14,8 @@ export FZF_CTRL_T_COMMAND="fd -t f -LH"
 export FZF_ALT_C_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_R_OPTS="--preview ''"
 export FZF_ALT_C_OPTS="--preview 'eza -l --color=always {} | bat'"
-export FZF_DEFAULT_OPTS="--preview 'bat -r :500 {}'\
-    --reverse --bind=tab:down,btab:up"
+export FZF_DEFAULT_OPTS="--preview 'bat -r :500 {}' \
+--reverse --bind=tab:down,btab:up"
 
 bindkey '\es' fzf-file-widget
 
