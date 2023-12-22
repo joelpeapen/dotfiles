@@ -10,7 +10,7 @@ MAP('n', "<c-/>", "<Plug>(comment_toggle_linewise_current)")
 MAP('v', "<c-/>", "<Plug>(comment_toggle_linewise_visual)")
 
 require("nvim-autopairs").setup({
-    ignored_next_char = "[%w%.%'%\"%{]",
+    ignored_next_char = "[%w%.%'%\"%[%{]",
     fast_wrap = {
         map = "<m-\\>",
         chars = { '{', '[', '(', '"', "'", '<', '`' },
