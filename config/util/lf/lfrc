@@ -246,6 +246,8 @@ cmd extract &{{
             *.tar.xz|*.txz) tar -xJvf "$file" -C "$PWD";;
         esac
     done
+    lf -remote "send reload"
+    lf -remote "send $id select ${file%%.*}"
 }}
 
 # -------------------- PERMISSIONS --------------------
