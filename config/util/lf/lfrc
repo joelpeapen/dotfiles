@@ -57,6 +57,7 @@ map aH chmod
 
 map D select-dirs
 map F select-files
+map <c-s> select-ft
 
 map L bottom
 map R reload
@@ -145,14 +146,14 @@ cmd fcp &{{
 }}
 
 cmd touch %{{
-    printf " File name: "
+    printf " file name: "
     read file
     touch $file
     lf -remote "send $id select \"$file\""
 }}
 
 cmd mkdir %{{
-    printf " Folder name: "
+    printf " folder name: "
     read folder
     mkdir $folder
     lf -remote "send $id select \"$folder\""
@@ -160,7 +161,7 @@ cmd mkdir %{{
 
 cmd newfold %{{
     set -f
-    printf " Folder name: "
+    printf " folder name: "
     read ned
     mkdir -- "$ned"
     mv -- $fx "$ned"
@@ -195,10 +196,10 @@ cmd bulkmv ${{
 
 cmd select-files &{{
     get_files() {
-        if [ "$lf_hidden" = 'false' ]; then
-            find "$PWD" -mindepth 1 -maxdepth 1 -type f -not -name '.*' -print0
+        if [ "$lf_hidden" = 'true' ]; then
+            find . -mindepth 1 -maxdepth 1 -type f -print0
         else
-            find "$PWD" -mindepth 1 -maxdepth 1 -type f -print0
+            find . -mindepth 1 -maxdepth 1 -type f -not -name '.*' -print0
         fi |
         xargs -0 printf ' %q'
     }
@@ -207,14 +208,28 @@ cmd select-files &{{
 
 cmd select-dirs &{{
     get_dirs() {
-        if [ "$lf_hidden" = 'false' ]; then
-            find "$PWD" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -print0
+        if [ "$lf_hidden" = 'true' ]; then
+            find . -maxdepth 1 -type d -print0
         else
-            find "$PWD" -mindepth 1 -maxdepth 1 -type d -print0
+            find . -maxdepth 1 -type d -not -name '.*' -print0
         fi |
         xargs -0 printf ' %q'
     }
     lf -remote "send $id :unselect; toggle $(get_dirs)"
+}}
+
+cmd select-ft %{{
+    printf " filetype: "; read ft
+    arr=('*''.'"$ft")
+    get_ft() {
+        if [ "$lf_hidden" = 'true' ]; then
+            find . -maxdepth 1 -type f -name "${arr[@]}" -print0
+        else
+            find . -maxdepth 1 -type f -name "${arr[@]}" -not -path '*/.*' -print0
+        fi |
+        xargs -0 printf ' %q'
+    }
+    lf -remote "send $id :unselect; toggle $(get_ft)"
 }}
 
 cmd zip ${{
