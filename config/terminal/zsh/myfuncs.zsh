@@ -40,11 +40,11 @@ function bulkmv {
     [[ $1 ]] && f="$(ls -a)" || f="$(ls)"
     printf '%b\n' "$f" > "$old" > "$new"
     $EDITOR "$new"
-    [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
+    [[ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ]] && exit
     paste "$old" "$new" | while IFS= read -r names; do
         src="$(printf '%s' "$names" | cut -f1)"
         dst="$(printf '%s' "$names" | cut -f2)"
-        [ "$src" = "$dst" ] || [ -e "$dst" ] && continue
+        [[ "$src" = "$dst" ]] || [[ -e "$dst" ]] && continue
         mv -- "$src" "$dst"
     done
     rm -- "$old" "$new"
@@ -72,7 +72,7 @@ function mvd {
 function stats {
     for a in *; do
         s=$(stat "$a" | tail -n4 | sed 's/\.\w+ \+\w+//g')
-        pcol 34 4 "$a\n"
+        pcol 34 4 1 "$a\n"
         pcol "$s\n"
     done
 }
@@ -169,10 +169,10 @@ function rgf {
 function agstring {
     local preview_cmd
     cmd="echo {} | sed 's/:.*//' | xargs -I% highlight -O ansi -l % 2> /dev/null"
-    if [ "$1" != "" ]; then
+    if [[ "$1" != "" ]]; then
         ag "$1" | fzf --preview="$preview_cmd"
     else
-        echo "Enter a search string"
+        pcol 31 1 "Enter a search string"
     fi
     return 0
 }
@@ -181,7 +181,7 @@ function agstring {
 function codelines {
     local files=$(grep -c -v --recursive "^$" "$1"/**/*."$2")
     echo $files
-    echo "total:" $(echo $files | sed 's/.*://' | paste -sd+ | bc)
+    pcol 34 1 "total: $(echo $files | sed 's/.*://' | paste -sd+ | bc)"
 }
 
 #----------------------------Git----------------------------
@@ -199,7 +199,7 @@ function gcom {
     # get added and modified filenames
     files=($(git status --short | grep "^A\|\sM" | cut -c 4-))
     if [[ -z "$files" ]]; then
-      echo "nothing to commit, working directory clean"
+        echo "nothing to commit, working directory clean"
     else
 
     # select file to commit through fzf and preview window with diff
@@ -211,7 +211,7 @@ function gcom {
 
 function gitpuller {
     for f in *; do
-        if [ -d $f  -a ! -h $f ]; then
+        if [ -d $f -a ! -h $f ]; then
             cd -- "$f"
             git pull
             cd ..
@@ -279,37 +279,44 @@ function convert-image {
         elif [[ $3 == 'f' ]]; then
             ffmpeg -loglevel panic -i $1 "${1%.*}.${2}"
         fi
-        [[ $? == 0 ]] && pcol 32 "$1 --> $2\n"
+        [[ $? == 0 ]] && pcol 32 1 "$1 --> $2\n"
     else
         echo "f(file to how)"
     fi
 }
 
 # f(file, to)
-function convert-video {
-    ffmpeg -loglevel warning -i $1 -preset medium -codec:a copy "${1%.*}"_output.$2
-    [[ $? == 0 ]] && pcol 32 "$1 --> $2\n"
-}
-
-# concat files from list
-function video-concat {
-    if [[ $1 ]]; then
-        for file in *.mp4; do
-            echo "file $file" >> list.txt
-        done
-    fi
-    ffmpeg -f concat -safe 0 -i list.txt -c copy $1.mp4
-    pcol 31 "Delete list? "; read yn
-    [[ $yn == 'y' ]] && rm list.txt
+function mconvert {
+    case ${1##*.} in
+        mp3|m4a|aac|flac|ogg|wav) ffmpeg -loglevel warning -i $1 "${1%.*}"_output.$2;;
+        mp4|mkv|mov|ogv|webm) ffmpeg -loglevel warning -i $1 -preset medium -c:a copy "${1%.*}"_output.$2;;
+    esac
+    [[ $? == 0 ]] && pcol 32 1 "$1 --> $2\n"
 }
 
 # f(file, from, till, [format])
 function mslice {
     ss=$(( ${2%:*} * 60 + ${2#*:} ))
     to=$(( ${3%:*} * 60 + ${3#*:} ))
-    [ $4 ] && ext=$4 || ext=${1##*.}
-    ffmpeg -i $1 -ss $ss -to $to "${1%.*}"_x.$ext
-    [[ $? == 0 ]] && pcol 32 "Extracted from $ss - $to\n"
+    [[ $4 ]] && ext=$4 || ext=${1##*.}
+    ffmpeg -loglevel warning -i $1 -ss $ss -to $to "${1%.*}"_x.$ext
+    [[ $? == 0 ]] && pcol 32 1 "Extracted $2 - $3 ($1)\n"
+}
+
+# f(from, type)
+function mconcat {
+    pcol 34 1 "make list of all ${1}s in dir? "; read yn
+    if [[ $yn == 'y' ]]; then
+        true > list.txt
+        for file in *.$1; do
+            echo "file '$file'" >> list.txt
+        done
+        list=list.txt
+    else
+        list=$(fd -t f -e "txt" | fzf)
+    fi
+    ffmpeg -f concat -safe 0 -i "$list" -c copy concat.$2
+    [[ $? == 0 ]] && pcol 32 1 "success"
 }
 
 # f(img, audio)
@@ -318,28 +325,27 @@ function audio-overlay {
         -c:v libx264 -tune stillimage\
         -c:a aac -b:a 192k -pix_fmt yuv420p\
         -shortest "${1%.*}"_audio.mp4
+    [[ $? == 0 ]] && pcol 32 1 "success"
 }
 
 function ocr {
-    pcol 34 "> OCR on $1\n"
-    ocrmypdf $1 "${1%.*}-OCR.pdf"
+    pcol 34 1 "> OCR on $1\n"
+    ocrmypdf $1 "${1%.*}_OCR.pdf"
     if [[ $? == 0 ]]; then
-        pcol 32 "> $1 OCRed successfully\n"
+        pcol 32 1 "> $1 OCR successful\n"
         mv $1 $HOME/Documents
-        pcol 34 "> original moved to HOME/Documents\n"
+        pcol 34 1 "> original files moved to Documents\n"
     fi
 }
 
 # f(from, to, how)
 function screenshots {
-    if [[ $1 == $2 ]]; then
-        pcol 31 "same file type\n" && return 1
-    elif [[ "$3" ]]; then
+    if [[ "$3" ]]; then
         echo "$3"; i="$3"
     elif is_in_path gum; then
         i=$(gum choose high low)
     else
-        pcol 34 "Use high or low [i/f]? "
+        pcol 34 1 "Use high or low [i/f]? "
         read -r i
     fi
     for f in *.$1; do
@@ -351,7 +357,7 @@ function screenshots {
     sub -l $2 "Screenshot from "
     sub -l $2 " " "_"
     mv *.$1 /tmp/
-    pcol 34 "old files moved to /tmp"
+    pcol 34 1 "old files moved to /tmp"
 }
 
 #----------------------------zsh----------------------------
@@ -369,7 +375,7 @@ function files {
 function zz {
     dir=$(zoxide query -l | fzf --preview 'eza --color=always {} | bat'\
         --height=~50%)
-    [ -d "$dir" ] && cd "$dir"
+    [[ -d "$dir" ]] && cd "$dir"
     zle reset-prompt
 }
 
