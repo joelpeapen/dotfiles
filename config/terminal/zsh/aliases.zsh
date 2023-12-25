@@ -24,7 +24,6 @@ alias diff='/usr/bin/diff -trp --color=always'
 alias ls='ls --color=auto --hyperlink=auto --group-directories-first'
 alias eza='eza -F --hyperlink --color=always --group-directories-first'
 
-alias btop="bpytop"
 alias icat="kitty +kitten icat"
 alias python="python3.10"
 alias connect="kitty +kitten ssh"
