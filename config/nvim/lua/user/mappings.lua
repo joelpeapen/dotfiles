@@ -41,10 +41,11 @@ MAP({ 'i', '!' }, "<c-d>", "<del>")
 
 -- start/eol movement
 MAP('v', '$', "g_")
-MAP('v', '<m-cr>', "g_")
-MAP('n', "<m-s-cr>", "_")
+MAP({'v', 'n'}, '<m-cr>', "g_")
+MAP({'i', '!'}, "<m-cr>", "<end>")
 MAP('i', "<m-s-cr>", "<esc>I")
-MAP({ 'i', 'n', '!' }, "<m-cr>", "<end>")
+MAP('!', "<m-s-cr>", "<home>")
+MAP({ 'n', 'v' }, "<m-s-cr>", "_")
 
 -- center cursor on jumps
 MAP('n', 'G', "Gzz")
