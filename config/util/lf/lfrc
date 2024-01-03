@@ -57,7 +57,22 @@ map aH chmod
 
 map D select-dirs
 map F select-files
-map <c-s> select-ft
+map <a-b> select-ft
+map <a-c> select-pt
+
+map \\ zi
+map ~ cd ~
+map f fzf_jump
+map <a-s> fzf_file
+map <a-r> fzf_search
+map <a-e> filexplore
+
+map <a-p> hists
+map <a-t> kitty-tab
+map <a-T> tmux-tab
+map <c-z> $ kill -STOP $PPID
+
+map zp toggle-preview
 
 map L bottom
 map R reload
@@ -68,21 +83,7 @@ map <a-h> scroll-down
 map K :updir; set dironly true; up; set dironly false; open
 map J :updir; set dironly true; down; set dironly false; open
 
-map \\ zi
-map sf filexplore
-map f fzf_jump
-map <a-s> fzf_file
-map <a-r> fzf_search
-
-map <a-t> kitty-tab
-map <a-T> tmux-tab
-map <c-z> $ kill -STOP $PPID
-
-map zp toggle-preview
-
-map ~ cd ~
 map ` !true # previous cmds output
-map <a-p> hists
 map <esc> :read; cmd-escape
 map . :read; cmd-history-prev; cmd-enter
 map <f-2> $$EDITOR $XDG_CONFIG_HOME/lf/lfrc
@@ -230,6 +231,20 @@ cmd select-ft %{{
         xargs -0 printf ' %q'
     }
     lf -remote "send $id :unselect; toggle $(get_ft)"
+}}
+
+cmd select-pt %{{
+    printf " pattern: "; read pt
+    arr=('.''*'"$pt"'.''*')
+    get_pt() {
+        if [ "$lf_hidden" = 'true' ]; then
+            find . -maxdepth 1 -regex "${arr[@]}" -print0
+        else
+            find . -maxdepth 1 -regex "${arr[@]}" -not -name '.*' -print0
+        fi |
+        xargs -0 printf ' %q'
+    }
+    lf -remote "send $id :unselect; toggle $(get_pt)"
 }}
 
 cmd zip ${{
