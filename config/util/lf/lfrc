@@ -55,6 +55,7 @@ map ae xplus
 map aE xminus
 map aH chmod
 
+map V invert-below
 map D select-dirs
 map F select-files
 map <a-b> select-ft
