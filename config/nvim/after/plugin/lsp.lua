@@ -51,8 +51,6 @@ cmp.setup.cmdline('/', {
     sources = ({ { name = "buffer" } })
 })
 
-lsp.nvim_workspace()
-
 lsp.on_attach(function(client, bufnr)
     local lmap = function(mode, key, func, desc)
         vim.keymap.set(mode, key, func, { buffer = bufnr, desc = desc })
@@ -66,17 +64,24 @@ lsp.on_attach(function(client, bufnr)
     lmap('n', "<leader>ws", vim.lsp.buf.workspace_symbol, "lsp: workspace symbol")
 end)
 
-lsp.setup()
-
 vim.diagnostic.config({
     float = true,
     severity_sort = true
 })
 
-require("trouble").setup()
-MAP('n', "<leader>xx", vim.cmd.TroubleToggle)
-MAP('n', "<leader>wx", "<cmd>TroubleToggle workspace_diagnostics<cr>")
-MAP('n', "<leader>dx", "<cmd>TroubleToggle document_diagnostics<cr>")
-MAP('n', "<leader>xq", "<cmd>TroubleToggle quickfix<cr>")
-MAP('n', "<leader>xl", "<cmd>TroubleToggle loclist<cr>")
-MAP('n', "<leader>gR", "<cmd>TroubleToggle lsp_references<cr>")
+local trouble  = require("trouble")
+MAP('n', "<leader>tt", vim.cmd.TroubleToggle)
+MAP('n', "<leader>tw", "<cmd>TroubleToggle workspace_diagnostics<cr>")
+MAP('n', "<leader>td", "<cmd>TroubleToggle document_diagnostics<cr>")
+MAP('n', "<leader>tr", "<cmd>TroubleToggle lsp_references<cr>") -- better than builtin lookup
+
+MAP('n', "<leader>tn", function()
+    trouble.next({ skip_groups = true, jump = true })
+end)
+MAP('n', "<leader>tp", function()
+    trouble.previous({ skip_groups = true, jump = true })
+end)
+
+lsp.setup()
+trouble.setup()
+lsp.nvim_workspace()

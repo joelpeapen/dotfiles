@@ -44,8 +44,6 @@ require("ibl").setup({
     }
 })
 
-MAP('n', "<m-S>", vim.cmd.TSJSplit)
-MAP('n', "<m-J>", vim.cmd.TSJJoin)
 MAP('n', "<m-M>", vim.cmd.TSJToggle)
 require("treesj").setup({ use_default_keymaps = false })
 
@@ -63,10 +61,10 @@ local ui = require("harpoon.ui")
 local mark = require("harpoon.mark")
 MAP('n', "<m-r>", mark.add_file)
 MAP('n', "<m-v>", ui.toggle_quick_menu)
-MAP('n', "<leader>!", function() ui.nav_file(1) end)
-MAP('n', "<leader>@", function() ui.nav_file(2) end)
-MAP('n', "<leader>#", function() ui.nav_file(3) end)
-MAP('n', "<leader>$", function() ui.nav_file(4) end)
+MAP('n', "<m-H>", function() ui.nav_file(1) end)
+MAP('n', "<m-J>", function() ui.nav_file(2) end)
+MAP('n', "<m-K>", function() ui.nav_file(3) end)
+MAP('n', "<m-L>", function() ui.nav_file(4) end)
 require("harpoon").setup({
     save_on_toggle = true,
     menu = { width = vim.api.nvim_win_get_width(0) - 4 }
