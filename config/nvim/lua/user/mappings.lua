@@ -166,9 +166,11 @@ MAP('n', "<leader>2", function()
     end
 end)
 
--- color picker
-MAP({ 'n', 'v' }, "<leader>qp", ":lua os.execute(\"zenity --color-selection --color=#<c-r><c-w>\")<cr>",
-{ silent = true })
+-- color picker. will be deprecated eventually
+MAP({ 'n', 'v' }, "<leader>qp", function()
+    local color = vim.fn.expand("<cWORD>")
+    os.execute("zenity --color-selection --color=" .. color)
+end)
 
 -- build file
 MAP('n', "<F9>", function()
