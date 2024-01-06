@@ -26,37 +26,28 @@ telescope.setup({
     }
 })
 
-MAP('n', "<leader><leader>f", builtin.fd)
+-- find files
+MAP('n', "<leader><leader>f", builtin.fd) -- vim dir
 MAP('n', "<leader>f", function()
     builtin.fd({ cwd = BUFDIR() })
 end)
+
+-- search
 MAP('n', "<m-F>", builtin.current_buffer_fuzzy_find)
 MAP('n', "<m-V>", "<cmd>Telescope harpoon marks<cr>")
 
--- buffers
-MAP('n', "<leader>3", function()
-    builtin.buffers {
-        attach_mappings = function(prompt_bufnr, map)
-            local delete_buf = function()
-                local selection = action_state.get_selected_entry()
-                actions.close(prompt_bufnr)
-                vim.api.nvim_buf_delete(selection.bufnr, { force = true })
-            end
-            map('n', 'u', delete_buf)
-            return true
-        end
-    }
+-- grep
+MAP('n', "<leader>ls", builtin.grep_string)
+MAP('n', "<leader>lIs", function() -- more of current word
+    local word = vim.fn.expand("<cWORD>")
+    builtin.grep_string({ search = word })
 end)
-
-MAP('n', "<leader>lG", builtin.live_grep)
+MAP('n', "<leader>lG", builtin.live_grep) -- vim dir
 MAP('n', "<leader>lg", function()
     builtin.live_grep({ cwd = BUFDIR() })
 end)
-MAP('n', "<leader>li", function()
-    builtin.grep_string({
-        cwd = BUFDIR(),
-        search = vim.fn.input("live grep > ")
-    })
+MAP('n', "<leader>lv", function()
+    builtin.grep_string({ search = vim.fn.input("grep > ") })
 end)
 
 MAP('n', "<leader>pf", builtin.git_files)
@@ -72,6 +63,21 @@ MAP('n', "<leader>tm", builtin.man_pages)
 MAP('n', "<leader>td", builtin.diagnostics)
 MAP('n', "<leader>cs", builtin.spell_suggest)
 MAP('n', "<c-Space>t", builtin.colorscheme)
+
+-- buffers
+MAP('n', "<leader>3", function()
+    builtin.buffers {
+        attach_mappings = function(prompt_bufnr, map)
+            local delete_buf = function()
+                local selection = action_state.get_selected_entry()
+                actions.close(prompt_bufnr)
+                vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+            end
+            map('n', 'u', delete_buf)
+            return true
+        end
+    }
+end)
 
 -- places
 MAP('n', "<leader>6", function()
