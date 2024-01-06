@@ -20,7 +20,6 @@ require("lazy").setup({
     "kylechui/nvim-surround",
     "windwp/nvim-autopairs",
     "windwp/nvim-ts-autotag",
-    "lewis6991/spaceless.nvim",
 
     "Wansmer/treesj",
     { "mbbill/undotree", event = "VeryLazy" },

@@ -60,8 +60,11 @@ vim.g.markdown_folding = 1
 vim.opt.foldmethod = "expr"
 vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
-local folds = vim.api.nvim_create_augroup("folds", { clear = true })
-vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
+
+local folds = augroup("folds", {})
+autocmd({ "BufReadPost" }, {
     group = folds,
     callback = function()
         vim.cmd([[normal zx
@@ -69,14 +72,22 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
     end
 })
 
-local texts = vim.api.nvim_create_augroup("texts", { clear = true })
-vim.api.nvim_create_autocmd({ "Filetype" }, {
+local texts = augroup("texts", {})
+autocmd({ "Filetype" }, {
     group = texts,
     pattern = { "markdown", "text" },
     callback = function()
         vim.wo.wrap = true
         vim.opt_local.textwidth = 80
     end
+})
+
+-- remove trailing spaces
+local spaceGroup = augroup("spaceless", {})
+autocmd({"BufWritePre"}, {
+    group = spaceGroup,
+    pattern = "*",
+    command = [[%s/\s\+$//e]]
 })
 
 -- nice

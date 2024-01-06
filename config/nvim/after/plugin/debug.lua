@@ -59,7 +59,7 @@ MAP('n', "<leader>ds", function()
     widgets.centered_float(widgets.scopes)
 end)
 
-local dapclose = vim.api.nvim_create_augroup("dapclose", { clear = true })
+local dapclose = vim.api.nvim_create_augroup("dapclose", {})
 vim.api.nvim_create_autocmd({ "Filetype" }, {
     pattern = "dap-float",
     group = dapclose,
