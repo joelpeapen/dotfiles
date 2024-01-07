@@ -63,18 +63,17 @@ vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
-local folds = augroup("folds", {})
+local auGroups = augroup("mine", {})
 autocmd({ "BufReadPost" }, {
-    group = folds,
+    group = auGroups,
     callback = function()
         vim.cmd([[normal zx
         normal zR]])
     end
 })
 
-local texts = augroup("texts", {})
 autocmd({ "Filetype" }, {
-    group = texts,
+    group = auGroups,
     pattern = { "markdown", "text" },
     callback = function()
         vim.wo.wrap = true
@@ -83,9 +82,8 @@ autocmd({ "Filetype" }, {
 })
 
 -- remove trailing spaces
-local spaceGroup = augroup("spaceless", {})
 autocmd({"BufWritePre"}, {
-    group = spaceGroup,
+    group = auGroups,
     pattern = "*",
     command = [[%s/\s\+$//e]]
 })

@@ -27,6 +27,10 @@ require("nvim-treesitter.configs").setup({
                 goto_previous_usage = "]g",
                 list_definitions_toc = "g0"
             }
+        },
+        smart_rename = {
+            enable = true,
+            keymaps = { smart_rename = "<leader>R" }
         }
     },
     textobjects = {
