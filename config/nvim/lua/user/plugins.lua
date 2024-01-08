@@ -14,7 +14,6 @@ require("lazy").setup({
     "mhinz/vim-startify",
 
     "is0n/fm-nvim",
-    "nvim-tree/nvim-tree.lua",
 
     "numToStr/Comment.nvim",
     "kylechui/nvim-surround",
