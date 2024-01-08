@@ -1,14 +1,16 @@
 local telescope = require("telescope")
 local builtin = require("telescope.builtin")
 local actions = require("telescope.actions")
-local action_state = require("telescope.actions.state")
 
 telescope.setup({
     defaults = {
         prompt_prefix = "❯ ",
         selection_caret = "❯ ",
         layout_strategy = "flex",
-        sorting_strategy = "ascending"
+        sorting_strategy = "ascending",
+        mappings = {
+            n = { ['u'] = actions.delete_buffer }
+        }
     },
     pickers = {
         fd = {
@@ -42,12 +44,13 @@ MAP('n', "<leader>lIs", function() -- more of current word
     local word = vim.fn.expand("<cWORD>")
     builtin.grep_string({ search = word })
 end)
+MAP('n', "<leader>lv", function()
+    builtin.grep_string({ search = vim.fn.input("grep > ") })
+end)
+
 MAP('n', "<leader>lG", builtin.live_grep) -- vim dir
 MAP('n', "<leader>lg", function()
     builtin.live_grep({ cwd = BUFDIR() })
-end)
-MAP('n', "<leader>lv", function()
-    builtin.grep_string({ search = vim.fn.input("grep > ") })
 end)
 
 MAP('n', "<leader>pf", builtin.git_files)
@@ -56,28 +59,13 @@ MAP('n', "<leader>pc", builtin.git_commits)
 MAP('n', "<leader>pb", builtin.git_branches)
 
 MAP('n', "<m-p>", builtin.commands)
+MAP('n', "<leader>3", builtin.buffers)
 MAP('n', "<leader>tk", builtin.keymaps)
 MAP('n', "<leader>of", builtin.oldfiles)
 MAP('n', "<leader>th", builtin.help_tags)
 MAP('n', "<leader>tm", builtin.man_pages)
-MAP('n', "<leader>td", builtin.diagnostics)
 MAP('n', "<leader>cs", builtin.spell_suggest)
 MAP('n', "<c-Space>t", builtin.colorscheme)
-
--- buffers
-MAP('n', "<leader>3", function()
-    builtin.buffers {
-        attach_mappings = function(prompt_bufnr, map)
-            local delete_buf = function()
-                local selection = action_state.get_selected_entry()
-                actions.close(prompt_bufnr)
-                vim.api.nvim_buf_delete(selection.bufnr, { force = true })
-            end
-            map('n', 'u', delete_buf)
-            return true
-        end
-    }
-end)
 
 -- places
 MAP('n', "<leader>6", function()

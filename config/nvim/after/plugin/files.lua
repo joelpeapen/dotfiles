@@ -1,4 +1,4 @@
-require("fm-nvim").setup {
+require("fm-nvim").setup({
     ui = {
         float = { border = "rounded" },
         split = { direction = "topleft", size = 24 }
@@ -8,7 +8,7 @@ require("fm-nvim").setup {
         edit       = "<c-o>",
         horz_split = "<c-x>"
     }
-}
+})
 MAP('n', "<m-e>", function ()
     local t = vim.bo.filetype
     if t == "startify" or t == "" then
