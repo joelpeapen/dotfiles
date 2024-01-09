@@ -9,7 +9,7 @@ require("fm-nvim").setup({
         horz_split = "<c-x>"
     }
 })
-MAP('n', "<m-e>", function ()
+MAP('n', "<m-n>", function ()
     local t = vim.bo.filetype
     if t == "startify" or t == "" then
         vim.cmd("Lf " .. os.getenv("PWD"))

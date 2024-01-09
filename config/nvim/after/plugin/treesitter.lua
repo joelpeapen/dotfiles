@@ -38,10 +38,14 @@ require("nvim-treesitter.configs").setup({
         move = {
             enable = true,
             set_jumps = true,
-            goto_next_start = { ['[m'] = '@function.outer' },
-            goto_previous_start = { [']m'] = '@function.outer' },
-            goto_next_end = { ['[M'] = '@function.outer' },
-            goto_previous_end = { [']M'] = '@function.outer' }
+            goto_next_start = {
+                ["[m"] = "@function.outer",
+                ["[c"] = "@class.outer"
+            },
+            goto_previous_start = {
+                ["]m"] = "@function.outer",
+                ["]c"] = "@class.outer"
+            }
         },
         lsp_interop = {
             enable = true,
@@ -54,5 +58,5 @@ require("nvim-treesitter.configs").setup({
 })
 
 local t = require("treesitter-context")
-MAP('n', "[c", t.go_to_context)
+MAP('n', "[b", t.go_to_context)
 t.setup { zindex = 41 }

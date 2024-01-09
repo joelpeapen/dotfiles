@@ -39,7 +39,7 @@ MAP({ 'i', '!' }, "<m-b>", "<c-left>")
 MAP({ 'i', '!' }, "<m-f>", "<c-right>")
 MAP({ 'i', '!' }, "<c-d>", "<del>")
 
--- start/eol movement
+-- start/eol movements
 MAP('v', '$', "g_")
 MAP({'v', 'n'}, '<m-cr>', "g_")
 MAP({'i', '!'}, "<m-cr>", "<end>")
@@ -174,7 +174,7 @@ end)
 
 -- build file
 MAP('n', "<F9>", function()
-    os.execute("buildfile " .. vim.api.nvim_buf_get_name(0))
+    os.execute("buildfile " .. FILE())
 end)
 
 -- file stats

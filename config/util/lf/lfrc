@@ -15,7 +15,7 @@ set ignorecase
 set number
 set relativenumber
 set cursorpreviewfmt "\033[7m"
-set promptfmt "\033[32m%u \033[34m%d\033[0m%f"
+set promptfmt "\033[1;32m%u \033[0;34m%d\033[1;31m%f"
 
 set ifs "\n"
 set period 1
@@ -103,10 +103,7 @@ ${{
     fi
 }}
 
-cmd on-cd &{{
-    zoxide add "$PWD"
-    lf -remote 'send reload'
-}}
+cmd on-cd &{{ zoxide add "$PWD" }}
 
 cmd on-select &{{
     lf -remote "send $id :set statfmt \"$(eza -ld --color=always "$f" | sed 's/\/\w.*$//')\""

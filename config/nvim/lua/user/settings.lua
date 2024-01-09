@@ -109,7 +109,7 @@ function P(v)
 end
 
 function FILE()
-    return vim.fn.expand("%:p")
+    return vim.api.nvim_buf_get_name(0)
 end
 
 function BASENAME()

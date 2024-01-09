@@ -1,5 +1,3 @@
-local terminal = require('toggleterm.terminal').Terminal
-
 local function term(type)
     if ZEN then
         vim.cmd("ToggleTerm dir=" .. BUFDIR() .. " direction=float")
@@ -11,7 +9,7 @@ local function term(type)
 end
 
 local function custom(cmd)
-    return terminal:new {
+    return require('toggleterm.terminal').Terminal:new {
         cmd = cmd,
         direction = "float",
         hidden = false
@@ -24,7 +22,7 @@ local python = custom("python3.10")
 MAP('t', "<m-Space>", "<c-\\><c-n>");
 MAP({ 'n', 't' }, "<m-/>", function() term("hor") end)
 MAP({ 'n', 't' }, "<m-\\>", function() term("vert") end)
-MAP('n', "<leader>gi", function() gitui:toggle() end)
+MAP('n', "<leader>gu", function() gitui:toggle() end)
 MAP('n', "<leader>py", function() python:toggle() end)
 MAP('v', "<m-/>", vim.cmd.ToggleTermSendVisualSelection)
 MAP('v', "<m-\\>", vim.cmd.ToggleTermSendVisualSelection)

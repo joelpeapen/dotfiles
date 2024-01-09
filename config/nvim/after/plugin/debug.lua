@@ -19,7 +19,7 @@ dap.configurations.c = {
             if a == "1" then
                 return BASENAME()
             elseif a == "2" then
-                return vim.fn.input("Debug file: ", vim.fn.getcwd() .. '/', "file")
+                return vim.fn.input("Debug file: ", BUFDIR() .. '/', "file")
             end
         end,
         cwd = "${fileDirname}",

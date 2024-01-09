@@ -29,7 +29,6 @@ telescope.setup({
 })
 
 -- find files
-MAP('n', "<leader><leader>f", builtin.fd) -- vim dir
 MAP('n', "<leader>f", function()
     builtin.fd({ cwd = BUFDIR() })
 end)
@@ -39,18 +38,17 @@ MAP('n', "<m-F>", builtin.current_buffer_fuzzy_find)
 MAP('n', "<m-V>", "<cmd>Telescope harpoon marks<cr>")
 
 -- grep
-MAP('n', "<leader>ls", builtin.grep_string)
-MAP('n', "<leader>lIs", function() -- more of current word
-    local word = vim.fn.expand("<cWORD>")
-    builtin.grep_string({ search = word })
+MAP('n', "<leader>lG", builtin.live_grep) -- vim dir
+MAP('n', "<leader>lg", function()
+    builtin.live_grep({ cwd = BUFDIR() })
 end)
 MAP('n', "<leader>lv", function()
     builtin.grep_string({ search = vim.fn.input("grep > ") })
 end)
-
-MAP('n', "<leader>lG", builtin.live_grep) -- vim dir
-MAP('n', "<leader>lg", function()
-    builtin.live_grep({ cwd = BUFDIR() })
+MAP('n', "<leader>ls", builtin.grep_string)
+MAP('n', "<leader>lS", function() -- more of current word
+    local word = vim.fn.expand("<cWORD>")
+    builtin.grep_string({ search = word })
 end)
 
 MAP('n', "<leader>pf", builtin.git_files)
