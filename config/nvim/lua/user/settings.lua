@@ -29,7 +29,7 @@ vim.opt.fillchars = {
     fold = ' ',
     foldsep = ' ',
     foldopen = '',
-    foldclose = '',
+    foldclose = ''
 }
 
 vim.opt.scrolloff = 5
@@ -82,7 +82,7 @@ autocmd({ "Filetype" }, {
 })
 
 -- remove trailing spaces
-autocmd({"BufWritePre"}, {
+autocmd({ "BufWritePre" }, {
     group = auGroups,
     pattern = "*",
     command = [[%s/\s\+$//e]]
