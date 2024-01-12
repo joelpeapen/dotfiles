@@ -158,11 +158,11 @@ function atomic {
 function rgf {
     c="rg --no-heading"
     a="$(fzf --bind "change:reload:$c {q} || true" \
-        --ansi --preview '' --header 'Search in files')"
+        --ansi --preview '' --header "Search in files")"
     if [[ -n $a ]]; then
         IFS=':' read -r file line char _ <<< "$a"
+        cd "$(dirname "$(realpath "$file")")"
         "$EDITOR" "$file" +"$line" -c "norm ${char}lh"
-        cd "$(dirname "$(readlink -f "$file")")"
     fi
 }
 
