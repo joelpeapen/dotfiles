@@ -109,13 +109,13 @@ function P(v)
 end
 
 function FILE()
-    return vim.api.nvim_buf_get_name(0)
+    return string.gsub(vim.api.nvim_buf_get_name(0), ' ', '\\ ')
 end
 
 function BASENAME()
-    return vim.fn.expand("%:p:r")
+    return string.gsub(tostring(vim.fn.expand("%:p:r")), ' ', '\\ ')
 end
 
 function BUFDIR()
-    return vim.fn.expand("%:p:h")
+    return string.gsub(tostring(vim.fn.expand("%:p:h")), ' ', '\\ ')
 end

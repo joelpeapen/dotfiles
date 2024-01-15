@@ -1,4 +1,5 @@
 local dap = require("dap")
+local widgets = require("dap.ui.widgets")
 
 dap.adapters.codelldb = {
     type = "server",
@@ -45,17 +46,15 @@ MAP('n', "<leader>B", function()
     dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
 end)
 MAP({ 'n', 'v' }, "<leader>dh", function()
-    require("dap.ui.widgets").hover()
+    widgets.hover()
 end)
 MAP({ 'n', 'v' }, "<leader>dp", function()
-    require("dap.ui.widgets").preview()
+    widgets.preview()
 end)
 MAP('n', "<leader>df", function()
-    local widgets = require("dap.ui.widgets")
     widgets.centered_float(widgets.frames)
 end)
 MAP('n', "<leader>ds", function()
-    local widgets = require("dap.ui.widgets")
     widgets.centered_float(widgets.scopes)
 end)
 

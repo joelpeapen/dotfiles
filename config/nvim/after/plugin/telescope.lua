@@ -24,7 +24,7 @@ telescope.setup({
             theme = "dropdown",
             enable_preview = true
         },
-        commands = { theme = "ivy" },
+        commands = { theme = "ivy" }
     }
 })
 

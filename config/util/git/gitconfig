@@ -1,16 +1,18 @@
 [user]
-	email = joelpeapen@protonmail.com
-	name = Joel Eapen
-[core]
-	editor = nvim
-    pager = delta
+    email = joelpeapen@protonmail.com
+    name = Joel Eapen
 [init]
-	defaultBranch = main
+    defaultBranch = main
+[core]
+    editor = nvim
+    pager = delta
 [color]
-	ui = auto
+    ui = auto
 [alias]
     amend = commit -a --amend --no-edit
-	oneline = log --all --graph --decorate --oneline
+    oneline = log --all --graph --decorate --oneline
+
+
 [diff]
     tool = kitty
     guitool = kitty.gui
@@ -19,9 +21,9 @@
     prompt = false
     trustExitCode = true
 [difftool "kitty"]
-    cmd = kitty +kitten diff $LOCAL $REMOTE
+    cmd = kitten diff $LOCAL $REMOTE
 [difftool "kitty.gui"]
-    cmd = kitty kitty +kitten diff $LOCAL $REMOTE
+    cmd = kitten diff $LOCAL $REMOTE
 [interactive]
     diffFilter = delta --color-only
 [delta]
@@ -32,6 +34,10 @@
     side-by-side = true
     diff-so-fancy = true
 [delta "theme"]
+    plus-style                    = syntax "#273849"
+    plus-non-emph-style           = syntax "#273849"
+    plus-emph-style               = syntax "#305f6f"
+    plus-empty-line-marker-style  = syntax "#273849"
     minus-style                   = syntax "#3a273a"
     minus-non-emph-style          = syntax "#3a273a"
     minus-emph-style              = syntax "#6b2e43"
@@ -39,7 +45,3 @@
     line-numbers-minus-style      = syntax "#b55a67"
     line-numbers-plus-style       = syntax "#627259"
     line-numbers-zero-style       = syntax "#3b4261"
-    plus-style                    = syntax "#273849"
-    plus-non-emph-style           = syntax "#273849"
-    plus-emph-style               = syntax "#305f6f"
-    plus-empty-line-marker-style  = syntax "#273849"

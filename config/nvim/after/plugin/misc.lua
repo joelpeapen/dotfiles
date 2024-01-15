@@ -1,11 +1,8 @@
 MAP('n', "<leader>gs", vim.cmd.Git)
 
-require("gitsigns").setup()
-
 MAP('n', "<leader>dv", vim.cmd.DiffviewOpen)
 MAP('n', "<leader>dV", vim.cmd.DiffviewClose)
 
-require("Comment").setup()
 MAP('n', "<c-/>", "<Plug>(comment_toggle_linewise_current)")
 MAP('v', "<c-/>", "<Plug>(comment_toggle_linewise_visual)")
 
@@ -45,7 +42,10 @@ require("ibl").setup({
 })
 
 MAP('n', "<m-M>", vim.cmd.TSJToggle)
-require("treesj").setup({ use_default_keymaps = false })
+require("treesj").setup({
+    max_join_length = 200,
+    use_default_keymaps = false,
+})
 
 require("nvim-surround").setup({
     keymaps = {
@@ -53,8 +53,6 @@ require("nvim-surround").setup({
         insert_line = "<m-g>S"
     }
 })
-
-require("marks").setup()
 
 -- harpoon
 local ui = require("harpoon.ui")

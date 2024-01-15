@@ -75,9 +75,8 @@ MAP('n', "]e", vim.cmd.foldclose)
 -- horizontal scroll
 MAP('n', "<m-9>", "10zh")
 MAP('n', "<m-0>", "10zl")
-
--- join bottom line
-MAP('n', 'J', "mzJ`z")
+MAP('n', "<m-s-9>", "zH")
+MAP('n', "<m-s-0>", "zL")
 
 -- move lines up and down in visual mode
 MAP('v', 'J', ":m '>+1<cr>gv=gv", { silent = true })
@@ -146,15 +145,6 @@ MAP('n', "<leader><leader>X", "<cmd>!chmod -x %<cr>")
 
 MAP('n', "<c-Space>w", "<cmd>lua Prose(true)<cr>")
 MAP('n', "<c-Space>W", "<cmd>lua Prose(false)<cr>")
-
--- = format
-MAP('n', "<leader>=", function()
-    vim.cmd([[
-        let v = winsaveview()
-        normal ggVG=
-        call winrestview(v)
-    ]])
-end)
 
 -- source file
 MAP('n', "<leader>2", function()

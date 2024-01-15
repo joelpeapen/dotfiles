@@ -70,8 +70,7 @@ cmp.setup({
                 cmp.open_docs()
             end
         end
-    }),
-    experimental = { ghost_text = true }
+    })
 })
 
 cmp.setup.cmdline(':', {

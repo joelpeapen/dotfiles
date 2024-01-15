@@ -9,9 +9,9 @@ alias pwd="pwd | sed 's/ /\\ /'"
 alias clearhist="rm ~/.zsh_history"
 
 # programs
-alias fd="fd -H"
-alias du="du -h"
 alias vim="nvim"
+alias du="du -h"
+alias fd="fd -LH"
 alias sed="sed -E"
 alias echo="echo -e"
 alias less="less -R"
@@ -24,9 +24,9 @@ alias diff='/usr/bin/diff -trp --color=always'
 alias ls='ls --color=auto --hyperlink=auto --group-directories-first'
 alias eza='eza -F --hyperlink --color=always --group-directories-first'
 
-alias icat="kitty +kitten icat"
+alias icat="kitten icat"
 alias python="python3.10"
-alias connect="kitty +kitten ssh"
+alias connect="kitten ssh"
 alias firefox="/opt/firefox/firefox"
 alias code='code --proxy-server="192.168.13.2:3128"'
 
