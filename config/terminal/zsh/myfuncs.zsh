@@ -155,10 +155,14 @@ function atomic {
 #----------------------------Searching----------------------------
 
 # live grep
-function rgf {
+function fzf-search {
     c="rg --no-heading"
-    a="$(fzf --bind "change:reload:$c {q} || true" \
-        --ansi --preview '' --header "Search in files")"
+    a="$(fzf --ansi --disabled --prompt 'search> ' \
+       --bind "change:reload:sleep 0.1; $c {q} || true" \
+       --delimiter : \
+       --preview 'bat --color=always {1} --highlight-line {2}' \
+       --preview-window 'up,50%,border-bottom,+{2}+3/3,~3' \
+    )" || true
     if [[ -n $a ]]; then
         IFS=':' read -r file line char _ <<< "$a"
         cd "$(dirname "$(realpath "$file")")"
@@ -405,19 +409,19 @@ function lightmode {
 }
 
 zle -N zz zz
-zle -N rgf rgf
 zle -N duck duck
 zle -N diff diff
 zle -N files files
 zle -N theme theme
 zle -N bulkmv bulkmv
 zle -N restart restart
+zle -N fzf-search fzf-search
 
 bindkey ',z' zz
-bindkey '\er' rgf
 bindkey ',s' duck
 bindkey ',4' diff
 bindkey ',e' files
 bindkey ',0' theme
 bindkey ',b' bulkmv
 bindkey ',r' restart
+bindkey '\er' fzf-search
