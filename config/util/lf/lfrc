@@ -275,7 +275,6 @@ cmd extract &{{
         esac
     done
     lf -remote "send reload"
-    lf -remote "send $id select ${file%%.*}"
 }}
 
 # -------------------- PERMISSIONS --------------------

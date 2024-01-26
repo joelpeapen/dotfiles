@@ -62,8 +62,8 @@ vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
-
 local auGroups = augroup("mine", {})
+
 autocmd({ "BufReadPost" }, {
     group = auGroups,
     callback = function()
@@ -86,6 +86,13 @@ autocmd({ "BufWritePre" }, {
     group = auGroups,
     pattern = "*",
     command = [[%s/\s\+$//e]]
+})
+
+-- go tabs
+autocmd({ "BufWritePre" }, {
+    group = auGroups,
+    pattern = "*.go",
+    command = "retab"
 })
 
 -- nice

@@ -24,7 +24,8 @@ telescope.setup({
             theme = "dropdown",
             enable_preview = true
         },
-        commands = { theme = "ivy" }
+        commands = { theme = "ivy" },
+        command_history = { theme = "ivy" }
     }
 })
 
@@ -57,6 +58,7 @@ MAP('n', "<leader>pc", builtin.git_commits)
 MAP('n', "<leader>pb", builtin.git_branches)
 
 MAP('n', "<m-p>", builtin.commands)
+MAP('n', "<m-o>", builtin.command_history)
 MAP('n', "<leader>3", builtin.buffers)
 MAP('n', "<leader>tk", builtin.keymaps)
 MAP('n', "<leader>of", builtin.oldfiles)
