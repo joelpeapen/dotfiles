@@ -168,6 +168,7 @@ function fzf-search {
         cd "$(dirname "$(realpath "$file")")"
         "$EDITOR" "$file" +"$line" -c "norm ${char}lh"
     fi
+    zle reset-prompt
 }
 
 function agstring {

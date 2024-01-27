@@ -58,7 +58,8 @@ vim.g.markdown_folding = 1
 
 -- treesitter folds
 vim.opt.foldmethod = "expr"
-vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 
 -- nice
 function Prose(o)

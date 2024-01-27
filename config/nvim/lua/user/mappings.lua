@@ -28,7 +28,7 @@ MAP('n', "<leader>wq", vim.cmd.wq)
 MAP('n', "<leader>11", "<cmd>q!<cr>")
 
 -- select all
-MAP('n', "<m-a>", "ggVG")
+MAP('n', ",a", "gg_vGg_")
 
 -- insert mode movements
 MAP({ 'i', '!' }, "<m-k>", "<up>")
@@ -69,8 +69,7 @@ MAP({ 'n', 'v' }, "<leader>y", "\"+y")
 MAP('n', "<leader>Y", "\"+Y")
 
 -- code folding
-MAP('n', "[e", vim.cmd.foldopen)
-MAP('n', "]e", vim.cmd.foldclose)
+MAP('n', ",e", "za")
 
 -- horizontal scroll
 MAP('n', "<m-9>", "10zh")
@@ -140,8 +139,8 @@ MAP('n', "<leader>pT", function() -- tmux window
 end)
 
 -- chmod
-MAP('n', "<leader><leader>x", "<cmd>!chmod +x %<cr>")
-MAP('n', "<leader><leader>X", "<cmd>!chmod -x %<cr>")
+MAP('n', ",x", "<cmd>!chmod +x %<cr>")
+MAP('n', ",X", "<cmd>!chmod -x %<cr>")
 
 MAP('n', "<c-Space>w", "<cmd>lua Prose(true)<cr>")
 MAP('n', "<c-Space>W", "<cmd>lua Prose(false)<cr>")
@@ -150,8 +149,8 @@ MAP('n', "<c-Space>W", "<cmd>lua Prose(false)<cr>")
 MAP('n', "<leader>2", function()
     if vim.bo.filetype == "lua" then
         vim.cmd([[ so
-            normal zx
-            normal zR
+            norm zx
+            norm zR
         ]]) -- stop folding
     end
 end)
