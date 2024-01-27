@@ -60,41 +60,6 @@ vim.g.markdown_folding = 1
 vim.opt.foldmethod = "expr"
 vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
-local augroup = vim.api.nvim_create_augroup
-local autocmd = vim.api.nvim_create_autocmd
-local auGroups = augroup("mine", {})
-
-autocmd({ "BufReadPost" }, {
-    group = auGroups,
-    callback = function()
-        vim.cmd([[normal zx
-        normal zR]])
-    end
-})
-
-autocmd({ "Filetype" }, {
-    group = auGroups,
-    pattern = { "markdown", "text" },
-    callback = function()
-        vim.wo.wrap = true
-        vim.opt_local.textwidth = 80
-    end
-})
-
--- remove trailing spaces
-autocmd({ "BufWritePre" }, {
-    group = auGroups,
-    pattern = "*",
-    command = [[%s/\s\+$//e]]
-})
-
--- go tabs
-autocmd({ "BufWritePre" }, {
-    group = auGroups,
-    pattern = "*.go",
-    command = "retab"
-})
-
 -- nice
 function Prose(o)
     if o then
