@@ -378,8 +378,8 @@ function files {
 }
 
 function zz {
-    dir=$(zoxide query -l | fzf --preview 'eza --color=always {} | bat'\
-        --height=~50%)
+    op=" -l --color=always --icons --no-user --no-time"
+    dir=$(zoxide query -l | fzf --preview "eza $op {} | bat" --height=~50%)
     [[ -d "$dir" ]] && cd "$dir"
     zle reset-prompt
 }

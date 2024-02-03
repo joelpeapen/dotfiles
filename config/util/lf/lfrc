@@ -330,17 +330,23 @@ cmd hists ${{
 }}
 
 cmd zi ${{
-    folder="$(zoxide query -l | fzf --preview 'eza --color=always {} | bat' --height=~50%)" || true
+    op="eza -l --icons --no-user --no-time --color=always"
+    folder="$(zoxide query -l | fzf --preview 'eza -l --icons\
+        --no-user --no-time --color=always  {} |\
+        bat' --header='jump to...')" || true
     lf -remote "send $id cd \"$folder\""
 }}
 
 cmd fzf_jump ${{
-    folder="$(fd -t d -LH | fzf --preview 'eza -l --color=always {} | bat' --header='cd into …')" || true
+    folder="$(fd -t d -LH | fzf --preview 'eza -l --icons\
+        --no-user --no-time --color=always {} |\
+        bat' --header='cd into ...')" || true
     lf -remote "send $id cd \"$folder\""
 }}
 
 cmd fzf_file ${{
-    file="$(fd -t f -LH | fzf --preview 'bat -r :500 {}' --header='files …')" || true
+    file="$(fd -t f -LH | fzf --preview\
+    'bat -r :500 {}' --header='files …')" || true
     lf -remote "send $id select \"$file\""
 }}
 
