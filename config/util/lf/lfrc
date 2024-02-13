@@ -24,7 +24,7 @@ set scrolloff 10
 
 set preview
 set cleaner ~/.config/lf/cleaner
-set previewer ~/.config/lf/previewer
+set previewer ~/.config/lf/preview
 
 # -------------------- MAPPINGS --------------------
 

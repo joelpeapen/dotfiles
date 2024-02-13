@@ -126,8 +126,7 @@ MAP('n', "||", function()
     end
 end)
 
--- replace word, cd into bufdir
-MAP('n', "<leader>s", ":%s/\\<<c-r><c-w>\\>/<c-r><c-w>/gI<Left><Left><Left>")
+-- cd into bufdir
 MAP('n', "<leader>cd", "<cmd>lua vim.cmd(\"cd \" .. BUFDIR())<cr>")
 
 -- open cwd in new
@@ -154,6 +153,10 @@ MAP('n', "<leader>2", function()
         ]]) -- stop folding
     end
 end)
+
+-- replace word
+MAP('n', "<leader>s", ":%s/\\<<c-r><c-w>\\>/<c-r><c-w>/gI<Left><Left><Left>")
+MAP('n', "<leader>S", ":%s/\\<<c-r><c-a>\\>/<c-r><c-a>/gI<Left><Left><Left>")
 
 -- color picker. will be deprecated eventually
 MAP({ 'n', 'v' }, "<leader>qp", function()
