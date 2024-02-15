@@ -23,3 +23,4 @@
 - [zoxide](https://github.com/ajeetdsouza/zoxide) cd around
 - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
+- [zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)

@@ -2,6 +2,7 @@
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripconf"
 source $ZDOTDIR/plugin/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZDOTDIR/plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZDOTDIR/plugin/zsh-history-substring-search/zsh-history-substring-search.zsh
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
@@ -21,6 +22,10 @@ alt-d:preview-down,alt-u:preview-up,\
 ctrl-space:toggle-preview"
 
 bindkey '\es' fzf-file-widget
+
+# history substring search
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
 
 # completion
 bindkey '^ ' autosuggest-accept
