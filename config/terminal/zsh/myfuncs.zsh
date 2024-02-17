@@ -386,27 +386,23 @@ function zz {
 
 function theme {
     colors=$(< $ZDOTDIR/themes)
-    t=$(printf "%b\n" "${colors[@]}" | fzf --preview=""\
-        --height=~50%)
+    t=$(printf "%b\n" "$colors" | fzf --preview="" --height=~50%)
     if [[ "$t" ]]; then
-        kitty +kitten themes "$t"
-        restart; kill -SIGUSR1 $(pidof kitty)
+        kitten themes --config-file-name ~/.config/kitty/themes.conf "$t"
     fi
     zle reset-prompt
 }
 
 function darkmode {
-    kitty +kitten themes "Gruvbox Material Dark Hard"
+    kitten themes --config-file-name ~/.config/kitty/themes.conf "Gruvbox Material Dark Hard"
     sed -i 's/=light"/=dark"/' $XDG_CONFIG_HOME/nvim/lua/user/colors.lua
     sed -E -i "s/240/250/" $ZDOTDIR/plugins.zsh
-    restart; kill -SIGUSR1 $(pidof kitty)
 }
 
 function lightmode {
-    kitty +kitten themes "Leaf Light"
+    kitten themes --config-file-name ~/.config/kitty/themes.conf "Leaf Light"
     sed -i 's/=dark"/=light"/' $XDG_CONFIG_HOME/nvim/lua/user/colors.lua
     sed -E -i "s/250/240/" $ZDOTDIR/plugins.zsh
-    restart; kill -SIGUSR1 $(pidof kitty)
 }
 
 zle -N zz zz
