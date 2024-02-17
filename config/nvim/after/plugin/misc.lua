@@ -74,6 +74,10 @@ vim.g.undotree_ShortIndicators = 1
 vim.g.undotree_SetFocusWhenToggle = 1
 MAP('n', "<leader>u", vim.cmd.UndotreeToggle)
 
+require('hologram').setup({
+    auto_display = true
+})
+
 -- scrolling
 require("neoscroll").setup({
     mappings = {

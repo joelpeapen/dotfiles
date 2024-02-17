@@ -6,7 +6,7 @@ function get-installed-packages {
 }
 
 function sync-dots {
-    cd $DOTDIR/config
+    cd $DOTDIR
 
     cp $ZSHRC $DOTDIR/config/terminal/zsh/zshrc
     cp $ZDOTDIR/*.zsh $DOTDIR/config/terminal/zsh/

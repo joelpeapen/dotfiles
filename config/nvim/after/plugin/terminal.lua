@@ -16,16 +16,11 @@ local function custom(cmd)
     }
 end
 
-local gitui = custom("gitui")
-local python = custom("python3.10")
-
 MAP('t', "<m-Space>", "<c-\\><c-n>");
 MAP({ 'n', 't' }, "<m-/>", function() term("hor") end)
 MAP({ 'n', 't' }, "<m-\\>", function() term("vert") end)
-MAP('n', "<leader>gu", function() gitui:toggle() end)
-MAP('n', "<leader>py", function() python:toggle() end)
+MAP('n', "<leader>py", function() custom("python3.10"):toggle() end)
 MAP('v', "<m-/>", vim.cmd.ToggleTermSendVisualSelection)
-MAP('v', "<m-\\>", vim.cmd.ToggleTermSendVisualSelection)
 
 require("toggleterm").setup({
     shading_factor = '-10',

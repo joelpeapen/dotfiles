@@ -89,6 +89,8 @@ require("lazy").setup({
     "norcalli/nvim-colorizer.lua",
     "lukas-reineke/indent-blankline.nvim",
 
+    'edluffy/hologram.nvim',
+
     { -- status line
         "nvim-lualine/lualine.nvim",
         dependencies = { "kyazdani42/nvim-web-devicons" }
