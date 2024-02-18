@@ -98,7 +98,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         MAP('n', "<F2>", vim.lsp.buf.rename, opts)
         MAP('n', "<F3>", vim.lsp.buf.format, opts)
-        MAP('n', ",ca", vim.lsp.buf.code_action, opts)
+        MAP('n', "c;", vim.lsp.buf.code_action, opts)
 
         MAP('n', "gr", vim.lsp.buf.references, opts)
         MAP('n', "gd", vim.lsp.buf.definition, opts)

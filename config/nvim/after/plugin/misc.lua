@@ -87,13 +87,10 @@ require("neoscroll").setup({
     }
 })
 require("neoscroll.config").set_mappings({
-    ["<m-j>"] = { "scroll", { "vim.wo.scroll", "true", "100", nil } },
-    ["<m-k>"] = { "scroll", { "-vim.wo.scroll", "true", "100", nil } },
-    ["<m-f>"] = { "scroll", { "-0.10", "false", "100", nil } },
     ["<m-h>"] = { "scroll", { "0.10", "false", "100", nil } },
-    ["zt"] = { "zt", { "300" } },
-    ["zz"] = { "zz", { "300" } },
-    ["zb"] = { "zb", { "300" } }
+    ["<m-;>"] = { "scroll", { "-0.10", "false", "100", nil } },
+    ["<m-j>"] = { "scroll", { "vim.wo.scroll", "true", "100", nil } },
+    ["<m-k>"] = { "scroll", { "-vim.wo.scroll", "true", "100", nil } }
 })
 
 require("zen-mode").setup({

@@ -35,7 +35,7 @@ MAP('n', "<leader>f", function()
 end)
 
 -- search
-MAP('n', ",f", builtin.current_buffer_fuzzy_find)
+MAP('n', "<m-f>", builtin.current_buffer_fuzzy_find)
 MAP('n', "<m-V>", "<cmd>Telescope harpoon marks<cr>")
 
 -- grep
