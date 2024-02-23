@@ -85,7 +85,9 @@ map <a-h> scroll-down
 map K :updir; set dironly true; up; set dironly false; open
 map J :updir; set dironly true; down; set dironly false; open
 
-map ` !true # previous cmds output
+map ` !true # cmds output
+map C $printf "\033[2J\033[1;1H" # clear output
+
 map <esc> :read; cmd-escape
 map . :read; cmd-history-prev; cmd-enter
 map <f-2> $$EDITOR $XDG_CONFIG_HOME/lf/lfrc
@@ -288,21 +290,21 @@ cmd extract &{{
 
 cmd xplus &{{
     chmod 775 $fx
-    lf -remote 'send reload'
+    lf -remote "send reload"
 }}
 
 cmd xminus &{{
     chmod 664 $fx
-    lf -remote 'send reload'
+    lf -remote "send reload"
 }}
 
 cmd chmod %{{
-    printf "Mode Bits: "
+    printf "Mode bits: "
     read ans
     for file in "$fx"; do
         chmod $ans $file
     done
-    lf -remote 'send reload'
+    lf -remote "send reload"
 }}
 
 # -------------------- NAV --------------------
@@ -337,7 +339,6 @@ cmd hists ${{
 }}
 
 cmd zi ${{
-    op="eza -l --icons --no-user --no-time --color=always"
     folder="$(zoxide query -l | fzf --preview 'eza -l --icons\
         --no-user --no-time --color=always  {} |\
         bat' --header='jump to...')" || true
