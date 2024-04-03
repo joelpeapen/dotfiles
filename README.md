@@ -23,6 +23,7 @@
 - [fd](https://github.com/sharkdp/fd) find replacement
 - [ripgrep](https://github.com/BurntSushi/ripgrep) grep replacement
 - [kmonad](https://github.com/kmonad/kmonad) keyboard manager
+- [fzf-tab](https://github.com/Aloxaf/fzf-tab): fuzzy tab-completion
 - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 - [zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)
