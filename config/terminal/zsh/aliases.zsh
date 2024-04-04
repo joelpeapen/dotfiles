@@ -27,7 +27,6 @@ alias eza='eza -F --hyperlink --color=always --group-directories-first'
 alias icat="kitten icat"
 alias python="python3.10"
 alias connect="kitten ssh"
-alias firefox="/opt/firefox/firefox"
 alias code='code --proxy-server="192.168.13.2:3128"'
 
 alias gcc="gcc -std=c18"
@@ -42,6 +41,8 @@ alias -g LL="2>&1 | less"
 alias -g CA="2>&1 | cat -A"
 alias -g NE="2> /dev/null"
 alias -g NUL="&>/dev/null"
+
+alias -g D='&>/dev/null &; disown %$(ps -p $! -o comm=)'
 
 # session
 alias :q="exit"
