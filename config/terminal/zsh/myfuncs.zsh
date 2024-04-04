@@ -1,8 +1,8 @@
 #--------------------Configs, sync package lists--------------------
 function get-installed-packages {
-    pip list | sort | uniq | tee $HOME/Documents/LINUX_SOFTWARE/pip
-    ls $HOME/.local/user | tee $HOME/Documents/LINUX_SOFTWARE/binaries
-    apt list --installed | sed 's/\/.*//' | sort | uniq | tee $HOME/Documents/LINUX_SOFTWARE/apt
+    ls $HOME/.local/user | sort | tee > $HOME/Documents/LINUX_SOFTWARE/binaries
+    pip list | tail -n +3 | sort | uniq | tee > $HOME/Documents/LINUX_SOFTWARE/pip
+    apt list --installed | sed 's/\/.*//' | sort | uniq | tee > $HOME/Documents/LINUX_SOFTWARE/apt
 }
 
 function sync-dots {
@@ -248,8 +248,7 @@ function duck {
         fi
     fi
     if [[ -n $q ]]; then
-        firefox -private-window $url &>/dev/null &
-        disown ${%$(which firefox)}
+        setsid firefox -private-window $url &>/dev/null
     fi
     zle reset-prompt
 }
@@ -335,7 +334,7 @@ function audio-overlay {
 
 function ocr {
     pcol 34 1 "> OCR on $1\n"
-    ocrmypdf $1 "${1%.*}_OCR.pdf"
+    ocrmypdf "$1" "${1%.*}_OCR.pdf"
     if [[ $? == 0 ]]; then
         pcol 32 1 "> $1 OCR successful\n"
         mv $1 $HOME/Documents
@@ -369,11 +368,10 @@ function screenshots {
 
 function mcd { mkdir -p "$1" && cd "$1" }
 function restart { source $ZSHRC && rehash }
-function diff { kdiff }
+function kdiff { kdiff }
 
 function files {
-    nautilus file:$PWD &>/dev/null &;
-    disown %nautilus
+    setsid nautilus file:$PWD &>/dev/null
     zle reset-prompt
 }
 
@@ -407,8 +405,8 @@ function lightmode {
 
 zle -N zz zz
 zle -N duck duck
-zle -N diff diff
 zle -N files files
+zle -N kdiff kdiff
 zle -N theme theme
 zle -N bulkmv bulkmv
 zle -N restart restart
@@ -416,8 +414,8 @@ zle -N fzf-search fzf-search
 
 bindkey ',z' zz
 bindkey ',s' duck
-bindkey ',4' diff
 bindkey ',e' files
+bindkey ',4' kdiff
 bindkey ',0' theme
 bindkey ',b' bulkmv
 bindkey ',r' restart

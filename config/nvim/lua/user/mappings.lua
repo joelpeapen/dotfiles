@@ -1,6 +1,6 @@
-MAP = vim.keymap.set
-
 vim.g.mapleader = " "
+
+MAP = vim.keymap.set
 
 MAP('n', "Q", "<nop>")
 MAP('n', "<esc>", ":<c-c>")

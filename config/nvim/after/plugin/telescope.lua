@@ -58,7 +58,7 @@ MAP('n', "<leader>pc", builtin.git_commits)
 MAP('n', "<leader>pb", builtin.git_branches)
 
 MAP('n', "<m-p>", builtin.commands)
-MAP('n', "<m-o>", builtin.command_history)
+MAP('n', "<m-u>", builtin.command_history)
 MAP('n', "<leader>3", builtin.buffers)
 MAP('n', "<leader>tk", builtin.keymaps)
 MAP('n', "<leader>of", builtin.oldfiles)
@@ -80,10 +80,7 @@ MAP('n', "<leader>8", function()
 end)
 MAP('n', "<leader>9", function()
     builtin.find_files({
-        search_dirs = {
-            "~/Documents/academics/code/c",
-            "~/Documents/academics/code/c++"
-        }
+        search_dirs = { "~/Documents/academics/code/lang" }
     })
 end)
 
