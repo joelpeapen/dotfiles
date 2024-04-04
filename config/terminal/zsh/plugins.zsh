@@ -1,25 +1,44 @@
+eval "$(zoxide init zsh)"
+eval "$(navi widget zsh)"
+eval "$(starship init zsh)"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripconf"
+source $ZDOTDIR/plugin/fzf-tab/fzf-tab.zsh
 source $ZDOTDIR/plugin/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZDOTDIR/plugin/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZDOTDIR/plugin/zsh-history-substring-search/zsh-history-substring-search.zsh
 
-eval "$(zoxide init zsh)"
-eval "$(starship init zsh)"
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripconf"
 
 # ---------- SETTINGS ----------
 
 # fzf
 export FZF_DEFAULT_COMMAND="fd -t d -LH"
+export FZF_DEFAULT_OPTS="--preview 'bat -r :500 {}' \
+--reverse
+--bind=change:first,\
+tab:down,btab:up,\
+alt-i:select,\
+alt-e:deselect,\
+alt-a:select-all,\
+alt-A:deselect-all,\
+alt-space:toggle+down,\
+alt-h:deselect+up,\
+alt-j:half-page-down,\
+alt-k:half-page-up,\
+ctrl-e:offset-down,\
+ctrl-y:offset-up,\
+alt-f:jump,\
+alt-F:jump-accept,\
+alt-d:preview-down,\
+alt-u:preview-up,\
+ctrl-space:toggle-preview"
+
 export FZF_CTRL_T_COMMAND="fd -t f -LH"
 export FZF_ALT_C_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_R_OPTS="--preview ''"
-export FZF_ALT_C_OPTS="--preview 'eza -l --icons\
-    --no-user --no-time --color=always {} | bat'"
-export FZF_DEFAULT_OPTS="--preview 'bat -r :500 {}' \
---reverse --bind=tab:down,btab:up,\
-alt-d:preview-down,alt-u:preview-up,\
-ctrl-space:toggle-preview"
+export FZF_ALT_C_OPTS="--preview 'eza -l --icons \
+--no-user --no-time --color=always {} | bat'"
 
 bindkey '\es' fzf-file-widget
 
@@ -27,8 +46,9 @@ bindkey '\es' fzf-file-widget
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
 
-# completion
+# autosuggest
 bindkey '^ ' autosuggest-accept
+
 typeset -gA ZSH_HIGHLIGHT_STYLES
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
