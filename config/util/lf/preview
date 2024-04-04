@@ -2,12 +2,14 @@
 
 # w=$2 h=$3 x=$4 y=$5
 
-type="$(mimetype -b "$1")"
-if [[ "$type" =~ ^image ]]; then
-    kitty +kitten icat --silent --stdin no --transfer-mode file --place "${2}x${3}@${4}x${5}" "$1" < /dev/null > /dev/tty
+t="$(mimetype -b "$1")"
+icat="kitten icat --silent --stdin no --transfer-mode file --place "${2}x${3}@${4}x${5}""
+
+if [[ "$t" =~ ^image ]]; then
+    $icat "$1" < /dev/null > /dev/tty
     exit 1
-elif [[ "$type" =~ ^video ]]; then
-    kitty +kitten icat --silent --stdin no --transfer-mode file --place "${2}x${3}@${4}x${5}" "$(vidthumb "$1")" < /dev/null > /dev/tty
+elif [[ "$t" =~ ^video ]]; then
+    $icat "$(vidthumb "$1")" < /dev/null > /dev/tty
     exit 1
 fi
 

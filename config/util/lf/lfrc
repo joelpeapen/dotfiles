@@ -14,9 +14,11 @@ set ignorecase
 
 set number
 set relativenumber
+set cutfmt "\033[1;7;31m"
+set copyfmt "\033[1;7;33m"
+set selectfmt "\033[1;7;35m"
 set cursorpreviewfmt "\033[7m"
 set promptfmt "\033[1;32m%u \033[0;34m%d\033[1;31m%f"
-set rulerfmt "\033[1;31m %a \033[0m  | %p  |\033[1;7;31m %m \033[0m  |\033[1;7;33m %c \033[0m  |\033[1;7;35m %s \033[0m  |\033[1;7;34m %f \033[0m |\033[7;30m %i\%t \033[0m"
 
 set ifs "\n"
 set period 1
@@ -33,7 +35,8 @@ map <!> shell
 map i $less -f "$f"
 
 map o open
-map E open
+map O $$EDITOR "$f"
+map S $setsid -f xdg-open "$f"
 map x cut
 map X run
 map y copy
@@ -48,6 +51,8 @@ map af touch
 map ad mkdir
 map <a-n> newfold
 map al symlink
+map gl follow_link
+map gy copy-path
 
 map au zip
 map aU extract
@@ -68,6 +73,7 @@ map f fzf_jump
 map <a-s> fzf_file
 map <a-r> fzf_search
 map <a-e> filexplore
+map <c-t> dragon
 
 map <a-p> hists
 map <a-t> kitty-tab
@@ -126,25 +132,13 @@ cmd toggle-preview &{{
 
 # -------------------- FILES --------------------
 
+cmd run &lf -remote "send $id &$f"
+
 cmd open ${{
-    case $(file --mime-type -Lb "$f") in
-        text/*|application/json) $EDITOR "$f";;
-        *) xdg-open "$f" &>/dev/null &;;
+    case $(mimetype -b "$f") in
+        text/*|application/(*json|*desktop)) $EDITOR "$f";;
+        *) setsid -f xdg-open "$f";;
     esac
-}}
-
-cmd run &{{ lf -remote "send $id &$f" }}
-
-cmd fcp &{{
-    set -- $(cat ~/.local/share/lf/files)
-    mode="$1"
-    shift
-    case "$mode" in
-        copy) fcp "$@" "$PWD";;
-        move) mv -n "$@" .;;
-    esac
-    rm ~/.local/share/lf/files
-    lf -remote "send clear"
 }}
 
 cmd touch %{{
@@ -176,31 +170,29 @@ cmd delete %{{
     [ "$ans" = "y" ] && rm -rf $fx
 }}
 
+cmd fcp &{{
+    set -- $(cat ~/.local/share/lf/files)
+    mode="$1"
+    shift
+    case "$mode" in
+        copy) fcp "$@" "$PWD";;
+        move) mv -n "$@" .;;
+    esac
+    rm ~/.local/share/lf/files
+    lf -remote "send clear"
+}}
+
 cmd symlink %{{
     for f in $fx; do
         ln -s $f "${f} link"
     done
 }}
 
-# bulk rename
-cmd bulkmv ${{
-    old="$(mktemp)"
-    new="$(mktemp)"
-    [[ -n "$fs" ]] && fs="$(basename -a $fs)" || fs="$(ls)"
-    printf '%b\n' "$fs" > "$old" > "$new"
-    $EDITOR "$new"
-    [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
-    paste "$old" "$new" | while IFS= read -r names; do
-        src="$(printf '%s' "$names" | cut -f1)"
-        dst="$(printf '%s' "$names" | cut -f2)"
-        if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
-            continue
-        fi
-        mv -- "$src" "$dst"
-    done
-    rm -- "$old" "$new"
-    lf -remote "send $id unselect"
+cmd follow_link %{{
+    lf -remote "send ${id} select '$(readlink $f)'"
 }}
+
+cmd copy-path $printf '%s' "$fx" | xclip -i -selection clipboard
 
 cmd select-files &{{
     get_files() {
@@ -254,33 +246,55 @@ cmd select-pt %{{
     lf -remote "send $id :unselect; toggle $(get_pt)"
 }}
 
-cmd zip ${{
-    printf "\033[2J\033[1;1H"
-    printf "1. tar\n2. tar.gz\n3. tar.bz2\n4. zip\n"
-    printf "\nEnter type: "
-    read ans
-    printf "\nEnter name: "
-    read n
-    case $ans in
-        1) tar -cvf "$n.tar" $fx; t=tar;;
-        2) tar -cvzf "$n.tar.gz" $fx; t=tar.gz;;
-        3) tar -cvjf "$n.tar.bz2" $fx; t=tar.bz2;;
-        4) zip -r "$n" $fx; t=zip;;
-    esac
-    lf -remote "send $id select \"$n.$t\""
+# bulk rename
+cmd bulkmv ${{
+    old="$(mktemp)"
+    new="$(mktemp)"
+    [[ -n "$fs" ]] && fs="$(basename -a $fs)" || fs="$(ls)"
+    printf '%b\n' "$fs" > "$old" > "$new"
+    $EDITOR "$new"
+    [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
+    paste "$old" "$new" | while IFS= read -r names; do
+        src="$(printf '%s' "$names" | cut -f1)"
+        dst="$(printf '%s' "$names" | cut -f2)"
+        if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
+            continue
+        fi
+        mv -- "$src" "$dst"
+    done
+    rm -- "$old" "$new"
+    lf -remote "send $id unselect"
 }}
 
-cmd extract &{{
+cmd zip ${{
+    printf "\033[2J\033[1;1H"
+    echo "1 7z 2 zip 3 rar 4 tar 5 tar.gz 6 tar.xz 7 tar.bz2" | xargs -n2
+    printf "\nEnter type: "
+    read ans
+    case $ans in
+        1) 7zz a $fx; t=7z;;
+        2) zip -r "$fx" $fx; t=zip;;
+        3) rar a "$fx.rar" $fx; t=zip;;
+        4) tar -cvf "$fx.tar" $fx; t=tar;;
+        5) tar -cvzf "$fx.tar.gz" $fx; t=tar.gz;;
+        6) tar -cvzf "$fx.tar.xz" $fx; t=tar.xz;;
+        7) tar -cvjf "$fx.tar.bz2" $fx; t=tar.bz2;;
+    esac
+    lf -remote "send $id select \"$fx.$t\""
+}}
+
+cmd extract ${{
     set -f
-    for file in "$fx"; do
-        case "$file" in
-            *.tar) tar -xf "$file" -C "$PWD";;
-            *.zip) unzip "$file" -d "$PWD";;
-            *.rar) unrar x "$file" "$PWD";;
-            *.7z) 7z x "$file" -o "$PWD";;
-            *.tar.bz2) tar -xjvf "$file" -C "$PWD";;
-            *.tar.gz|*.tgz) tar -xzvf "$file" -C "$PWD";;
-            *.tar.xz|*.txz) tar -xJvf "$file" -C "$PWD";;
+    for c in "$fx"; do
+        case "$c" in
+            *.7z) 7zz x "$c";;
+            *.zip) unzip "$c";;
+            *.rar) unrar x "$c";;
+            *.tar) tar -xf "$c";;
+            *.tar.gz|*.tgz|) tar -xzvf "$c";;
+            *.tar.xz|*.txz) tar -xJvf "$c";;
+            *.tar.bz2) tar -xjvf "$c";;
+            *.gz) gzip -dk "$c";;
         esac
     done
     lf -remote "send reload"
@@ -310,7 +324,7 @@ cmd chmod %{{
 # -------------------- NAV --------------------
 
 cmd tmux-tab &{{
-    case $(file --mime-type -Lb "$f") in
+    case $(mimetype -b "$f") in
         inode/directory) c="$f" ;;
         *) c="$(dirname "$(realpath "$f")")";;
     esac
@@ -318,7 +332,7 @@ cmd tmux-tab &{{
 }}
 
 cmd kitty-tab &{{
-    case $(file --mime-type -Lb "$f") in
+    case $(mimetype -b "$f") in
         inode/directory) c="$f" ;;
         *) c="$(dirname "$(realpath "$f")")";;
     esac
@@ -326,11 +340,11 @@ cmd kitty-tab &{{
 }}
 
 cmd filexplore &{{
-    nautilus file:"$PWD" &>/dev/null &;
+    nautilus file:"$PWD" &>/dev/null
 }}
 
 cmd hists ${{
-    a="$(< ~/.local/share/lf/hists | fzf --preview '')" || true
+    a="$(< ~/.local/share/lf/hists | fzf --preview '' --border --padding=1 )" || true
     m="$(echo $a | cut -b 1)"
     d="$(echo $a | cut -b 2- | sed 's/ //')"
     if [[ "$a" && "$m" && "$d" ]]; then
@@ -341,20 +355,20 @@ cmd hists ${{
 cmd zi ${{
     folder="$(zoxide query -l | fzf --preview 'eza -l --icons\
         --no-user --no-time --color=always  {} |\
-        bat' --header='jump to...')" || true
+        bat' --header='jump to...' --border --padding=1)" || true
     lf -remote "send $id cd \"$folder\""
 }}
 
 cmd fzf_jump ${{
     folder="$(fd -t d -LH | fzf --preview 'eza -l --icons\
         --no-user --no-time --color=always {} |\
-        bat' --header='cd into ...')" || true
+        bat' --header='cd into ...' --border --padding=1)" || true
     lf -remote "send $id cd \"$folder\""
 }}
 
 cmd fzf_file ${{
     file="$(fd -t f -LH | fzf --preview\
-    'bat -r :500 {}' --header='files …')" || true
+    'bat -r :500 {}' --header='files …' --border --padding=1)" || true
     lf -remote "send $id select \"$file\""
 }}
 
@@ -365,10 +379,15 @@ cmd fzf_search ${{
        --delimiter : \
        --preview 'bat --color=always {1} --highlight-line {2}' \
        --preview-window 'up,50%,border-bottom,+{2}+3/3,~3' \
+       --border --padding=1
     )" || true
     if [[ -n "$a" ]]; then
         IFS=':' read -r file line char _ <<< "$a"
         lf -remote "send $id select \"$file\""
         "$EDITOR" "$file" +"$line" -c "norm ${char}lh"
     fi
+}}
+
+cmd dragon %{{
+    setsid -f dragon -x -a $fx && kill \"$$\"
 }}
