@@ -6,14 +6,16 @@ MAP('n', "<leader>dV", vim.cmd.DiffviewClose)
 MAP('n', "<c-/>", "<Plug>(comment_toggle_linewise_current)")
 MAP('v', "<c-/>", "<Plug>(comment_toggle_linewise_visual)")
 
-require("nvim-autopairs").setup({
-    ignored_next_char = "[%w%.%'%\"%[%{]",
+local autopairs = require("nvim-autopairs")
+autopairs.setup({
+    ignored_next_char = "[%w%.%'%\"%(%)%[%]%{%}%$]",
     fast_wrap = {
         map = "<m-\\>",
         chars = { '{', '[', '(', '"', "'", '<', '`' },
         end_key = " "
     }
 })
+autopairs.remove_rule('`')
 
 require("tabline").setup({
     padding = 1,
@@ -21,6 +23,7 @@ require("tabline").setup({
     close_icon = '󰅖',
     show_icon = true,
     modified_icon = '',
+    no_name = "untitled",
     color_all_icons = true
 })
 
@@ -73,10 +76,6 @@ vim.g.undotree_WindowLayout = 2
 vim.g.undotree_ShortIndicators = 1
 vim.g.undotree_SetFocusWhenToggle = 1
 MAP('n', "<leader>u", vim.cmd.UndotreeToggle)
-
-require('hologram').setup({
-    auto_display = true
-})
 
 -- scrolling
 require("neoscroll").setup({

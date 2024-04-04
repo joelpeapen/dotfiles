@@ -45,7 +45,7 @@ require("lazy").setup({
     { -- debugging
         "mfussenegger/nvim-dap",
         dependencies = {
-            "rcarriga/nvim-dap-ui",
+            { "rcarriga/nvim-dap-ui", pin = true },
             "theHamsta/nvim-dap-virtual-text"
         }
     },
@@ -59,12 +59,14 @@ require("lazy").setup({
         dependencies = {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
+
             "hrsh7th/nvim-cmp",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-nvim-lua",
+
             "L3MON4D3/LuaSnip",
             "saadparwaiz1/cmp_luasnip",
             "rafamadriz/friendly-snippets"
@@ -88,8 +90,6 @@ require("lazy").setup({
     "petertriho/nvim-scrollbar",
     "norcalli/nvim-colorizer.lua",
     "lukas-reineke/indent-blankline.nvim",
-
-    'edluffy/hologram.nvim',
 
     { -- status line
         "nvim-lualine/lualine.nvim",
