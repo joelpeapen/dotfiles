@@ -47,7 +47,7 @@ require("ibl").setup({
 MAP('n', "<m-M>", vim.cmd.TSJToggle)
 require("treesj").setup({
     max_join_length = 200,
-    use_default_keymaps = false,
+    use_default_keymaps = false
 })
 
 require("nvim-surround").setup({

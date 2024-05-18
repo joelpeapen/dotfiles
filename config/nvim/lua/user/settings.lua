@@ -1,29 +1,32 @@
-vim.opt.number = true
-vim.opt.relativenumber = true
+local o = vim.opt
+local g = vim.g
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+o.number = true
+o.relativenumber = true
 
-vim.opt.winbar = "%m"
-vim.opt.laststatus = 2
-vim.opt.showmode = false
+o.tabstop = 4
+o.softtabstop = 4
+o.shiftwidth = 4
+o.expandtab = true
 
-vim.opt.splitright = true
-vim.opt.splitbelow = true
-vim.g.noequalalways = true
+o.winbar = "%m"
+o.laststatus = 2
+o.showmode = false
 
-vim.opt.wrap = false
-vim.opt.linebreak = true
-vim.opt.smartcase = true
-vim.opt.ignorecase = true
-vim.opt.smartindent = true
-vim.opt.whichwrap:append("hl<>[]")
+o.splitright = true
+o.splitbelow = true
+g.noequalalways = true
 
-vim.opt.list = true
-vim.opt.listchars:append("trail:·", "tab: ")
-vim.opt.fillchars = {
+o.wrap = false
+o.linebreak = true
+o.smartcase = true
+o.ignorecase = true
+o.smartindent = true
+o.whichwrap:append("hl<>[]")
+
+o.list = true
+o.listchars:append("trail:·", "tab: ")
+o.fillchars = {
     eob = ' ',
     diff = '╱',
     fold = ' ',
@@ -32,34 +35,34 @@ vim.opt.fillchars = {
     foldclose = ''
 }
 
-vim.opt.scrolloff = 5
-vim.opt.signcolumn = "yes"
-vim.opt.inccommand = "split"
-vim.opt.nrformats:append("alpha")
-vim.opt.completeopt:append("menuone,noselect")
-vim.opt.guicursor:append("v-ci:hor100,a:reverse")
+o.scrolloff = 5
+o.signcolumn = "yes"
+o.inccommand = "split"
+o.nrformats:append("alpha")
+o.completeopt:append("menuone,noselect")
+o.guicursor:append("v-ci:hor100,a:reverse")
 
-vim.opt.backup = false
-vim.opt.updatetime = 50
-vim.opt.undofile = true
-vim.opt.swapfile = false
-vim.opt.path:append("**")
-vim.opt.isfname:append("@-@")
-vim.opt.shada = "!,'1000,<50,s10,h"
+o.backup = false
+o.updatetime = 50
+o.undofile = true
+o.swapfile = false
+o.path:append("**")
+o.isfname:append("@-@")
+o.shada = "!,'1000,<50,s10,h"
 
-vim.g.netrw_preview = 1
-vim.g.netrw_winsize = 30
-vim.g.netrw_bufsettings = "noma nomod nu nobl nowrap ro"
+g.netrw_preview = 1
+g.netrw_winsize = 30
+g.netrw_bufsettings = "noma nomod nu nobl nowrap ro"
 
 -- folds
-vim.opt.foldcolumn = "0"
-vim.opt.foldenable = false
-vim.g.markdown_folding = 1
+o.foldcolumn = "0"
+o.foldenable = false
+g.markdown_folding = 1
 
 -- treesitter folds
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
+o.foldmethod = "expr"
+o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+o.foldtext = "v:lua.vim.treesitter.foldtext()"
 
 -- nice
 function Prose(o)

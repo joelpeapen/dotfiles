@@ -1,6 +1,6 @@
-vim.g.mapleader = " "
-
 MAP = vim.keymap.set
+
+vim.g.mapleader = " "
 
 MAP('n', "Q", "<nop>")
 MAP('n', "<esc>", ":<c-c>")
@@ -38,6 +38,8 @@ MAP({ 'i', '!' }, "<m-l>", "<right>")
 MAP({ 'i', '!' }, "<m-b>", "<c-left>")
 MAP({ 'i', '!' }, "<m-f>", "<c-right>")
 MAP({ 'i', '!' }, "<c-d>", "<del>")
+MAP('!', "<c-b>", "<left>")
+MAP('!', "<c-f>", "<right>")
 
 -- start/eol movements
 MAP('v', '$', "g_")
