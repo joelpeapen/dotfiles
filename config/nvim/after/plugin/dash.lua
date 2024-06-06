@@ -3,8 +3,8 @@ vim.g.startify_session_autoload = 1
 vim.g.startify_session_persistence = 1
 vim.cmd([[
     let g:startify_lists = [
-    \ { "type": "files",     "header": [''] },
-    \ { "type": "sessions",  "header": [''] }
+    \    { "type": "files",     "header": [''] },
+    \    { "type": "sessions",  "header": [''] }
     \ ]
 
     let i = [

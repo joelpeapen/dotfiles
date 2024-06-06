@@ -43,8 +43,8 @@ MAP('!', "<c-f>", "<right>")
 
 -- start/eol movements
 MAP('v', '$', "g_")
-MAP({'v', 'n'}, '<m-cr>', "g_")
-MAP({'i', '!'}, "<m-cr>", "<end>")
+MAP({ 'v', 'n' }, '<m-cr>', "g_")
+MAP({ 'i', '!' }, "<m-cr>", "<end>")
 MAP('i', "<m-s-cr>", "<esc>I")
 MAP('!', "<m-s-cr>", "<home>")
 MAP({ 'n', 'v' }, "<m-s-cr>", "_")
@@ -109,8 +109,8 @@ MAP({ 'n', 't' }, "<c-m-L>", "<cmd>wincmd L<cr>") -- far right
 -- pane sizes
 MAP('n', "=", "<cmd>wincmd +<cr>")     -- height++
 MAP('n', "-", "<cmd>wincmd -<cr>")     -- height--
-MAP({'n', 't'}, "<c-->", "<cmd>wincmd ><cr>") -- width++
-MAP({'n', 't'}, "<c-=>", "<cmd>wincmd <<cr>") -- width--
+MAP({ 'n', 't' }, "<c-->", "<cmd>wincmd ><cr>") -- width++
+MAP({ 'n', 't' }, "<c-=>", "<cmd>wincmd <<cr>") -- width--
 
 -- splits
 MAP('n', "<leader>n", vim.cmd.new)

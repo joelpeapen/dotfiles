@@ -1,6 +1,6 @@
 #--------------------Configs, sync package lists--------------------
 function get-installed-packages {
-    ls $HOME/.local/user | sort | tee > $HOME/Documents/LINUX_SOFTWARE/binaries
+    ls $HOME/.local/user/{DEV,PROGRAM} | tee > $HOME/Documents/LINUX_SOFTWARE/binaries
     pip list | tail -n +3 | sort | uniq | tee > $HOME/Documents/LINUX_SOFTWARE/pip
     apt list --installed | sed 's/\/.*//' | sort | uniq | tee > $HOME/Documents/LINUX_SOFTWARE/apt
 }
@@ -264,8 +264,8 @@ function convert-image {
 # f(file, to)
 function mconvert {
     case ${1##*.} in
-        mp3|m4a|aac|flac|ogg|wav) ffmpeg -loglevel warning -i $1 "${1%.*}"_output.$2;;
-        mp4|mkv|mov|ogv|webm) ffmpeg -loglevel warning -i $1 -preset medium -c:a copy "${1%.*}"_output.$2;;
+        mp3|m4a|aac|flac|ogg|wav) ffmpeg -loglevel warning -i $1 "${1%.*}".$2;;
+        mp4|mkv|mov|ogv|webm) ffmpeg -loglevel warning -i $1 -preset medium -c:a copy "${1%.*}".$2;;
     esac
     [[ $? == 0 ]] && pcol 32 1 "$1 --> $2\n"
 }
@@ -275,7 +275,7 @@ function mslice {
     ss=$(( ${2%:*} * 60 + ${2#*:} ))
     to=$(( ${3%:*} * 60 + ${3#*:} ))
     [[ $4 ]] && ext=$4 || ext=${1##*.}
-    ffmpeg -loglevel warning -i $1 -ss $ss -to $to "${1%.*}"_x.$ext
+    ffmpeg -loglevel warning -i $1 -ss $ss -to $to "${1%.*}"_slice.$ext
     [[ $? == 0 ]] && pcol 32 1 "Extracted $2 - $3 ($1)\n"
 }
 
@@ -339,20 +339,20 @@ function screenshots {
 #----------------------------zsh----------------------------
 
 function mcd { mkdir -p "$1" && cd "$1" }
-function restart { source $ZSHRC && rehash }
-function kdiff { kdiff }
 
 function files {
     setsid nautilus file:$PWD &>/dev/null
     zle reset-prompt
 }
 
-function zz {
+function zo {
     op=" -l --color=always --icons --no-user --no-time"
     dir=$(zoxide query -l | fzf --preview "eza $op {} | bat" --height=~50%)
     [[ -d "$dir" ]] && cd "$dir"
     zle reset-prompt
 }
+
+function kdiff { kdiff }
 
 function theme {
     colors=$(< $ZDOTDIR/themes)
@@ -375,8 +375,9 @@ function lightmode {
     sed -E -i "s/250/240/" $ZDOTDIR/plugins.zsh
 }
 
-zle -N zz zz
-zle -N duck duck
+function restart { source $ZSHRC && rehash }
+
+zle -N zo zo
 zle -N files files
 zle -N kdiff kdiff
 zle -N theme theme
@@ -384,8 +385,7 @@ zle -N bulkmv bulkmv
 zle -N restart restart
 zle -N fzf-search fzf-search
 
-bindkey ',z' zz
-bindkey ',s' duck
+bindkey ',z' zo
 bindkey ',e' files
 bindkey ',4' kdiff
 bindkey ',0' theme

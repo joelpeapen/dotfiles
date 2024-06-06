@@ -52,19 +52,9 @@ cmp.setup({
         { name = "nvim_lua" },
         { name = "nvim_lsp" }
     },
-    formatting = {
-        fields = { "abbr", "menu", "kind" },
-        format = function(entry, item)
-            local n = entry.source.name
-            if n == "nvim_lsp" then
-                item.menu = "[LSP]"
-            elseif n == "nvim_lua" then
-                item.menu = "[nvim]"
-            else
-                item.menu = string.format('[%s]', n)
-            end
-            return item
-        end
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
         ["<c-Space>"] = cmp.mapping.complete(),

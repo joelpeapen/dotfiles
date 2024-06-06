@@ -6,7 +6,6 @@ alias ll="eza -l --icons"
 alias lla="eza -la --icons"
 alias md="mkdir -p"
 alias pwd="pwd | sed 's/ /\\ /'"
-alias clearhist="rm ~/.zsh_history"
 
 # programs
 alias vim="nvim"
@@ -30,7 +29,7 @@ alias connect="kitten ssh"
 alias code='code --proxy-server="192.168.13.2:3128"'
 
 alias gcc="gcc -std=c18"
-alias g++="g++ -std=c++17"
+alias g++="g++ -std=c++18"
 
 alias -g H='| head'
 alias -g T='| tail'
@@ -42,7 +41,7 @@ alias -g CA="2>&1 | cat -A"
 alias -g NE="2> /dev/null"
 alias -g NUL="&>/dev/null"
 
-alias -g D='&>/dev/null &; disown %$(ps -p $! -o comm=)'
+alias -g DAE='&>/dev/null &; disown %$(ps -p $! -o comm=)'
 
 # session
 alias :q="exit"
