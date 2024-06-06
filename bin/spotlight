@@ -1,0 +1,56 @@
+#! /usr/bin/env bash
+export FD_CMD="fd -t f -LH --no-ignore-vcs"
+export FZF_DEFAULT_COMMAND="$FD_CMD | sed 's/^.\///'"
+export CLEAR="kitty icat --clear"
+export ICAT=""
+
+files=$(fzf \
+    --extended \
+    --multi \
+    --prompt "Search> " \
+    --bind=change:first \
+    --bind="tab:down,btab:up"\
+    --bind="alt-i:select"\
+    --bind="alt-e:deselect"\
+    --bind="alt-a:select-all"\
+    --bind="alt-A:deselect-all"\
+    --bind="alt-space:toggle+down"\
+    --bind="alt-h:deselect+up"\
+    --bind="alt-j:half-page-down"\
+    --bind="alt-k:half-page-up"\
+    --bind="ctrl-e:offset-down"\
+    --bind="ctrl-y:offset-up"\
+    --bind="alt-f:jump"\
+    --bind="alt-F:jump-accept"\
+    --bind="alt-d:preview-down"\
+    --bind="alt-u:preview-up"\
+    --bind="ctrl-d:change-prompt(Folders> )+reload(fd -t d -LH)+execute($CLEAR)" \
+    --bind="ctrl-f:change-prompt(Files> )+reload($FD_CMD)" \
+    --bind="ctrl-r:change-prompt(Search> )+reload(fd -LH)" \
+    --bind="alt-r:execute(rm -i {})+reload($FD_CMD)" \
+    --bind="ctrl-t:become(setsid -f dragon -x -a {+} && kill \"$$\")" \
+    --bind="ctrl-space:toggle-preview+execute($CLEAR)" \
+    --bind="ctrl-y:execute-silent(timeout 1s xclip -se c <(echo {}))" \
+    --bind="ctrl-l:change-preview-window(hidden)+execute($CLEAR)" \
+    --header="CTRL-d: dirs | CTRL-f: files | CTRL-t: dragon | CTRL-l: clear images" \
+    --border \
+    --padding=1 \
+    --preview-window hidden \
+    --preview='
+        case $(file --mime-type -Lb {}) in
+            image/*) kitty icat --clear --transfer-mode stream --stdin no --place ${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0 {};;
+            video/*) vidthumb {} | kitty icat --clear --transfer-mode file --stdin yes --place ${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0;;
+            text/csv) csview {};;
+            inode/directory) eza -l --icons --no-user --no-time --color=always {} | bat -n;;
+            *) bat -n --color=always {};;
+        esac'
+)
+
+echo "$files"
+for file in $files; do
+    setsid -f xdg-open "$file"
+done
+
+# --bind='ctrl-p:transform:[[ $FZF_PREVIEW_LABEL =~ cat ]] \
+# && echo "change-preview(git log --color=always \{})+change-preview-label([[ log ]])" \
+# || echo "change-preview(bat --color=always \{})+change-preview-label([[ cat ]])"'

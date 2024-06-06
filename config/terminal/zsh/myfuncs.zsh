@@ -111,6 +111,14 @@ function .. {
     for i in $(seq 1 $level); do cd ../; done
 }
 
+function stopwatch {
+    date1=`date +%s`;
+    while true; do
+        echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"
+        sleep 1
+    done
+}
+
 #----------------------------Logs----------------------------
 
 # get ssh logs with date and time
@@ -225,43 +233,6 @@ function gitpuller {
 }
 
 function gclone { git clone git@github.com:$1 }
-
-#----------------------------Websites----------------------------
-
-function duck {
-    s=$(gum choose url search apps)
-    if [[ -n $s ]]; then
-        if [[ $s == "url" ]]; then
-            q=$(gum input --placeholder="url")
-            url="$q"
-        elif [[ $s == "search" ]]; then
-            q=$(gum input --placeholder="search")
-            url="duckduckgo.com/?q=${q}&t=canonical&ia=web"
-        else
-            s=$(gum choose yt git)
-            case $s in
-                yt) q=$(gum input --placeholder="youtube")
-                    url="youtube.com/results?search_query=${q}";;
-                git) q=$(gum input --placeholder="github")
-                    url="github.com/search?q=${q}";;
-            esac
-        fi
-    fi
-    if [[ -n $q ]]; then
-        setsid firefox -private-window $url &>/dev/null
-    fi
-    zle reset-prompt
-}
-
-function stopwatch {
-    date1=`date +%s`;
-    while true; do
-        echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"
-        sleep 1
-    done
-}
-
-function wordle { ssh clidle.duckdns.org -p 3000 }
 
 #----------------------------Media----------------------------
 
