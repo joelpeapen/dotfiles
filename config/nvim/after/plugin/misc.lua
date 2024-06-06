@@ -27,12 +27,6 @@ require("tabline").setup({
     color_all_icons = true
 })
 
-require("scrollbar").setup({
-    hide_if_all_visible = true,
-    handle = { blend = 60 },
-    excluded_buftypes = { "nofile" }
-})
-
 require("ibl").setup({
     scope = { enabled = false },
     exclude = {
@@ -79,11 +73,7 @@ MAP('n', "<leader>u", vim.cmd.UndotreeToggle)
 
 -- scrolling
 require("neoscroll").setup({
-    mappings = {
-        "<m-e>", "<m-n>",
-        "<m-f>", "<m-h>",
-        "zt", "zz", "zb"
-    }
+    mappings = {}
 })
 require("neoscroll.config").set_mappings({
     ["<m-h>"] = { "scroll", { "0.10", "false", "100", nil } },

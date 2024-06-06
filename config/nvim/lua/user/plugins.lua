@@ -87,7 +87,7 @@ require("lazy").setup({
     "rebelot/kanagawa.nvim",
 
     "seblj/nvim-tabline",
-    "petertriho/nvim-scrollbar",
+    "lewis6991/satellite.nvim",
     "norcalli/nvim-colorizer.lua",
     "lukas-reineke/indent-blankline.nvim",
 
