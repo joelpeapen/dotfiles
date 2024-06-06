@@ -11,6 +11,7 @@ function sync-dots {
     cp $ZSHRC $DOTDIR/config/terminal/zsh/zshrc
     cp $ZDOTDIR/*.zsh $DOTDIR/config/terminal/zsh/
     cp $HOME/.zshenv $DOTDIR/config/terminal/zsh/zshenv
+    cp $ZDOTDIR/plugins/* $DOTDIR/config/terminal/zsh/plugins/
 
     cp -r $XDG_CONFIG_HOME/nvim/ $DOTDIR/config/
     cp -r $XDG_CONFIG_HOME/lf/ $DOTDIR/config/util/
