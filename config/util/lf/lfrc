@@ -142,14 +142,14 @@ cmd open ${{
 }}
 
 cmd touch %{{
-    printf " file name: "
+    printc -c g -s b " file name: "
     read file
     touch $file
     lf -remote "send $id select \"$file\""
 }}
 
 cmd mkdir %{{
-    printf " folder name: "
+    printc -c g -s b " folder name: "
     read folder
     mkdir $folder
     lf -remote "send $id select \"$folder\""
@@ -157,7 +157,7 @@ cmd mkdir %{{
 
 cmd newfold %{{
     set -f
-    printf " folder name: "
+    printc -c g -s b " folder name: "
     read ned
     mkdir -- "$ned"
     mv -- $fx "$ned"
@@ -165,7 +165,7 @@ cmd newfold %{{
 
 cmd delete %{{
     set -f
-    printf " delete? [y/n]: "
+    printc -c r -s b " delete? "
     read ans
     [ "$ans" = "y" ] && rm -rf $fx
 }}
@@ -219,7 +219,7 @@ cmd select-dirs &{{
 }}
 
 cmd select-ft %{{
-    printf " filetype: "; read ft
+    printc -c g -s b " filetype: "; read ft
     arr=('*''.'"$ft")
     get_ft() {
         if [ "$lf_hidden" = 'true' ]; then
@@ -233,7 +233,7 @@ cmd select-ft %{{
 }}
 
 cmd select-pt %{{
-    printf " pattern: "; read pt
+    printc -c g -s b " pattern: "; read pt
     arr=('.''*'"$pt"'.''*')
     get_pt() {
         if [ "$lf_hidden" = 'true' ]; then
@@ -269,7 +269,7 @@ cmd bulkmv ${{
 cmd zip ${{
     printf "\033[2J\033[1;1H"
     echo "1 7z 2 zip 3 rar 4 tar 5 tar.gz 6 tar.xz 7 tar.bz2" | xargs -n2
-    printf "\nEnter type: "
+    printc -c b -s b "enter type: "
     read ans
     case $ans in
         1) 7zz a $fx; t=7z;;
@@ -313,7 +313,7 @@ cmd xminus &{{
 }}
 
 cmd chmod %{{
-    printf "Mode bits: "
+    printc -c g -s b " mode bits: "
     read ans
     for file in "$fx"; do
         chmod $ans $file
@@ -368,7 +368,14 @@ cmd fzf_jump ${{
 
 cmd fzf_file ${{
     file="$(fd -t f -LH | fzf --preview\
-    'bat -r :500 {}' --header='files …' --border --padding=1)" || true
+    'case $(file --mime-type -Lb {}) in
+            image/*) kitty icat --clear --transfer-mode stream --stdin no --place ${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0 {};;
+            video/*) kitty icat --clear --transfer-mode stream --stdin no --place ${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0 ($vidthumb {});;
+            text/csv) csview {};;
+            inode/directory) eza -l --icons --no-user --no-time --color=always {} | bat -n;;
+            *) bat -n --color=always {};;
+    esac'\
+    --header='files …' --border --padding=1)" || true
     lf -remote "send $id select \"$file\""
 }}
 
