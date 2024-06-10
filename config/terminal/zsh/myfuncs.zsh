@@ -8,6 +8,11 @@ function get-installed-packages {
 function sync-dots {
     cd $DOTDIR
 
+    cp $HOME/.bashrc $DOTDIR/config/terminal/bashrc
+    cp $HOME/.tmux.conf $DOTDIR/config/terminal/tmux.conf
+    cp $XDG_CONFIG_HOME/starship.toml $DOTDIR/config/terminal/
+    cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/terminal/kitty/
+
     cp $ZSHRC $DOTDIR/config/terminal/zsh/zshrc
     cp $ZDOTDIR/*.zsh $DOTDIR/config/terminal/zsh/
     cp $HOME/.zshenv $DOTDIR/config/terminal/zsh/zshenv
@@ -15,15 +20,13 @@ function sync-dots {
 
     cp -r $XDG_CONFIG_HOME/nvim/ $DOTDIR/config/
     cp -r $XDG_CONFIG_HOME/lf/ $DOTDIR/config/util/
-    cp $HOME/.bashrc $DOTDIR/config/terminal/bashrc
+    cp $XDG_CONFIG_HOME/zathura/zathurarc $DOTDIR/config/zathura/
+
     cp $HOME/.gitconfig $DOTDIR/config/util/git/gitconfig
-    cp $HOME/.tmux.conf $DOTDIR/config/terminal/tmux.conf
-    cp $XDG_CONFIG_HOME/starship.toml $DOTDIR/config/terminal/
     cp $XDG_CONFIG_HOME/fd/ignore $DOTDIR/config/util/fd/ignore
     cp $XDG_CONFIG_HOME/bat/config $DOTDIR/config/util/bat/config
     cp $XDG_CONFIG_HOME/kmonad/config.kdb $DOTDIR/config/util/kmonad/
     cp $XDG_CONFIG_HOME/ripgrep/ripconf $DOTDIR/config/util/ripgrep/ripconf
-    cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/terminal/kitty/
 
     git status
 }

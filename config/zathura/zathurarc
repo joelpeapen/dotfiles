@@ -1,0 +1,54 @@
+set selection-clipboard       clipboard
+
+set font                      "FiraCode Nerd Font Ret"
+
+set window-width 1920
+set window-height 1080
+set statusbar-basename        true
+set statusbar-home-tilde      true
+set window-title-basename     true
+set window-title-home-tilde   true
+
+map i recolor
+map <A-k> scroll half-up
+map <A-j> scroll half-down
+
+set default-fg                "#cdd6f4"
+set default-bg                "#1e1e2e"
+
+set statusbar-fg              "#cdd6f4"
+set statusbar-bg              "#313244"
+
+set inputbar-fg               "#cdd6f4"
+set inputbar-bg               "#313244"
+
+set index-fg                  "#cdd6f4"
+set index-bg                  "#1e1e2e"
+set index-active-fg           "#cdd6f4"
+set index-active-bg           "#313244"
+
+set completion-bg             "#313244"
+set completion-fg             "#cdd6f4"
+set completion-group-bg       "#313244"
+set completion-group-fg       "#89b4fa"
+
+set highlight-color           "#57526880"
+set highlight-active-color    "#f5c2e780"
+set completion-highlight-fg   "#cdd6f4"
+set completion-highlight-bg   "#575268"
+
+set notification-fg           "#cdd6f4"
+set notification-bg           "#313244"
+set notification-error-fg     "#f38ba8"
+set notification-error-bg     "#313244"
+set notification-warning-fg   "#fae3b0"
+set notification-warning-bg   "#313244"
+
+set recolor                   false
+set recolor-keephue           true
+set recolor-darkcolor         "#cdd6f4"
+set recolor-lightcolor        "#1e1e2e"
+
+set render-loading            true
+set render-loading-fg         "#cdd6f4"
+set render-loading-bg         "#1e1e2e"
