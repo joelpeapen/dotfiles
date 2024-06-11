@@ -5,12 +5,12 @@
 t="$(mimetype -b "$1")"
 icat="kitten icat --silent --stdin no --transfer-mode file --place "${2}x${3}@${4}x${5}""
 
-if [[ "$t" =~ ^image ]]; then
-    $icat "$1" < /dev/null > /dev/tty
-    exit 1
-elif [[ "$t" =~ ^video ]]; then
-    $icat "$(vidthumb "$1")" < /dev/null > /dev/tty
-    exit 1
-fi
-
-pistol "$1"
+case "$t" in
+    *csv) csview "$1"; exit 1;;
+    *text* | *json | *xml) bat -n --color=always "$1"; exit 1;;
+    image*) $icat "$1" < /dev/null > /dev/tty; exit 1;;
+    audio*) mediainfo "$1"; exit 1;;
+    video*) $icat "$(vidthumb "$1")" < /dev/null > /dev/tty; exit 1;;
+    *pdf) pdftoppm -jpeg -f 1 -singlefile "$1" | kitten icat --silent --stdin yes --place "${2}x${3}@${4}x${5}"; exit 1;;
+    *) pistol "$1"; exit 1;;
+esac
