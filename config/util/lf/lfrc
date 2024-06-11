@@ -92,7 +92,7 @@ map K :updir; set dironly true; up; set dironly false; open
 map J :updir; set dironly true; down; set dironly false; open
 
 map ` !true # cmds output
-map C $printf "\033[2J\033[1;1H" # clear output
+map <c-l> $printf "\033[2J\033[1;1H" # clear output
 
 map <esc> :read; cmd-escape
 map . :read; cmd-history-prev; cmd-enter
@@ -135,7 +135,7 @@ cmd toggle-preview &{{
 cmd run &lf -remote "send $id &$f"
 
 cmd open ${{
-    case $(mimetype -b "$f") in
+    case $(file --mime-type -Lb "$f") in
         text/*|application/(*json|*desktop)) $EDITOR "$f";;
         *) setsid -f xdg-open "$f";;
     esac
@@ -324,7 +324,7 @@ cmd chmod %{{
 # -------------------- NAV --------------------
 
 cmd tmux-tab &{{
-    case $(mimetype -b "$f") in
+    case $(file --mime-type -Lb "$f") in
         inode/directory) c="$f" ;;
         *) c="$(dirname "$(realpath "$f")")";;
     esac
@@ -332,7 +332,7 @@ cmd tmux-tab &{{
 }}
 
 cmd kitty-tab &{{
-    case $(mimetype -b "$f") in
+    case $(file --mime-type -Lb "$f") in
         inode/directory) c="$f" ;;
         *) c="$(dirname "$(realpath "$f")")";;
     esac
