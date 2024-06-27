@@ -1,6 +1,6 @@
 #--------------------Configs, sync package lists--------------------
 function get-installed-packages {
-    ls $HOME/.local/user/{DEV,PROGRAM} | tee > $HOME/Documents/LINUX_SOFTWARE/binaries
+    ls $HOME/.local/user/{dev,program} | tee > $HOME/Documents/LINUX_SOFTWARE/binaries
     pip list | tail -n +3 | sort | uniq | tee > $HOME/Documents/LINUX_SOFTWARE/pip
     apt list --installed | sed 's/\/.*//' | sort | uniq | tee > $HOME/Documents/LINUX_SOFTWARE/apt
 }
@@ -21,6 +21,8 @@ function sync-dots {
     cp -r $XDG_CONFIG_HOME/nvim/ $DOTDIR/config/
     cp -r $XDG_CONFIG_HOME/lf/ $DOTDIR/config/util/
     cp $XDG_CONFIG_HOME/zathura/zathurarc $DOTDIR/config/zathura/
+
+    cp $HOME/.local/user/program/spotlight/* $DOTDIR/bin/
 
     cp $HOME/.gitconfig $DOTDIR/config/util/git/gitconfig
     cp $XDG_CONFIG_HOME/fd/ignore $DOTDIR/config/util/fd/ignore

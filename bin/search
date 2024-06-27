@@ -20,7 +20,7 @@ ff() {
 
 Q=$(printf "%b\n" "${CHOICES[@]}" | dmenu -i -fn "$FONT")
 case $Q in
-    search) sh $HOME/.local/user/PROGRAM/spotlight/search-internet ;;
+    search) sh $HOME/.local/user/program/spotlight/search-internet ;;
     url) Q=$(printf ''| dmenu -p "url" -fn "$FONT")
         if [ -n "$Q" ]; then
             firefox --private-window "${Q}" 2> /dev/null && ff
