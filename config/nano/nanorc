@@ -1,0 +1,21 @@
+set mouse
+
+set tabsize 4
+set autoindent
+set tabstospaces
+
+set linenumbers
+
+set softwrap
+set atblanks
+set constantshow
+set breaklonglines
+
+set cutfromcursor
+set jumpyscrolling
+
+set magic
+set minibar
+set indicator
+set stateflags
+set matchbrackets "(<[{)>]}"

@@ -16,7 +16,6 @@ alias echo="echo -e"
 alias less="less -R"
 alias wget="wget -c"
 alias open="xdg-open"
-alias nano="nano -ESljmibq"
 alias grep="grep -i --color=auto"
 alias sdiff='sdiff -tr --color=always'
 alias diff='/usr/bin/diff -trp --color=always'
