@@ -2,7 +2,6 @@
 export FD_CMD="fd -t f -LH --no-ignore-vcs"
 export FZF_DEFAULT_COMMAND="$FD_CMD | sed 's/^.\///'"
 export CLEAR="kitty icat --clear"
-export ICAT=""
 
 files=$(fzf \
     --extended \
@@ -20,8 +19,8 @@ files=$(fzf \
     --bind="alt-k:half-page-up"\
     --bind="ctrl-e:offset-down"\
     --bind="ctrl-y:offset-up"\
-    --bind="alt-f:jump"\
-    --bind="alt-F:jump-accept"\
+    --bind="alt-;:jump"\
+    --bind="alt-::jump-accept"\
     --bind="alt-d:preview-down"\
     --bind="alt-u:preview-up"\
     --bind="ctrl-d:change-prompt(Folders> )+reload(fd -t d -LH)+execute($CLEAR)" \
@@ -53,7 +52,3 @@ echo "$files"
 for file in $files; do
     setsid -f xdg-open "$file"
 done
-
-# --bind='ctrl-p:transform:[[ $FZF_PREVIEW_LABEL =~ cat ]] \
-# && echo "change-preview(git log --color=always \{})+change-preview-label([[ log ]])" \
-# || echo "change-preview(bat --color=always \{})+change-preview-label([[ cat ]])"'

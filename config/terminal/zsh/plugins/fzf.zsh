@@ -27,8 +27,8 @@ alt-j:half-page-down,\
 alt-k:half-page-up,\
 ctrl-e:offset-down,\
 ctrl-y:offset-up,\
-alt-m:jump,\
-alt-M:jump-accept,\
+alt-\;:jump,\
+alt-\::jump-accept,\
 alt-d:preview-down,\
 alt-u:preview-up,\
 ctrl-space:toggle-preview"
