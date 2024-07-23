@@ -1,7 +1,18 @@
 #! /usr/bin/env bash
 export FD_CMD="fd -t f -LH --no-ignore-vcs"
+export FD_NOIGNORE="fd -L --no-ignore"
 export FZF_DEFAULT_COMMAND="$FD_CMD | sed 's/^.\///'"
 export CLEAR="kitty icat --clear"
+
+# bindings
+export RELOAD="ctrl-r"
+export IGNORE="alt-g"
+export DIRS="ctrl-d"
+export FILES="ctrl-f"
+export DELETE="alt-r"
+export COPY_PATH="alt-y"
+export DRAGON="ctrl-t"
+export CLEAR_IMG="ctrl-l"
 
 files=$(fzf \
     --extended \
@@ -9,29 +20,14 @@ files=$(fzf \
     --prompt "Search> " \
     --bind=change:first \
     --bind="tab:down,btab:up"\
-    --bind="alt-i:select"\
-    --bind="alt-e:deselect"\
-    --bind="alt-a:select-all"\
-    --bind="alt-A:deselect-all"\
-    --bind="alt-space:toggle+down"\
-    --bind="alt-h:deselect+up"\
-    --bind="alt-j:half-page-down"\
-    --bind="alt-k:half-page-up"\
-    --bind="ctrl-e:offset-down"\
-    --bind="ctrl-y:offset-up"\
-    --bind="alt-;:jump"\
-    --bind="alt-::jump-accept"\
-    --bind="alt-d:preview-down"\
-    --bind="alt-u:preview-up"\
-    --bind="ctrl-d:change-prompt(Folders> )+reload(fd -t d -LH)+execute($CLEAR)" \
-    --bind="ctrl-f:change-prompt(Files> )+reload($FD_CMD)" \
-    --bind="ctrl-r:change-prompt(Search> )+reload(fd -LH)" \
-    --bind="alt-r:execute(rm -i {})+reload($FD_CMD)" \
-    --bind="ctrl-t:become(setsid -f dragon -x -a {+} && kill \"$$\")" \
-    --bind="ctrl-space:toggle-preview+execute($CLEAR)" \
-    --bind="ctrl-y:execute-silent(timeout 1s xclip -se c <(echo {}))" \
-    --bind="ctrl-l:change-preview-window(hidden)+execute($CLEAR)" \
-    --header="CTRL-d: dirs | CTRL-f: files | CTRL-t: dragon | CTRL-l: clear images" \
+    --bind="$DIRS:change-prompt(Folders> )+reload(fd -t d -LH)+execute($CLEAR)" \
+    --bind="$FILES:change-prompt(Files> )+reload($FD_CMD)" \
+    --bind="$RELOAD:change-prompt(Search> )+reload(fd -LH)" \
+    --bind="$DELETE:execute(rm -i {})+reload($FD_CMD)" \
+    --bind="$DRAGON:become(setsid -f dragon -x -a {+} && kill \"$$\")" \
+    --bind "$COPY_PATH:execute-silent(timeout 1s xclip -se c <(echo {}))" \
+    --bind="$CLEAR_IMG:change-preview-window(hidden)+execute($CLEAR)" \
+    --header="$DIRS: dirs | $FILES: files | $DRAGON: dragon | $CLEAR_IMG: clear images" \
     --border \
     --padding=1 \
     --preview-window hidden \
