@@ -1,8 +1,8 @@
 #--------------------Configs, sync package lists--------------------
 function get-installed-packages {
     ls $HOME/.local/user/{dev,program} | tee > $HOME/Documents/LINUX_SOFTWARE/binaries
-    pip list | tail -n +3 | sort | uniq | tee > $HOME/Documents/LINUX_SOFTWARE/pip
-    apt list --installed | sed 's/\/.*//' | sort | uniq | tee > $HOME/Documents/LINUX_SOFTWARE/apt
+    pip list | tail -n +3 | sort -u | tee > $HOME/Documents/LINUX_SOFTWARE/pip
+    apt list --installed | sed 's/\/.*//' | sort -u | tee > $HOME/Documents/LINUX_SOFTWARE/apt
 }
 
 function sync-dots {
@@ -170,7 +170,7 @@ function atomic {
 #----------------------------Searching----------------------------
 
 # live grep
-function fzf-search {
+function live_grep {
     c="rg --no-heading"
     a="$(fzf --ansi --disabled --prompt 'search> ' \
        --bind "change:reload:sleep 0.1; $c {q} || true" \
@@ -389,7 +389,7 @@ zle -N kdiff kdiff
 zle -N theme theme
 zle -N bulkmv bulkmv
 zle -N restart restart
-zle -N fzf-search fzf-search
+zle -N live_grep live_grep
 
 bindkey ',z' zo
 bindkey ',e' files
@@ -397,4 +397,4 @@ bindkey ',4' kdiff
 bindkey ',0' theme
 bindkey ',b' bulkmv
 bindkey ',r' restart
-bindkey '\er' fzf-search
+bindkey '\er' live_grep

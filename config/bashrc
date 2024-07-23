@@ -90,17 +90,6 @@ export EDITOR="nvim"
 export BROWSER="firefox -private"
 export DOTDIR="$HOME/Documents/docs/dotfiles/mine"
 
-# plugins
-
-# fzf
-[ -f ~/.fzf.bash ] && source /home/joel/.fzf.bash
-export FZF_DEFAULT_COMMAND="fd -t d -c=auto -LH"
-export FZF_CTRL_T_COMMAND="fd -t f -c=auto -LH"
-export FZF_ALT_C_COMMAND=$FZF_DEFAULT_COMMAND
-export FZF_ALT_C_OPTS="--preview 'eza -l {} | bat'"
-export FZF_DEFAULT_OPTS="--preview 'bat -r :500 {}'\
-    --reverse --bind=tab:down,btab:up"
-
 eval "$(zoxide init bash)"
 eval "$(starship init bash)"
 
