@@ -11,6 +11,5 @@ case "$t" in
     audio*) mediainfo "$1"; exit 1;;
     image*) $icat "$1" < /dev/null > /dev/tty; exit 1;;
     video*) $icat "$(vidthumb "$1")" < /dev/null > /dev/tty; exit 1;;
-    *pdf) pdftoppm -jpeg -f 1 -singlefile "$1" | kitten icat --silent --stdin yes --place "${2}x${3}@${4}x${5}"; exit 1;;
     *) pistol "$1"; exit 1;;
 esac

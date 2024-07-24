@@ -137,6 +137,7 @@ sg      g       # SETGID
 # file extensions
 '*.f#'          
 *.ai            
+*.apk           
 *.awk           
 *.bash          
 *.bat           
@@ -199,7 +200,7 @@ sg      g       # SETGID
 *.md            
 *.mdx           
 *.mjs           
-*.mk            
+*.mk            
 *.ml            λ
 *.mli           λ
 *.mustache      
@@ -238,7 +239,7 @@ sg      g       # SETGID
 *.swift         
 *.t             
 *.tex           󰙩
-*.toml          
+*.toml          󰅪
 *.ts            
 *.tsx           
 *.twig          
@@ -247,26 +248,26 @@ sg      g       # SETGID
 *.webmanifest   
 *.xcplayground  
 *.xul           󰈹
-*.yaml          
+*.yaml           
 *.yml           
 *.zsh           
 
-# file names (case-insensitive not supported in lf)
-*.bashprofile           
-*.bashrc                
+# file names
+*.bashprofile           
+*.bashrc                
 *.ds_store              
-*.gitattributes         
-*.gitconfig             
-*.gitignore             
+*.gitattributes         󰊢
+*.gitconfig             󰊢
+*.gitignore             󰊢
 *.gitlab-ci.yml         
 *.gvimrc                
 *.vimrc                 
-*.zprofile              
-*.zshenv                
-*.zshrc                 
+*.zprofile              
+*.zshenv                
+*.zshrc                 
 *_gvimrc                
 *_vimrc                 
-*cmakelists.txt         
+*cmakelists.txt          
 *config.ru              
 *docker-compose.yml     
 *dockerfile             
@@ -280,7 +281,7 @@ sg      g       # SETGID
 *gulpfile.js            
 *gulpfile.ls            
 *license                
-*makefile               
+*makefile               
 *mix.lock               
 *node_modules           
 *procfile               
@@ -290,7 +291,7 @@ sg      g       # SETGID
 
 # file names (case-sensitive adaptations)
 *.DS_Store              
-*CMakeLists.txt         
+*CMakeLists.txt          
 *Docker-compose.yml     
 *Dockerfile             
 *Dropbox                
@@ -302,7 +303,7 @@ sg      g       # SETGID
 *Gulpfile.js            
 *Gulpfile.ls            
 *LICENSE                
-*Makefile               
+*Makefile               
 *Procfile               
 *Rakefile               
 *React.jsx              
