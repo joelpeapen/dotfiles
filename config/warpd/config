@@ -1,0 +1,9 @@
+hint: f
+hint2: F
+hint_activation_key: A-M-f
+hint2_activation_key: A-M-F
+
+buttons: space , /
+
+hint_border_radius: 2
+scroll_speed: 500

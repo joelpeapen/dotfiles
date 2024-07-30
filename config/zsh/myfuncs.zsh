@@ -24,6 +24,7 @@ function sync-dots {
     cp $XDG_CONFIG_HOME/zathura/zathurarc $DOTDIR/config/zathura/
 
     cp $HOME/.local/user/program/spotlight/* $DOTDIR/bin/
+    cp $XDG_CONFIG_HOME/warpd/config $DOTDIR/config/warpd/config
 
     cp $HOME/.gitconfig $DOTDIR/config/git/gitconfig
     cp $XDG_CONFIG_HOME/fd/ignore $DOTDIR/config/fd/ignore
