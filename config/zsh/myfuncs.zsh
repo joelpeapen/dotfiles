@@ -360,6 +360,7 @@ function zo {
 }
 
 function kdiff { kdiff }
+function skdiff { kdiff --staged }
 
 function theme {
     colors=$(< $ZDOTDIR/themes)
@@ -387,6 +388,7 @@ function restart { source $ZSHRC && rehash }
 zle -N zo zo
 zle -N files files
 zle -N kdiff kdiff
+zle -N skdiff skdiff
 zle -N theme theme
 zle -N bulkmv bulkmv
 zle -N restart restart
@@ -395,6 +397,7 @@ zle -N live_grep live_grep
 bindkey ',z' zo
 bindkey ',e' files
 bindkey ',4' kdiff
+bindkey ',5' skdiff
 bindkey ',0' theme
 bindkey ',b' bulkmv
 bindkey ',r' restart
