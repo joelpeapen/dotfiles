@@ -12,7 +12,8 @@ end)
 -- netrw
 MAP('n', "<m-i>", function ()
     if vim.bo.filetype ~= "netrw" then
-        vim.cmd("Ex")
+        vim.cmd[[ Ex
+        norm jj]]
     else
         vim.cmd("Rex")
     end
