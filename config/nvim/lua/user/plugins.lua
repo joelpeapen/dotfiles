@@ -52,6 +52,7 @@ require("lazy").setup({
     },
 
     "folke/trouble.nvim",
+    "j-hui/fidget.nvim",
 
     ----------------- LSP -----------------
 

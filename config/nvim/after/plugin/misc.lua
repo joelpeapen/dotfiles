@@ -6,16 +6,7 @@ MAP('n', "<leader>dV", vim.cmd.DiffviewClose)
 MAP('n', "<c-/>", "<Plug>(comment_toggle_linewise_current)")
 MAP('v', "<c-/>", "<Plug>(comment_toggle_linewise_visual)")
 
-local autopairs = require("nvim-autopairs")
-autopairs.setup({
-    ignored_next_char = "[%w%.%'%\"%(%)%[%]%{%}%$]",
-    fast_wrap = {
-        map = "<m-\\>",
-        chars = { '{', '[', '(', '"', "'", '<', '`' },
-        end_key = " "
-    }
-})
-autopairs.remove_rule('`')
+require("fidget").setup()
 
 require("tabline").setup({
     padding = 1,
@@ -38,18 +29,29 @@ require("ibl").setup({
     }
 })
 
-MAP('n', "<m-M>", vim.cmd.TSJToggle)
-require("treesj").setup({
-    max_join_length = 200,
-    use_default_keymaps = false
-})
-
 require("nvim-surround").setup({
     keymaps = {
         insert = "<m-g>s",
         insert_line = "<m-g>S"
     }
 })
+
+local autopairs = require("nvim-autopairs")
+autopairs.setup({
+    ignored_next_char = "[%w%.%'%\"%(%)%[%]%{%}%$]",
+    fast_wrap = {
+        map = "<m-\\>",
+        chars = { '{', '[', '(', '"', "'", '<', '`' },
+        end_key = " "
+    }
+})
+autopairs.remove_rule('`')
+
+require("treesj").setup({
+    max_join_length = 200,
+    use_default_keymaps = false
+})
+MAP('n', "<m-m>", vim.cmd.TSJToggle)
 
 -- harpoon
 local ui = require("harpoon.ui")
