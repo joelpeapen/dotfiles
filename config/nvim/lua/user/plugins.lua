@@ -46,7 +46,8 @@ require("lazy").setup({
         "mfussenegger/nvim-dap",
         dependencies = {
             { "rcarriga/nvim-dap-ui", pin = true },
-            "theHamsta/nvim-dap-virtual-text"
+            "theHamsta/nvim-dap-virtual-text",
+            "leoluz/nvim-dap-go"
         }
     },
 
