@@ -189,7 +189,7 @@ cmd symlink %{{
 }}
 
 cmd follow_link %{{
-    lf -remote "send ${id} select '$(readlink $f)'"
+    lf -remote "send ${id} select '$(readlink -f $f)'"
 }}
 
 cmd copy-path $printf '%s' "$fx" | xclip -i -selection clipboard
