@@ -24,7 +24,6 @@ require("lazy").setup({
     { "mbbill/undotree", event = "VeryLazy" },
     { "romainl/vim-cool", event = "VeryLazy" }, -- noh
     { "andymass/vim-matchup", event = "VeryLazy" },
-    { "nvim-pack/nvim-spectre", event = "VeryLazy" }, -- search & replace
 
     "folke/zen-mode.nvim",
     "karb94/neoscroll.nvim",
