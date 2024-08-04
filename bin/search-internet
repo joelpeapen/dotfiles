@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
 URL="https://duckduckgo.com/?q="
 
@@ -15,7 +15,7 @@ elif [[ $* == "--clipboard" ]]; then
         QUERY=$(xsel -b)
     fi
 else
-    QUERY=$(printf ''| dmenu -p 'search' -fn 'FiraCode Nerd Font')
+    QUERY=$(printf ''| rofi -dmenu -p 'search')
 fi
 
 if [ -n "$QUERY" ]; then

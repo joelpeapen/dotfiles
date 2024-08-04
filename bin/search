@@ -1,36 +1,24 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
-GIT="https://github.com/search?q="
-YT="youtube.com/results?search_query="
-FONT="-fn FiraCode Nerd Font"
-CHOICES=(
-    "search"
-    "url"
-    "youtube"
-    "github"
+declare -A choices=(
+    ["search"]=""
+    ["url"]=""
+    ["github"]="https://github.com/search?q="
+    ["youtube"]="https://youtube.com/results?search_query="
 )
 
-ff() {
-    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
-        swaymsg '[app_id="firefox"] focus'
-    else
-        i3-msg [class=firefox] focus
-    fi
-}
-
-Q=$(printf "%b\n" "${CHOICES[@]}" | dmenu -i -fn "$FONT")
-case $Q in
-    search) sh $HOME/.local/user/program/spotlight/search-internet ;;
-    url) Q=$(printf ''| dmenu -p "url" -fn "$FONT")
-        if [ -n "$Q" ]; then
-            firefox --private-window "${Q}" 2> /dev/null && ff
-        fi ;;
-    github) Q=$(printf ''| dmenu -p "github" -fn "$FONT")
-        if [ -n "$Q" ]; then
-            firefox --private-window "${GIT}${Q}" 2> /dev/null && ff
-        fi ;;
-    youtube) Q=$(printf ''| dmenu -p "youtube" -fn "$FONT")
-        if [ -n "$Q" ]; then
-            firefox --private-window "${YT}${Q}" 2> /dev/null && ff
-        fi ;;
-esac
+Q=$(printf "%s\n" "${!choices[@]}" | rofi -dmenu -i -p "select")
+if [ -n "$Q" ]; then
+    case $Q in
+        search) sh $HOME/.local/user/program/spotlight/search-internet ;;
+        *) o=$(printf ''| rofi -dmenu -p "$Q")
+            if [ -n "$o" ]; then
+                firefox --private-window "${choices[$Q]}${o}" 2> /dev/null
+                if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+                    swaymsg '[app_id="firefox"] focus'
+                else
+                    i3-msg [class=firefox] focus
+                fi
+            fi ;;
+    esac
+fi
