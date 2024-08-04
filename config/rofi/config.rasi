@@ -1,0 +1,40 @@
+configuration {
+    modi: "run,drun,window";
+    display-drun: "apps:";
+    display-windows: "windows:";
+    drun-display-format: "{icon} {name}";
+    font: "FiraCode Nerd Font Ret 13";
+    show-icons: true;
+}
+
+@theme "Arc-Dark"
+
+window {
+    width: 45%;
+}
+
+element-icon {
+    size: 30;
+}
+
+element-text {
+    background-color: inherit;
+    text-color: inherit;
+    vertical-align: 0.5;
+}
+
+element selected {
+    text-color: inherit; // change to @bg
+}
+
+listview {
+    background-color: inherit; // change to @bg
+    columns: 1;
+    lines: 8;
+}
+
+prompt {
+    background-color: inherit; // change to @bg-alt
+    enabled: true;
+    text-color: inherit; // change to @fg
+}

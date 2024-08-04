@@ -22,6 +22,7 @@
 - [bat](https://github.com/sharkdp/bat) cat replacement
 - [fd](https://github.com/sharkdp/fd) find replacement
 - [ripgrep](https://github.com/BurntSushi/ripgrep) grep replacement
+- [rofi](https://github.com/davatorium/rofi) dmenu replacement
 - [kmonad](https://github.com/kmonad/kmonad) keyboard manager
 - [warpd](https://github.com/rvaiya/warpd) keyboard driven mouse pointer
 - [fzf-tab](https://github.com/Aloxaf/fzf-tab): fuzzy tab-completion

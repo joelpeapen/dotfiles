@@ -8,25 +8,25 @@ function get-installed-packages {
 function sync-dots {
     cd $DOTDIR
 
-    cp $HOME/.bashrc $DOTDIR/config/bashrc
-    cp $HOME/.tmux.conf $DOTDIR/config/tmux.conf
-    cp $XDG_CONFIG_HOME/starship.toml $DOTDIR/config/
-    cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/kitty/
-
     cp $ZSHRC $DOTDIR/config/zsh/zshrc
     cp $ZDOTDIR/*.zsh $DOTDIR/config/zsh/
     cp $HOME/.zshenv $DOTDIR/config/zsh/zshenv
     cp $ZDOTDIR/plugins/* $DOTDIR/config/zsh/plugins/
+    cp $XDG_CONFIG_HOME/starship.toml $DOTDIR/config/
+    cp $HOME/.bashrc $DOTDIR/config/bashrc
 
-    cp $XDG_CONFIG_HOME/nano/nanorc $DOTDIR/config/nano/
-    cp -r $XDG_CONFIG_HOME/nvim/ $DOTDIR/config/
     cp -r $XDG_CONFIG_HOME/lf/ $DOTDIR/config/
+    cp -r $XDG_CONFIG_HOME/nvim/ $DOTDIR/config/
+    cp $HOME/.tmux.conf $DOTDIR/config/tmux.conf
     cp $XDG_CONFIG_HOME/zathura/zathurarc $DOTDIR/config/zathura/
+    cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/kitty/
 
     cp $HOME/.local/user/program/spotlight/* $DOTDIR/bin/
+    cp $XDG_CONFIG_HOME/rofi/config.rasi $DOTDIR/config/rofi/
     cp $XDG_CONFIG_HOME/warpd/config $DOTDIR/config/warpd/config
 
     cp $HOME/.gitconfig $DOTDIR/config/git/gitconfig
+    cp $XDG_CONFIG_HOME/nano/nanorc $DOTDIR/config/nano/
     cp $XDG_CONFIG_HOME/fd/ignore $DOTDIR/config/fd/ignore
     cp $XDG_CONFIG_HOME/bat/config $DOTDIR/config/bat/config
     cp $XDG_CONFIG_HOME/kmonad/config.kdb $DOTDIR/config/kmonad/
