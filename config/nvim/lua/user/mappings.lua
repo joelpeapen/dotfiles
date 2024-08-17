@@ -128,9 +128,9 @@ MAP('n', "<leader>vs", vim.cmd.vsplit)
 MAP('n', "||", function()
     vim.wo.wrap = not vim.wo.wrap
     if vim.wo.wrap then
-        print("wrap on")
+        vim.notify("wrap on", 3)
     else
-        print("wrap off")
+        vim.notify("wrap off", 3)
     end
 end)
 
@@ -173,11 +173,20 @@ MAP('n', "<F9>", function()
     os.execute("buildfile " .. FILE())
 end)
 
+-- run file
+MAP('n', "<F10>", function()
+    os.execute("runfile " .. FILE())
+end)
+MAP('n', "<S-F10>", function()
+    local args = vim.fn.input("args: ")
+    os.execute("runfile " .. FILE() .. args)
+end)
+
 -- file stats
 MAP('n', "<leader>4", function()
     local count, lines = vim.fn.wordcount(), vim.api.nvim_buf_line_count(0)
     vim.notify((lines .. " lines -- " ..
         count.words .. " words -- " ..
         count.chars .. " characters"
-    ), vim.log.levels.WARN)
+    ), 3)
 end)
