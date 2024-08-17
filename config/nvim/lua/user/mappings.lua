@@ -10,7 +10,7 @@ MAP('n', "<m-q>", function()
 end)
 
 -- netrw
-MAP('n', "<m-i>", function ()
+MAP('n', "<m-o>", function ()
     if vim.bo.filetype ~= "netrw" then
         vim.cmd[[ Ex
         norm jj]]

@@ -78,8 +78,8 @@ require("neoscroll").setup({
     mappings = {}
 })
 require("neoscroll.config").set_mappings({
-    ["<m-h>"] = { "scroll", { "0.10", "false", "100", nil } },
-    ["<m-;>"] = { "scroll", { "-0.10", "false", "100", nil } },
+    ["<m-e>"] = { "scroll", { "0.10", "false", "100", nil } },
+    ["<m-i>"] = { "scroll", { "-0.10", "false", "100", nil } },
     ["<m-j>"] = { "scroll", { "vim.wo.scroll", "true", "100", nil } },
     ["<m-k>"] = { "scroll", { "-vim.wo.scroll", "true", "100", nil } }
 })
