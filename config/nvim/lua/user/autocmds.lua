@@ -22,13 +22,13 @@ autocmd({ "Filetype" }, {
 -- remove trailing spaces
 autocmd({ "BufWritePre" }, {
     group = auGroups,
-    pattern = "*",
+    pattern = '*',
     command = [[%s/\s\+$//e]]
 })
 
--- go tabs
+-- tabs to spaces
 autocmd({ "BufWritePre" }, {
     group = auGroups,
-    pattern = "*.go",
+    pattern = '*',
     command = "retab"
 })
