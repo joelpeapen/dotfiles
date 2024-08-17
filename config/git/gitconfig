@@ -1,18 +1,15 @@
 [user]
-    email = joelpeapen@protonmail.com
     name = Joel Eapen
+    email = joelpeapen@protonmail.com
 [init]
     defaultBranch = main
 [core]
     editor = nvim
-    pager = delta
 [color]
     ui = auto
 [alias]
     amend = commit -a --amend --no-edit
     oneline = log --all --graph --decorate --oneline
-
-
 [diff]
     tool = kitty
     guitool = kitty.gui
@@ -24,24 +21,3 @@
     cmd = kitten diff $LOCAL $REMOTE
 [difftool "kitty.gui"]
     cmd = kitten diff $LOCAL $REMOTE
-[interactive]
-    diffFilter = delta --color-only
-[delta]
-    navigate = true
-    light = false
-    features = theme
-    true-color = always
-    side-by-side = true
-    diff-so-fancy = true
-[delta "theme"]
-    plus-style                    = syntax "#273849"
-    plus-non-emph-style           = syntax "#273849"
-    plus-emph-style               = syntax "#305f6f"
-    plus-empty-line-marker-style  = syntax "#273849"
-    minus-style                   = syntax "#3a273a"
-    minus-non-emph-style          = syntax "#3a273a"
-    minus-emph-style              = syntax "#6b2e43"
-    minus-empty-line-marker-style = syntax "#3a273a"
-    line-numbers-minus-style      = syntax "#b55a67"
-    line-numbers-plus-style       = syntax "#627259"
-    line-numbers-zero-style       = syntax "#3b4261"
