@@ -88,7 +88,7 @@ require("lazy").setup({
 
     "seblj/nvim-tabline",
     "lewis6991/satellite.nvim",
-    "norcalli/nvim-colorizer.lua",
+    "brenoprata10/nvim-highlight-colors",
     "lukas-reineke/indent-blankline.nvim",
 
     { -- status line
