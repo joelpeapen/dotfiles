@@ -12,8 +12,8 @@ require("fm-nvim").setup({
 MAP('n', "<m-n>", function ()
     local t = vim.bo.filetype
     if t == "startify" or t == "" then
-        vim.cmd("Lf " .. os.getenv("PWD"))
+        vim.cmd("Lf " .. BUFDIR())
     else
-        vim.cmd("Lf %:p")
+        vim.cmd("Lf " .. FILE())
     end
 end)
