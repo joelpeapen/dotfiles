@@ -3,10 +3,15 @@ MAP = vim.keymap.set
 vim.g.mapleader = " "
 
 MAP('n', "Q", "<nop>")
-MAP('n', "<esc>", ":<c-c>")
+MAP('n', "<esc>", function()
+    vim.cmd([[ norm :<c-c>
+        noh
+    ]])
+end)
 MAP('n', "<m-q>", function()
     vim.cmd([[LspStop
-    SClose]])
+        SClose
+    ]])
 end)
 
 -- netrw

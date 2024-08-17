@@ -22,7 +22,6 @@ require("lazy").setup({
 
     "Wansmer/treesj",
     { "mbbill/undotree", event = "VeryLazy" },
-    { "romainl/vim-cool", event = "VeryLazy" }, -- noh
     { "andymass/vim-matchup", event = "VeryLazy" },
 
     "folke/zen-mode.nvim",
