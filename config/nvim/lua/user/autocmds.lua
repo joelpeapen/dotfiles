@@ -1,22 +1,21 @@
-local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
 local auGroups = augroup("mine", {})
 
-autocmd({ "BufReadPost" }, {
+-- format on save
+autocmd({ "BufWritePre" }, {
     group = auGroups,
+    pattern = "go",
     callback = function()
-        vim.cmd([[ norm zx
-        norm zR ]])
+        vim.lsp.buf.format()
     end
 })
 
-autocmd({ "Filetype" }, {
+-- tabs to spaces
+autocmd({ "BufWritePre" }, {
     group = auGroups,
-    pattern = { "markdown", "text" },
-    callback = function()
-        vim.wo.wrap = true
-        vim.opt_local.textwidth = 80
-    end
+    pattern = '*',
+    command = "retab"
 })
 
 -- remove trailing spaces
@@ -26,9 +25,21 @@ autocmd({ "BufWritePre" }, {
     command = [[%s/\s\+$//e]]
 })
 
--- tabs to spaces
-autocmd({ "BufWritePre" }, {
+-- fix folds
+autocmd({ "BufRead", "SourcePost" }, {
     group = auGroups,
-    pattern = '*',
-    command = "retab"
+    callback = function()
+        vim.cmd.norm("zx")
+        vim.cmd.norm("zR")
+    end
+})
+
+-- prose
+autocmd({ "Filetype" }, {
+    group = auGroups,
+    pattern = { "markdown", "text" },
+    callback = function()
+        vim.wo.wrap = true
+        vim.opt_local.textwidth = 80
+    end
 })
