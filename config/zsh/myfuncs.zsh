@@ -89,6 +89,8 @@ function compile {
     case ${1##*.} in
         c) gcc -g -Wall -std=c18 "$@" -o "${1%.*}" -lm;;
         cpp) g++ -g -Wall -std=c++17 "$@" -o "${1%.*}";;
+        go) go build "$1";;
+        java) javac "$1";;
     esac
 }
 
