@@ -10,13 +10,13 @@ alias pwd="pwd | sed 's/ /\\ /'"
 # programs
 alias vim="nvim"
 alias du="du -h"
-alias fd="fd -LH"
 alias sed="sed -E"
 alias echo="echo -e"
 alias less="less -R"
 alias wget="wget -c"
 alias open="xdg-open"
 alias grep="grep -i --color=auto"
+alias fd="fd -LH --hyperlink=always"
 alias sdiff='sdiff -tr --color=always'
 alias diff='/usr/bin/diff -trp --color=always'
 alias ls='ls --color=auto --hyperlink=auto --group-directories-first'
