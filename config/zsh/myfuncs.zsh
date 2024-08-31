@@ -356,7 +356,7 @@ function files {
 
 function zo {
     op=" -l --color=always --icons --no-user --no-time"
-    dir=$(zoxide query -l | fzf --preview "eza $op {} | bat" --height=~50%)
+    dir=$(zoxide query -l | fzf --preview "eza $op {} | bat -n" --height=~50%)
     [[ -d "$dir" ]] && cd "$dir"
     zle reset-prompt
 }
