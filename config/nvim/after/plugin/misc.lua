@@ -54,18 +54,19 @@ require("treesj").setup({
 MAP('n', "<m-m>", vim.cmd.TSJToggle)
 
 -- harpoon
-local ui = require("harpoon.ui")
-local mark = require("harpoon.mark")
-MAP('n', "<m-r>", mark.add_file)
-MAP('n', "<m-v>", ui.toggle_quick_menu)
-MAP('n', "<m-H>", function() ui.nav_file(1) end)
-MAP('n', "<m-J>", function() ui.nav_file(2) end)
-MAP('n', "<m-K>", function() ui.nav_file(3) end)
-MAP('n', "<m-L>", function() ui.nav_file(4) end)
-require("harpoon").setup({
-    save_on_toggle = true,
-    menu = { width = vim.api.nvim_win_get_width(0) - 4 }
+local hp = require("harpoon")
+hp:setup({
+    settings = { sync_on_ui_close = true }
 })
+
+MAP('n', "<m-r>", function() hp:list():add() end)
+MAP('n', "<m-v>", function() hp.ui:toggle_quick_menu(hp:list()) end)
+MAP('n', "<m-J>", function() hp:list():select(1) end)
+MAP('n', "<m-K>", function() hp:list():select(2) end)
+MAP('n', "<m-L>", function() hp:list():select(3) end)
+MAP('n', "<m-s-;>", function() hp:list():select(4) end)
+MAP('n', "<m-s-p>", function() hp:list():prev() end)
+MAP('n', "<m-s-n>", function() hp:list():next() end)
 
 -- undotree
 vim.g.undotree_WindowLayout = 2
@@ -85,8 +86,11 @@ require("neoscroll.config").set_mappings({
 })
 
 require("zen-mode").setup({
+    options = {
+        number = true,
+        relativenumber = true,
+    },
     window = { backdrop = 0.85 },
-    options = { number = true, relativenumber = true },
     plugins = { options = { enabled = true, ruler = true } },
     on_open = function() ZEN = true end,
     on_close = function() ZEN = false end

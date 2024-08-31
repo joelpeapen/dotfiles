@@ -28,8 +28,12 @@ require("lazy").setup({
     "karb94/neoscroll.nvim",
     "akinsho/toggleterm.nvim",
 
-    "ThePrimeagen/harpoon",
     { "chentoast/marks.nvim", config = true },
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        commit = "e76cb03"
+    },
 
     { "tpope/vim-fugitive", event = "VeryLazy" },
     { "lewis6991/gitsigns.nvim", config = true },
@@ -58,9 +62,13 @@ require("lazy").setup({
         "neovim/nvim-lspconfig",
         dependencies = {
             "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
+            "williamboman/mason-lspconfig.nvim"
+        }
+    },
 
-            "hrsh7th/nvim-cmp",
+    {
+        "hrsh7th/nvim-cmp",
+        dependencies = {
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-cmdline",
