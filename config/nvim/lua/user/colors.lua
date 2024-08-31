@@ -22,8 +22,8 @@ vim.cmd("set bg=dark")
 
 require("kanagawa").setup({
     compile = true,
-    commentStyle = { italic = false },
-    keywordStyle = { italic = false },
-    theme = "wave",
+    commentStyle = { italic = true },
+    keywordStyle = { italic = true },
+    colors = { theme = { all = { ui = { bg_gutter = "none" } } } },
 })
 vim.cmd.colorscheme("kanagawa")
