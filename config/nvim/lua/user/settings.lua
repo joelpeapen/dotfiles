@@ -64,21 +64,6 @@ o.foldmethod = "expr"
 o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 o.foldtext = "v:lua.vim.treesitter.foldtext()"
 
--- nice
-function Prose(o)
-    if o then
-        vim.wo.wrap = true
-        vim.opt_local.spell = true
-        vim.opt_local.textwidth = 80
-        vim.opt_local.colorcolumn = "80"
-    else
-        vim.wo.wrap = false
-        vim.opt_local.spell = false
-        vim.opt_local.textwidth = 0
-        vim.opt_local.colorcolumn = ""
-    end
-end
-
 function P(v)
     print(vim.inspect(v))
     return v

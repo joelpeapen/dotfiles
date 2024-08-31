@@ -4,28 +4,29 @@ vim.g.mapleader = " "
 
 MAP('n', "Q", "<nop>")
 MAP('n', "<esc>", function()
-    vim.cmd([[ norm :<c-c>
-        noh
-    ]])
+    vim.cmd.norm(":<c-c>")
+    vim.cmd.noh()
 end)
+
 MAP('n', "<m-q>", function()
-    vim.cmd([[LspStop
-        SClose
-    ]])
+    vim.cmd.LspStop()
+    vim.cmd.SClose()
 end)
 
 -- netrw
 MAP('n', "<m-o>", function ()
     if vim.bo.filetype ~= "netrw" then
-        vim.cmd[[ Ex
-        norm jj]]
+        vim.cmd.Ex()
+        vim.cmd.norm("jj")
     else
-        vim.cmd("Rex")
+        vim.cmd.Rex()
     end
 end)
 
 -- plugins
 MAP('n', "<c-Space>p", "<cmd>Lazy home<cr>")
+
+MAP('n', "<leader>2", vim.cmd.so)
 
 -- write and quit
 MAP('n', "<leader>w", vim.cmd.w)
@@ -97,26 +98,26 @@ MAP('n', "<m-W>", vim.cmd.bdelete)
 MAP('n', "<m-w>", vim.cmd.tabclose)
 MAP('n', "<m-S-.>", "<cmd>tabmove +<cr>")
 MAP('n', "<m-S-,>", "<cmd>tabmove -<cr>")
-MAP('n', "<m-T>", "<cmd>wincmd T<cr>")
+MAP('n', "<m-T>", "<c-w>T")
 
 -- pane switching
-MAP('n', "<c-k>", "<cmd>wincmd k<cr>")
-MAP('n', "<c-h>", "<cmd>wincmd h<cr>")
-MAP('n', "<c-l>", "<cmd>wincmd l<cr>")
-MAP('n', "<c-p>", "<cmd>wincmd p<cr>")
-MAP({ 'n', 't' }, "<c-j>", "<cmd>wincmd j<cr>")
+MAP('n', "<c-j>", "<c-w>j")
+MAP('n', "<c-k>", "<c-w>k")
+MAP('n', "<c-l>", "<c-w>l")
+MAP('n', "<c-h>", "<c-w>h")
+MAP('n', "<c-p>", "<c-w>p")
 
 -- pane movements
-MAP({ 'c', 't' }, "<c-m-K>", "<cmd>wincmd K<cr>") -- very top
-MAP({ 'n', 't' }, "<c-m-J>", "<cmd>wincmd J<cr>") -- very bottom
-MAP({ 'n', 't' }, "<c-m-H>", "<cmd>wincmd H<cr>") -- far left
-MAP({ 'n', 't' }, "<c-m-L>", "<cmd>wincmd L<cr>") -- far right
+MAP({ 'n', 't' }, "<c-m-k>", "<c-w>K") -- very top
+MAP({ 'n', 't' }, "<c-m-j>", "<c-w>J") -- very bottom
+MAP({ 'n', 't' }, "<c-m-h>", "<c-w>H") -- far left
+MAP({ 'n', 't' }, "<c-m-l>", "<c-w>L") -- far right
 
 -- pane sizes
-MAP('n', "=", "<cmd>wincmd +<cr>")     -- height++
-MAP('n', "-", "<cmd>wincmd -<cr>")     -- height--
-MAP({ 'n', 't' }, "<c-->", "<cmd>wincmd ><cr>") -- width++
-MAP({ 'n', 't' }, "<c-=>", "<cmd>wincmd <<cr>") -- width--
+MAP('n', "=", "<c-w>+")     -- height++
+MAP('n', "-", "<c-w>-")     -- height--
+MAP({ 'n', 't' }, "<c-->", "<c-w>>") -- width++
+MAP({ 'n', 't' }, "<c-=>", "<c-w><") -- width--
 
 -- splits
 MAP('n', "<leader>n", vim.cmd.new)
@@ -135,7 +136,9 @@ MAP('n', "||", function()
 end)
 
 -- cd into bufdir
-MAP('n', "<leader>cd", "<cmd>lua vim.cmd(\"cd \" .. BUFDIR())<cr>")
+MAP('n', "<leader>cd", function()
+    vim.cmd("cd " .. BUFDIR())
+end)
 
 -- open cwd in new
 MAP('n', "<leader>pt", function() -- terminal tab
@@ -145,16 +148,21 @@ MAP('n', "<leader>pT", function() -- tmux window
     os.execute("tmux new-window; cd " .. BUFDIR())
 end)
 
-MAP('n', "<c-Space>w", "<cmd>lua Prose(true)<cr>")
-MAP('n', "<c-Space>W", "<cmd>lua Prose(false)<cr>")
-
--- source file
-MAP('n', "<leader>2", function()
-    if vim.bo.filetype == "lua" then
-        vim.cmd([[ so
-            norm zx
-            norm zR
-        ]]) -- stop folding
+-- nice
+local prose = false
+MAP('n', "<c-Space>w", function()
+    if prose then
+        vim.wo.wrap = false
+        vim.opt_local.spell = false
+        vim.opt_local.textwidth = 0
+        vim.opt_local.colorcolumn = ""
+        prose = false
+    else
+        vim.wo.wrap = true
+        vim.opt_local.spell = true
+        vim.opt_local.textwidth = 80
+        vim.opt_local.colorcolumn = "80"
+        prose = true
     end
 end)
 
@@ -168,20 +176,6 @@ MAP({ 'n', 'v' }, "<leader>qp", function()
     os.execute("zenity --color-selection --color=" .. color)
 end)
 
--- build file
-MAP('n', "<F9>", function()
-    os.execute("buildfile " .. FILE())
-end)
-
--- run file
-MAP('n', "<F10>", function()
-    os.execute("runfile " .. FILE())
-end)
-MAP('n', "<S-F10>", function()
-    local args = vim.fn.input("args: ")
-    os.execute("runfile " .. FILE() .. args)
-end)
-
 -- file stats
 MAP('n', "<leader>4", function()
     local count, lines = vim.fn.wordcount(), vim.api.nvim_buf_line_count(0)
@@ -190,3 +184,18 @@ MAP('n', "<leader>4", function()
         count.chars .. " characters"
     ), 3)
 end)
+
+-- build file
+MAP('n', "<F9>", function()
+    os.execute("buildfile " .. FILE())
+end)
+
+-- run file
+MAP('n', "<F10>", function()
+    os.execute("runfile " .. FILE() .. " " .. BUFDIR())
+end)
+MAP('n', "<S-F10>", function()
+    local args = vim.fn.input("args: ")
+    os.execute("runfile " .. FILE() .. " " .. BUFDIR() .. " " .. args)
+end)
+
