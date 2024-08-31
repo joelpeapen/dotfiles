@@ -4,10 +4,10 @@ vim.diagnostic.config({
 })
 
 local trouble = require("trouble")
-MAP('n', "<leader>tt", vim.cmd.TroubleToggle)
-MAP('n', "<leader>td", "<cmd>TroubleToggle document_diagnostics<cr>")
-MAP('n', "<leader>tr", "<cmd>TroubleToggle lsp_references<cr>") -- better than builtin lookup
-MAP('n', "<leader>tn", function() trouble.next({ skip_groups = true, jump = true }) end)
-MAP('n', "<leader>tp", function() trouble.previous({ skip_groups = true, jump = true }) end)
 
-trouble.setup()
+MAP('n', "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>")
+MAP('n', "<leader>xa", "<cmd>Trouble diagnostics toggle<cr>")
+
+trouble.setup({
+    focus = true,
+})
