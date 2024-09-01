@@ -2,27 +2,13 @@
 
 URL="https://duckduckgo.com/?q="
 
-if [[ $* == "--selection" ]]; then
-    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
-        QUERY=$(wl-paste --primary)
-    else
-        QUERY=$(xsel)
-    fi
-elif [[ $* == "--clipboard" ]]; then
-    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
-        QUERY=$(wl-paste)
-    else
-        QUERY=$(xsel -b)
-    fi
-else
-    QUERY=$(printf ''| rofi -dmenu -p 'search')
-fi
+case "$XDG_SESSION_TYPE" in
+    "wayland")
+        [[ $* == "--selection" ]] && CLIP="wl-paste --primary" || CLIP="wl-paste" ;;
+    "x11")
+        [[ $* == "--selection" ]] && CLIP="xsel" || CLIP="xsel -b" ;;
+esac
 
-if [ -n "$QUERY" ]; then
-    firefox --private-window "${URL}${QUERY}" 2> /dev/null
-    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
-        swaymsg '[app_id="firefox"] focus'
-    else
-        i3-msg [class=firefox] focus
-    fi
-fi
+[[ $* != "" ]] && QUERY=$($CLIP) || QUERY=$(printf ''| rofi -dmenu -p 'search')
+
+[[ -n "$QUERY" ]] && firefox --private-window "${URL}${QUERY}" 2> /dev/null
