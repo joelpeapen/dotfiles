@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+man="$(man -k . | sort | awk '{print $1 $2}' | rofi -dmenu -p "man" -no-custom)"
+
+[[ -n "$man" ]] && kitty -- nvim -c "Man $man" -c "1,.-bdelete" -c ".+,\$bdelete"
