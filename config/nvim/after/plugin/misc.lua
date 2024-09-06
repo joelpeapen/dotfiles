@@ -75,15 +75,14 @@ vim.g.undotree_SetFocusWhenToggle = 1
 MAP('n', "<leader>u", vim.cmd.UndotreeToggle)
 
 -- scrolling
-require("neoscroll").setup({
-    mappings = {}
-})
-require("neoscroll.config").set_mappings({
-    ["<m-e>"] = { "scroll", { "0.10", "false", "100", nil } },
-    ["<m-i>"] = { "scroll", { "-0.10", "false", "100", nil } },
-    ["<m-j>"] = { "scroll", { "vim.wo.scroll", "true", "100", nil } },
-    ["<m-k>"] = { "scroll", { "-vim.wo.scroll", "true", "100", nil } }
-})
+local ns = require("neoscroll")
+ns.setup(
+    { mappings = {} }
+)
+MAP({ 'n', 'v', 'x' }, "<m-j>", function() ns.ctrl_d({ duration = 50 }) end)
+MAP({ 'n', 'v', 'x' }, "<m-k>", function() ns.ctrl_u({ duration = 50 }) end)
+MAP({ 'n', 'v', 'x' }, "<m-e>", function() ns.scroll(0.1, { move_cursor=false, duration = 100 }) end)
+MAP({ 'n', 'v', 'x' }, "<m-i>", function() ns.scroll(-0.1, { move_cursor=false, duration = 100 }) end)
 
 require("zen-mode").setup({
     options = {
