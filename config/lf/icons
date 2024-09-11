@@ -2,13 +2,13 @@
 di             # DIR
 fi             # FILE
 ex             # EXEC
-ln             # LINK
+ln             # LINK
 or             # ORPHAN
 tw      t       # STICKY_OTHER_WRITABLE
 ow             # OTHER_WRITABLE
 st      t       # STICKY
 pi             # FIFO
-so      s       # SOCK
+so      󰟧       # SOCK
 bd      b       # BLK
 cd      c       # CHR
 su      u       # SETUID
@@ -135,7 +135,6 @@ sg      g       # SETGID
 *.zst   
 
 # file extensions
-'*.f#'          
 *.ai            
 *.apk           
 *.awk           
@@ -168,6 +167,7 @@ sg      g       # SETGID
 *.ex            
 *.exs           
 *.fish          
+'*.f#'          
 *.fs            
 *.fsi           
 *.fsscript      
@@ -248,7 +248,7 @@ sg      g       # SETGID
 *.webmanifest   
 *.xcplayground  
 *.xul           󰈹
-*.yaml           
+*.yaml          
 *.yml           
 *.zsh           
 
@@ -267,7 +267,7 @@ sg      g       # SETGID
 *.zshrc                 
 *_gvimrc                
 *_vimrc                 
-*cmakelists.txt          
+*cmakelists.txt         
 *config.ru              
 *docker-compose.yml     
 *dockerfile             
@@ -290,8 +290,8 @@ sg      g       # SETGID
 *robots.txt             󰚩
 
 # file names (case-sensitive adaptations)
-*.DS_Store              
-*CMakeLists.txt          
+*.DS_Store              
+*CMakeLists.txt         
 *Docker-compose.yml     
 *Dockerfile             
 *Dropbox                
