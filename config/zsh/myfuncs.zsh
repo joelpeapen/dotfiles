@@ -22,7 +22,7 @@ function sync-dots {
     cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/kitty/
 
     cp $HOME/.local/user/program/spotlight/* $DOTDIR/bin/
-    cp $XDG_CONFIG_HOME/rofi/config.rasi $DOTDIR/config/rofi/
+    cp $XDG_CONFIG_HOME/rofi/*.rasi $DOTDIR/config/rofi/
     cp $XDG_CONFIG_HOME/warpd/config $DOTDIR/config/warpd/config
 
     cp $HOME/.gitconfig $DOTDIR/config/git/gitconfig

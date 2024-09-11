@@ -1,0 +1,87 @@
+* {
+    fg: #dcd7ba;
+    bg:  #2a2e3b;
+    grey: #928374;
+    dgrey: #665c54;
+    red: #dc6472;
+    green: #a9b665;
+    blue: #35abff;
+    orange: #e78a4e;
+    selected: #394260;
+    unselected: #2a2e3b;
+    background-color: @bg;
+}
+
+window {
+    width: 45%;
+    height: 35%;
+    border: 5px;
+    border-radius: 15px;
+    border-color: #252525;
+}
+
+element-text, element-icon, listview, mode-switcher {
+    text-color: inherit;
+    background-color: inherit;
+    font: "FiraCode Nerd Font Bold 13";
+}
+
+mode-switcher {
+    spacing: 0.2%;
+    background-color: @orange;
+}
+
+element {
+    padding: 0.5%;
+    text-color: @fg;
+    background-color: @bg;
+}
+
+element-text {
+    margin: 0.5% 0 0 0;
+}
+
+element-icon {
+    size: 30px;
+    margin: 0 0.5% 0 0;
+}
+
+element selected {
+    text-color: @green;
+    background-color: @selected;
+}
+
+inputbar {
+    padding: 0.5%;
+    margin: 0px 0px 5px 0px;
+    border-radius: 5px;
+    background-color: @bg;
+    children: [prompt,entry];
+}
+
+prompt, entry {
+    margin: 5px 0px 0px 0px;
+    padding: 3px 10px 3px 10px;
+}
+
+prompt {
+    border-radius: 0.5em;
+    background-color: @blue;
+}
+
+entry {
+    text-color: @fg;
+    background-color: @bg;
+}
+
+button {
+    padding: 1%;
+    text-color: @blue;
+    background-color: @bg;
+    font: "FiraCode Nerd Font Bold 13";
+}
+
+button selected {
+    text-color: @orange;
+    background-color: @selected;
+}

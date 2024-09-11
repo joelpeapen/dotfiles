@@ -1,40 +1,26 @@
 configuration {
-    modi: "run,drun,window";
-    display-drun: "apps:";
-    display-windows: "windows:";
-    drun-display-format: "{icon} {name}";
-    font: "FiraCode Nerd Font Ret 13";
+    modi: [run,windowcd];
+
+    sort: true;
     show-icons: true;
+    sidebar-mode: true;
+    font: "FiraCode Nerd Font Ret 13";
+
+    display-run: " RUN";
+    display-drun: " DRUN";
+    display-windowcd : " WINDOWS";
+    drun-display-format: "{icon} {name}";
+
+    kb-element-next: "Alt+j,Tab";
+    kb-element-prev: "Alt+k,ISO_Left_Tab";
+
+    kb-mode-complete: "";
+    kb-mode-next: "Alt+[60]";
+    kb-mode-previous: "Alt+[59]";
+
+    kb-clear-line: "";                // remove c-w
+    kb-remove-word-back: "Control+w"; // set c-w
+    kb-remove-word-forward: "Alt+d";
 }
 
-@theme "Arc-Dark"
-
-window {
-    width: 45%;
-}
-
-element-icon {
-    size: 30;
-}
-
-element-text {
-    background-color: inherit;
-    text-color: inherit;
-    vertical-align: 0.5;
-}
-
-element selected {
-    text-color: inherit; // change to @bg
-}
-
-listview {
-    background-color: inherit; // change to @bg
-    columns: 1;
-    lines: 8;
-}
-
-prompt {
-    background-color: inherit; // change to @bg-alt
-    enabled: true;
-    text-color: inherit; // change to @fg
-}
+@theme "theme"
