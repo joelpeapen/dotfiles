@@ -24,5 +24,5 @@ end
 MAP('t', "<m-Space>", "<c-\\><c-n>");
 MAP({ 'n', 't' }, "<m-/>", function() term("hor") end)
 MAP({ 'n', 't' }, "<m-\\>", function() term("vert") end)
-MAP('n', "<leader>py", function() custom("python3.10"):toggle() end)
+MAP('n', "<leader>py", function() custom("python"):toggle() end)
 MAP('v', "<m-/>", vim.cmd.ToggleTermSendVisualSelection)

@@ -23,7 +23,6 @@ alias ls='ls --color=auto --hyperlink=auto --group-directories-first'
 alias eza='eza -F --hyperlink --color=always --group-directories-first'
 
 alias icat="kitten icat"
-alias python="python3.10"
 alias connect="kitten ssh"
 alias code='code --proxy-server="192.168.13.2:3128"'
 
