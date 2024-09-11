@@ -71,6 +71,7 @@ map \\ zi
 map ~ cd ~
 map f fzf_jump
 map <a-s> fzf_file
+map <a-f> fzf_buffer
 map <a-r> fzf_search
 map <a-e> filexplore
 map <c-t> dragon
@@ -81,13 +82,17 @@ map <a-T> tmux-tab
 map <c-z> $ kill -STOP $PPID
 
 map <c-space> toggle-preview
+map <f-3> &{{
+    ffplay -loop 0 $f
+}}
 
 map L bottom
 map R reload
 map <a-k> half-up
 map <a-j> half-down
-map <a-f> scroll-up
-map <a-h> scroll-down
+map <a-h> scroll-up
+map <a-\;> scroll-down
+
 map K :updir; set dironly true; up; set dironly false; open
 map J :updir; set dironly true; down; set dironly false; open
 
@@ -363,6 +368,11 @@ cmd fzf_jump ${{
 cmd fzf_file ${{
     file="$(fd -t f -LH | fzf --header='files …' --border --padding=1)" || true
     lf -remote "send $id select \"$file\""
+}}
+
+cmd fzf_buffer ${{
+    folder="$(fd -t d -d 1 -LH | fzf --header='cd into ...' --border --padding=1)" || true
+    lf -remote "send $id cd \"$folder\""
 }}
 
 cmd fzf_search ${{
