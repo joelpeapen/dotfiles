@@ -173,20 +173,8 @@ function atomic {
 #----------------------------Searching----------------------------
 
 # live grep
-function live_grep {
-    c="rg --no-heading"
-    a="$(fzf --ansi --disabled --prompt 'search> ' \
-       --bind "change:reload:sleep 0.1; $c {q} || true" \
-       --delimiter : \
-       --preview 'bat --color=always {1} --highlight-line {2}' \
-       --preview-window 'up,50%,border-bottom,+{2}+3/3,~3' \
-    )" || true
-    if [[ -n $a ]]; then
-        IFS=':' read -r file line char _ <<< "$a"
-        cd "$(dirname "$(realpath "$file")")"
-        "$EDITOR" "$file" +"$line" -c "norm ${char}lh"
-    fi
-    zle reset-prompt
+function lgrep {
+    rgf
 }
 
 function agstring {
@@ -388,19 +376,19 @@ function lightmode {
 function restart { source $ZSHRC && rehash }
 
 zle -N zo zo
+zle -N lgrep lgrep
 zle -N files files
 zle -N kdiff kdiff
 zle -N skdiff skdiff
-zle -N theme theme
 zle -N bulkmv bulkmv
 zle -N restart restart
-zle -N live_grep live_grep
+zle -N theme theme
 
 bindkey ',z' zo
+bindkey '\er' lgrep
 bindkey ',e' files
 bindkey ',4' kdiff
 bindkey ',5' skdiff
-bindkey ',0' theme
 bindkey ',b' bulkmv
 bindkey ',r' restart
-bindkey '\er' live_grep
+bindkey ',0' theme

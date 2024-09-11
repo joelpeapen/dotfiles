@@ -376,19 +376,7 @@ cmd fzf_buffer ${{
 }}
 
 cmd fzf_search ${{
-    c="rg --no-heading"
-    a="$(fzf --ansi --disabled --prompt 'search> ' \
-       --bind "change:reload:sleep 0.1; $c {q} || true" \
-       --delimiter : \
-       --preview 'bat --color=always {1} --highlight-line {2}' \
-       --preview-window 'up,50%,border-bottom,+{2}+3/3,~3' \
-       --border --padding=1
-    )" || true
-    if [[ -n "$a" ]]; then
-        IFS=':' read -r file line char _ <<< "$a"
-        lf -remote "send $id select \"$file\""
-        "$EDITOR" "$file" +"$line" -c "norm ${char}lh"
-    fi
+    rgf
 }}
 
 cmd dragon %{{
