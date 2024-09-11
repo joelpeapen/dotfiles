@@ -7,7 +7,7 @@ declare -A choices=(
     [youtube]="https://youtube.com/results?search_query="
 )
 
-q=$(printf "%s\n" "${!choices[@]}" | rofi -dmenu -i -p "select" -no-custom)
+q=$(printf "%s\n" "${!choices[@]}" | rofi -dmenu -i -p "SELECT" -no-custom)
 
 if [ -n "$q" ]; then
     case "$q" in

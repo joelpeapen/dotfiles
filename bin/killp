@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+procs="$(ps -eo user,pid,rss,comm --sort=-rss | tail -n +2 | awk '{print $1"\t"$2"\t"$3"\t"$4}' | rofi -dmenu -i -p "kill")"
+
+pid=$(awk '{print $2}' <<< "$procs")
+name=$(awk '{print $4}' <<< "$procs")
+
+if [[ ! -z $procs ]]; then
+    a="$(echo -e "Yes\nNo" | rofi -dmenu -i -p "kill $name?")"
+    if [[ $a == "Yes" ]]; then
+        kill -9 "$pid"
+    fi
+fi
