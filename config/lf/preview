@@ -2,14 +2,16 @@
 
 # w=$2 h=$3 x=$4 y=$5
 
-t="$(mimetype -b "$1")"
-icat="kitten icat --silent --stdin no --transfer-mode file --place "${2}x${3}@${4}x${5}""
+icat="kitten icat --stdin no --transfer-mode file --place "${2}x${3}@${4}x${5}""
+# sicat="kitten icat --stdin yes --transfer-mode file --place "${2}x${3}@${4}x${5}""
 
-case "$t" in
+case "$(mimetype -b "$1")" in
     *csv) csview "$1"; exit 1;;
+    *markdown) pistol "$1" | bat -n; exit 1;;
     *text* | *json | *xml) bat -n --color=always "$1"; exit 1;;
     audio*) mediainfo "$1"; exit 1;;
     image*) $icat "$1" < /dev/null > /dev/tty; exit 1;;
     video*) $icat "$(vidthumb "$1")" < /dev/null > /dev/tty; exit 1;;
-    *) pistol "$1"; exit 1;;
+#    *pdf) $sicat <<< "$(pdftoppm -jpeg -f 1 -l 1 -tiffcompression jpeg -scale-to-x -1 -scale-to-y 1080 -singlefile "$1")"; exit 1;;
+    *) pistol "$1";;
 esac
