@@ -1,19 +1,8 @@
-require("fm-nvim").setup({
-    ui = {
-        float = { border = "rounded" },
-        split = { direction = "topleft", size = 24 }
-    },
-    mappings = {
-        ESC        = "<c-c>",
-        edit       = "<c-o>",
-        horz_split = "<c-x>"
-    }
+require("lf").setup({
+    border = "rounded",
+    mappings = true,
+    focus_on_open = true,
+    height = vim.fn.float2nr(vim.fn.round(0.85 * vim.o.lines)),
+    width = vim.fn.float2nr(vim.fn.round(0.90 * vim.o.columns)),
 })
-MAP('n', "<m-n>", function ()
-    local t = vim.bo.filetype
-    if t == "startify" or t == "" then
-        vim.cmd("Lf " .. BUFDIR())
-    else
-        vim.cmd("Lf " .. FILE())
-    end
-end)
+vim.keymap.set("n", "<m-n>", vim.cmd.Lf)

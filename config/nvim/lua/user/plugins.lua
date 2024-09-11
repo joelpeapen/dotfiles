@@ -13,7 +13,7 @@ require("lazy").setup({
     -- dash
     "mhinz/vim-startify",
 
-    "is0n/fm-nvim",
+    "lmburns/lf.nvim",
 
     "kylechui/nvim-surround",
     "windwp/nvim-autopairs",
