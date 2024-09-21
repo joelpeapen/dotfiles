@@ -1,5 +1,5 @@
-local o = vim.opt
 local g = vim.g
+local o = vim.opt
 
 o.number = true
 o.relativenumber = true
@@ -9,6 +9,14 @@ o.softtabstop = 4
 o.shiftwidth = 4
 o.expandtab = true
 
+o.wrap = false
+o.linebreak = true
+o.smartcase = true
+o.ignorecase = true
+o.smartindent = true
+o.breakindent = true
+o.whichwrap:append("hl<>[]")
+
 o.winbar = "%m"
 o.laststatus = 2
 o.showmode = false
@@ -16,13 +24,6 @@ o.showmode = false
 o.splitright = true
 o.splitbelow = true
 g.noequalalways = true
-
-o.wrap = false
-o.linebreak = true
-o.smartcase = true
-o.ignorecase = true
-o.smartindent = true
-o.whichwrap:append("hl<>[]")
 
 o.list = true
 o.listchars:append("trail:·", "tab: ")
