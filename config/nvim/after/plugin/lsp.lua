@@ -1,42 +1,42 @@
 local lsp = require("lspconfig")
 
-require("mason").setup()
-require("mason-lspconfig").setup({
-    ensure_installed = { "lua_ls", "bashls", "clangd" },
-    handlers = {
-        function(server)
-            lsp[server].setup({})
-        end,
-
-        ["lua_ls"] = function()
-            lsp.lua_ls.setup({
-                settings = {
-                    Lua = {
-                        telemetry = { enable = false },
-                        diagnostics = { globals = { "vim" } },
-                        workspace = {
-                            checkThirdParty = false,
-                            library = {
-                                vim.fn.stdpath("config"),
-                                vim.fn.expand("$VIMRUNTIME/lua")
-                            }
-                        }
-                    }
+lsp.lua_ls.setup({
+    settings = {
+        Lua = {
+            telemetry = { enable = false },
+            diagnostics = { globals = { "vim" } },
+            workspace = {
+                checkThirdParty = false,
+                library = {
+                    vim.fn.stdpath("config"),
+                    vim.fn.expand("$VIMRUNTIME/lua")
                 }
-            })
-        end,
-
-        ["gopls"] = function()
-            lsp.gopls.setup({
-                settings = {
-                    gopls = {
-                        gofumpt = true,
-                    }
-                }
-            })
-        end
+            }
+        }
     }
 })
+
+lsp.clangd.setup({})
+
+lsp.gopls.setup({
+    settings = {
+        gopls = {
+            gofumpt = true,
+        }
+    }
+})
+
+lsp.jdtls.setup({
+    init_options = {
+        bundles = {
+           vim.fn.glob(os.getenv("HOME") .. "/.local/user/dev/java-debug-adapter/server/com.microsoft.java.debug.plugin-0.53.0.jar")
+        }
+    }
+})
+
+lsp.bashls.setup({})
+lsp.emmet_ls.setup({})
+lsp.pyright.setup({})
 
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("lsp_mappings", {}),
