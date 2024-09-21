@@ -62,6 +62,8 @@ MAP('n', "<c-d>", "<c-d>zz")
 MAP('n', "<c-u>", "<c-u>zz")
 MAP('n', "<c-f>", "<c-f>zz")
 MAP('n', "<c-b>", "<c-b>zz")
+MAP('n', "<c-o>", "<c-o>zz")
+MAP('n', "<c-i>", "<c-i>zz")
 
 -- center cursor when search next instance
 MAP('n', 'n', "nzzzv")
