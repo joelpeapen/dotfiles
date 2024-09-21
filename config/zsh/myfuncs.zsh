@@ -1,5 +1,6 @@
-#--------------------Configs, sync package lists--------------------
-function get-installed-packages {
+#--------------------configs, sync package lists--------------------
+
+function sync-pkgs {
     ls $HOME/.local/user/{dev,program} | tee > $HOME/Documents/LINUX_SOFTWARE/binaries
     pip list | tail -n +3 | sort -u | tee > $HOME/Documents/LINUX_SOFTWARE/pip
     apt list --installed | sed 's/\/.*//' | sort -u | tee > $HOME/Documents/LINUX_SOFTWARE/apt
@@ -21,8 +22,8 @@ function sync-dots {
     cp $XDG_CONFIG_HOME/zathura/zathurarc $DOTDIR/config/zathura/
     cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/kitty/
 
-    cp $HOME/.local/user/program/spotlight/* $DOTDIR/bin/
     cp $XDG_CONFIG_HOME/rofi/*.rasi $DOTDIR/config/rofi/
+    cp $HOME/.local/user/program/spotlight/* $DOTDIR/bin/
     cp $XDG_CONFIG_HOME/warpd/config $DOTDIR/config/warpd/config
 
     cp $HOME/.gitconfig $DOTDIR/config/git/gitconfig
@@ -35,14 +36,22 @@ function sync-dots {
     git status
 }
 
-#----------------------------UTIL----------------------------
+#----------------------------util----------------------------
+
+function restart {
+    source $ZSHRC && rehash
+}
+
+function vim { nvim }
 
 function is_in_path {
     command -v $1 &> /dev/null
 }
 
+function mcd { mkdir -p "$1" && cd "$1" }
+
 # bulk rename
-function bulkmv {
+function bmv {
     old="$(mktemp)"
     new="$(mktemp)"
     [[ $1 ]] && f="$(ls -a)" || f="$(ls)"
@@ -58,6 +67,14 @@ function bulkmv {
     rm -- "$old" "$new"
 }
 
+# mv to modified time
+function mvd {
+    for a in *.$1; do
+        time=$(stat --format=%w "$a" | sed 's/:/-/g' | sed 's/ /_/')
+        mv "$a" ""${time%.*}"."${a##*.}""
+    done
+}
+
 # f(filetype search replace)
 function sub {
     if [[ $1 == "-l" ]]; then
@@ -69,19 +86,29 @@ function sub {
     fi
 }
 
-# mv to modified time
-function mvd {
-    for a in *.$1; do
-        time=$(stat --format=%w "$a" | sed 's/:/-/g' | sed 's/ /_/')
-        mv "$a" ""${time%.*}"."${a##*.}""
-    done
-}
-
 function stats {
     for a in *; do
         s=$(stat "$a" | tail -n4 | sed 's/\.\w+ \+\w+//g')
         pcol 34 4 1 "$a\n"
         pcol "$s\n"
+    done
+}
+
+# f(color color|style|background)
+function pcol {
+    case $# in
+        1) printf $'\e[0;0m%b\e[0m' "$@";;
+        2) printf $'\e[0;%im%b\e[0m' "$1" "${@:2:$#-1}";;
+        3) printf $'\e[%i;%im%b\e[0m' "$2" "$1" "${@:3:$#-1}";;
+        4) printf $'\e[%i;%i;%im%b\e[0m' "$1" "$3" "$2" "${@:4:$#-1}";;
+    esac
+}
+
+function stopwatch {
+    date1=`date +%s`;
+    while true; do
+        echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"
+        sleep 1
     done
 }
 
@@ -105,31 +132,27 @@ function man {
     command man "$@"
 }
 
-# f(color color|style|background)
-function pcol {
-    case $# in
-        1) printf $'\e[0;0m%b\e[0m' "$@";;
-        2) printf $'\e[0;%im%b\e[0m' "$1" "${@:2:$#-1}";;
-        3) printf $'\e[%i;%im%b\e[0m' "$2" "$1" "${@:3:$#-1}";;
-        4) printf $'\e[%i;%i;%im%b\e[0m' "$1" "$3" "$2" "${@:4:$#-1}";;
-    esac
-}
+#----------------------------nav----------------------------
 
 function .. {
     level=$1
-    [[ -z $level ]] && { level=1; }
+    [[ -z $level ]] && level=1
     for i in $(seq 1 $level); do cd ../; done
 }
 
-function stopwatch {
-    date1=`date +%s`;
-    while true; do
-        echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"
-        sleep 1
-    done
+function zo {
+    op=" -l --color=always --icons --no-user --no-time"
+    dir=$(zoxide query -l | fzf --preview "eza $op {} | bat -n" --height=~50%)
+    [[ -d "$dir" ]] && cd "$dir"
+    zle reset-prompt
 }
 
-#----------------------------Logs----------------------------
+function files {
+    setsid nautilus file:$PWD &>/dev/null
+    zle reset-prompt
+}
+
+#----------------------------logs----------------------------
 
 # get ssh logs with date and time
 function ssh-log {
@@ -170,12 +193,10 @@ function atomic {
     cat /var/log/syslog | rg Atomic
 }
 
-#----------------------------Searching----------------------------
+#----------------------------searching----------------------------
 
 # live grep
-function lgrep {
-    rgf
-}
+function lgrep { rgf }
 
 function agstring {
     local preview_cmd
@@ -195,7 +216,8 @@ function codelines {
     pcol 34 1 "total: $(echo $files | sed 's/.*://' | paste -sd+ | bc)"
 }
 
-#----------------------------Git----------------------------
+#----------------------------git----------------------------
+
 function in-git {
     git rev-parse --is-inside-work-tree > /dev/null
 }
@@ -230,19 +252,11 @@ function gitpuller {
     done
 }
 
-function gclone { git clone git@github.com:$1 }
+function kdiff { kdiff }
 
-#----------------------------Media----------------------------
+function skdiff { kdiff --staged }
 
-function yt {
-    while getopts "pa" o; do
-        case $o in
-            p) yt-dlp -f "mp4" "$2" -o "%(playlist_index)s - %(title)s.%(ext)s";;
-            a) yt-dlp -f 'ba' -x --audio-format mp3 "$2" -o "%(playlist_index)s - %(title)s.%(ext)s";;
-        esac
-    done
-    [[ "$OPTIND" -eq 1 ]] && yt-dlp -f "mp4" -o "%(title)s.%(ext)s" $1
-}
+#----------------------------media----------------------------
 
 # f(file, to, how)
 function convert-image {
@@ -311,46 +325,17 @@ function ocr {
     fi
 }
 
-# f(from, to, how)
-function screenshots {
-    if [[ "$3" ]]; then
-        echo "$3"; i="$3"
-    elif is_in_path gum; then
-        i=$(gum choose high low)
-    else
-        pcol 34 1 "Use high or low [i/f]? "
-        read -r i
-    fi
-    for f in *.$1; do
-        case $i in
-            high|i) convert-image $f $2 i;;
-            low|f) convert-image $f $2 f;;
+function yt {
+    while getopts "pa" o; do
+        case $o in
+            p) yt-dlp -f "mp4" "$2" -o "%(playlist_index)s - %(title)s.%(ext)s";;
+            a) yt-dlp -f 'ba' -x --audio-format mp3 "$2" -o "%(playlist_index)s - %(title)s.%(ext)s";;
         esac
     done
-    sub -l $2 "Screenshot from "
-    sub -l $2 " " "_"
-    mv *.$1 /tmp/
-    pcol 34 1 "old files moved to /tmp"
+    [[ "$OPTIND" -eq 1 ]] && yt-dlp -f "mp4" -o "%(title)s.%(ext)s" $1
 }
 
-#----------------------------zsh----------------------------
-
-function mcd { mkdir -p "$1" && cd "$1" }
-
-function files {
-    setsid nautilus file:$PWD &>/dev/null
-    zle reset-prompt
-}
-
-function zo {
-    op=" -l --color=always --icons --no-user --no-time"
-    dir=$(zoxide query -l | fzf --preview "eza $op {} | bat -n" --height=~50%)
-    [[ -d "$dir" ]] && cd "$dir"
-    zle reset-prompt
-}
-
-function kdiff { kdiff }
-function skdiff { kdiff --staged }
+#----------------------------ui----------------------------
 
 function theme {
     colors=$(< $ZDOTDIR/themes)
@@ -373,22 +358,22 @@ function lightmode {
     sed -E -i "s/250/240/" $ZDOTDIR/plugins.zsh
 }
 
-function restart { source $ZSHRC && rehash }
-
+zle -N vim vim
 zle -N zo zo
-zle -N lgrep lgrep
 zle -N files files
+zle -N bmv bmv
+zle -N lgrep lgrep
 zle -N kdiff kdiff
 zle -N skdiff skdiff
-zle -N bulkmv bulkmv
-zle -N restart restart
 zle -N theme theme
+zle -N restart restart
 
+bindkey ',v' vim
 bindkey ',z' zo
-bindkey '\er' lgrep
 bindkey ',e' files
+bindkey ',b' bmv
+bindkey '\er' lgrep
 bindkey ',4' kdiff
 bindkey ',5' skdiff
-bindkey ',b' bulkmv
-bindkey ',r' restart
 bindkey ',0' theme
+bindkey ',r' restart

@@ -26,6 +26,7 @@ ctrl-space:toggle-preview
 --preview \
 'case \$(file --mime-type -Lb {}) in
     *csv) csview {};;
+    *markdown) pistol {} | bat -n;;
     *text* | *json | *xml) bat -n --color=always {};;
     audio*) mediainfo {};;
     image*) kitty icat --stdin no --clear --transfer-mode stream --place \${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES}@0x0 {};;

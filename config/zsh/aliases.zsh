@@ -8,7 +8,6 @@ alias md="mkdir -p"
 alias pwd="pwd | sed 's/ /\\ /'"
 
 # programs
-alias vim="nvim"
 alias du="du -h"
 alias sed="sed -E"
 alias echo="echo -e"
