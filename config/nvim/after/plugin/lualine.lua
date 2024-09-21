@@ -58,7 +58,7 @@ require("lualine").setup({
         }
     },
     extensions = {
-        "nvim-dap-ui", "fugitive", "lazy",
-        "toggleterm", "trouble", "quickfix", "man",
+        "man", "quickfix", "lazy",
+        "nvim-dap-ui", "toggleterm", "trouble",
     }
 })

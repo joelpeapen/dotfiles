@@ -1,7 +1,8 @@
-MAP('n', "<leader>gs", vim.cmd.Git)
+require("neogit").setup()
+MAP('n', "<leader>gs", vim.cmd.Neogit)
 
-MAP('n', "<leader>dv", vim.cmd.DiffviewOpen)
-MAP('n', "<leader>dV", vim.cmd.DiffviewClose)
+MAP('n', "<leader>do", vim.cmd.DiffviewOpen)
+MAP('n', "<leader>dO", vim.cmd.DiffviewClose)
 
 MAP('n', "<c-/>", "<Plug>(comment_toggle_linewise_current)")
 MAP('v', "<c-/>", "<Plug>(comment_toggle_linewise_visual)")

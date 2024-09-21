@@ -28,14 +28,14 @@ require("lazy").setup({
     "karb94/neoscroll.nvim",
     "akinsho/toggleterm.nvim",
 
-    { "chentoast/marks.nvim", config = true },
     {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
         commit = "e76cb03"
     },
+    { "chentoast/marks.nvim", config = true },
 
-    { "tpope/vim-fugitive", event = "VeryLazy" },
+    "neogitorg/neogit",
     { "lewis6991/gitsigns.nvim", config = true },
     { "sindrets/diffview.nvim", event = "VeryLazy" },
 
