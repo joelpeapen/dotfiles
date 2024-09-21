@@ -62,16 +62,6 @@ g.markdown_folding = 1
 -- treesitter folds
 o.foldmethod = "expr"
 o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-o.foldtext = "v:lua.vim.foldtext()"
-
-local function foldtext()
-    local l = vim.fn.getline(vim.v.foldstart)
-    local folded = vim.v.foldend - vim.v.foldstart
-    local text = vim.fn.substitute(l, '^%s*"{\\+', '', 'g')
-    local width = vim.bo.textwidth
-    local fillcount = width - #text - #tostring(folded)
-    return '+' .. string.rep('-', 3) .. ' ' .. text .. string.rep(' ', fillcount) .. ' (' .. folded .. ' lines)'
-end
 
 function P(v)
     print(vim.inspect(v))
