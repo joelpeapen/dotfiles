@@ -11,25 +11,32 @@ set dirfirst
 set dircounts
 set info size
 set ignorecase
-
 set number
 set relativenumber
-set cutfmt "\033[1;7;31m"
-set copyfmt "\033[1;7;33m"
-set selectfmt "\033[1;7;35m"
-set cursorpreviewfmt "\033[7m"
-set promptfmt "\033[1;32m%u \033[0;34m%d\033[1;31m%f"
+set anchorfind!
 
 set ifs "\n"
 set period 1
 set tabstop 4
 set scrolloff 10
 
+set cutfmt "\033[1;7;31m"
+set copyfmt "\033[1;7;33m"
+set selectfmt "\033[1;7;35m"
+set tagfmt "\033[1;7;93m"
+set errorfmt "\033[1;31m"
+set borderfmt "\033[2;34m"
+set cursorpreviewfmt "\033[7m"
+set promptfmt "\033[1;32m%u \033[0;34m%d\033[1;31m%f"
+
+set truncatechar "…"
+set dupfilefmt "%f.~%n"
+
 set preview
 set cleaner ~/.config/lf/cleaner
 set previewer ~/.config/lf/preview
 
-# -------------------- MAPPINGS --------------------
+# -------------------- mappings --------------------
 
 map <!> shell
 map i $less -f "$f"
@@ -37,22 +44,24 @@ map i $less -f "$f"
 map o open
 map O $$EDITOR "$f"
 map S $setsid -f xdg-open "$f"
+map X &lf -remote "send $id &$f"
+map U !du -h
+
 map x cut
-map X run
 map y copy
 map p paste
 map P fcp
 map d delete
 map e rename
 map r :rename; cmd-end
-map b bulkmv
+map b bmv
 
 map af touch
 map ad mkdir
-map <a-n> newfold
+map <a-n> bundle
+map gy copy-path
 map al symlink
 map gl follow_link
-map gy copy-path
 
 map au zip
 map aU extract
@@ -61,49 +70,52 @@ map ae xplus
 map aE xminus
 map aH chmod
 
+map <a-b> select-ft
+map <a-p> select-pt
 map V invert-below
 map D select-dirs
 map F select-files
-map <a-b> select-ft
-map <a-c> select-pt
 
-map \\ zi
-map ~ cd ~
-map f fzf_jump
-map <a-s> fzf_file
-map <a-f> fzf_buffer
-map <a-r> fzf_search
-map <a-e> filexplore
-map <c-t> dragon
-
-map <a-p> hists
+map <a-u> hists
 map <a-t> kitty-tab
 map <a-T> tmux-tab
-map <c-z> $ kill -STOP $PPID
 
-map <c-space> toggle-preview
-map <f-3> &{{
-    ffplay -loop 0 $f
-}}
+map \\ zi
+map <a-f> fzf_dir
+map <a-s> fzf_file
+map <a-F> fzf_dir1
+map <a-r> fzf_search
+map <a-e> filexplore
+map <a-.> jump-next
+map <a-,> jump-prev
 
-map L bottom
 map R reload
 map <a-k> half-up
 map <a-j> half-down
 map <a-h> scroll-up
 map <a-\;> scroll-down
 
-map K :updir; set dironly true; up; set dironly false; open
-map J :updir; set dironly true; down; set dironly false; open
+map K :updir; set dironly true; up; set dironly!; open
+map J :updir; set dironly true; down; set dironly!; open
+
+map <c-space> toggle-preview
+
+map <a-g> dragon
+map <f-3> &{{
+    ffplay -loop 0 $f
+}}
 
 map ` !true # cmds output
 map <c-l> $printf "\033[2J\033[1;1H" # clear output
 
+map <c-z> $ kill -STOP $PPID
+
 map <esc> :read; cmd-escape
 map . :read; cmd-history-prev; cmd-enter
+
 map <f-2> $$EDITOR $XDG_CONFIG_HOME/lf/lfrc
 
-# -------------------- GENERAL --------------------
+# -------------------- general --------------------
 
 # auto size column
 ${{
@@ -133,9 +145,7 @@ cmd toggle-preview &{{
     fi
 }}
 
-# -------------------- FILES --------------------
-
-cmd run &lf -remote "send $id &$f"
+# -------------------- files --------------------
 
 cmd open ${{
     case $(file --mime-type -Lb "$f") in
@@ -158,7 +168,7 @@ cmd mkdir %{{
     lf -remote "send $id select \"$folder\""
 }}
 
-cmd newfold %{{
+cmd bundle %{{
     set -f
     printc -c g -s b " folder name: "
     read ned
@@ -250,7 +260,7 @@ cmd select-pt %{{
 }}
 
 # bulk rename
-cmd bulkmv ${{
+cmd bmv ${{
     old="$(mktemp)"
     new="$(mktemp)"
     [[ -n "$fs" ]] && fs="$(basename -a $fs)" || fs="$(ls)"
@@ -303,7 +313,7 @@ cmd extract ${{
     lf -remote "send reload"
 }}
 
-# -------------------- PERMISSIONS --------------------
+# -------------------- permissions --------------------
 
 cmd xplus &{{
     chmod 775 $fx
@@ -324,7 +334,7 @@ cmd chmod %{{
     lf -remote "send reload"
 }}
 
-# -------------------- NAV --------------------
+# -------------------- nav --------------------
 
 cmd tmux-tab &{{
     case $(file --mime-type -Lb "$f") in
@@ -360,7 +370,7 @@ cmd zi ${{
     lf -remote "send $id cd \"$folder\""
 }}
 
-cmd fzf_jump ${{
+cmd fzf_dir ${{
     folder="$(fd -t d -LH | fzf --header='cd into ...' --border --padding=1)" || true
     lf -remote "send $id cd \"$folder\""
 }}
@@ -370,15 +380,13 @@ cmd fzf_file ${{
     lf -remote "send $id select \"$file\""
 }}
 
-cmd fzf_buffer ${{
+cmd fzf_dir1 ${{
     folder="$(fd -t d -d 1 -LH | fzf --header='cd into ...' --border --padding=1)" || true
     lf -remote "send $id cd \"$folder\""
 }}
 
-cmd fzf_search ${{
-    rgf
-}}
+cmd fzf_search ${{ rgf }}
 
 cmd dragon %{{
-    setsid -f dragon -x -a $fx && kill \"$$\"
+    setsid -f dragon -x -a $fx
 }}
