@@ -33,7 +33,7 @@ ctrl-space:toggle-preview
     video*) kitty icat --stdin no --clear --transfer-mode stream --place \${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES}@0x0 \$(vidthumb {});;
     *pdf) kitty icat --stdin yes --clear --transfer-mode stream --place \${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES}@0x0 \
           <<< \$(pdftoppm -jpeg -f 1 -l 1 -tiffcompression jpeg -scale-to-x -1 -scale-to-y 1080 -singlefile {});;
-    inode/directory) eza -l --icons --no-user --no-time --color=always {} | bat -n;;
+    inode/directory) eza -la --icons --no-user --no-time --color=always {} | bat -n;;
     *) pistol {} | bat -n;;
 esac'"
 

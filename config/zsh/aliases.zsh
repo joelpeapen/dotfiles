@@ -1,9 +1,7 @@
 # files
-alias l='eza'
-alias la='eza -a'
+alias l='eza -a'
 alias lr="eza -R"
-alias ll="eza -l --icons"
-alias lla="eza -la --icons"
+alias ll="eza -la --icons"
 alias md="mkdir -p"
 alias pwd="pwd | sed 's/ /\\ /'"
 
