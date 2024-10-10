@@ -39,7 +39,7 @@ set previewer ~/.config/lf/preview
 # -------------------- mappings --------------------
 
 map <!> shell
-map i $less -f "$f"
+map i $$PAGER "$f"
 
 map o open
 map O $$EDITOR "$f"
@@ -106,7 +106,7 @@ map <f-3> &{{
 }}
 
 map ` !true # cmds output
-map <c-l> $printf "\033[2J\033[1;1H" # clear output
+map <c-l> $printf "\033[2J\033[H" # clear output
 
 map <c-z> $ kill -STOP $PPID
 

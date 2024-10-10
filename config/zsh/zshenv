@@ -21,5 +21,6 @@ export ZSHRC="$HOME/.zsh/.zshrc"
 export DOTDIR="$HOME/Documents/docs/dotfiles/mine"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripconf"
 
+export PAGER="moar"
 export EDITOR="nvim"
 export BROWSER="firefox -private"
