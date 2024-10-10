@@ -3,6 +3,7 @@ MAP = vim.keymap.set
 vim.g.mapleader = " "
 
 MAP('n', "Q", "<nop>")
+
 MAP('n', "<esc>", function()
     vim.cmd.norm(":<c-c>")
     vim.cmd.noh()
@@ -14,7 +15,7 @@ MAP('n', "<m-q>", function()
 end)
 
 -- netrw
-MAP('n', "<m-o>", function ()
+MAP('n', "<m-o>", function()
     if vim.bo.filetype ~= "netrw" then
         vim.cmd.Ex()
         vim.cmd.norm("jj")
@@ -24,7 +25,7 @@ MAP('n', "<m-o>", function ()
 end)
 
 -- plugins
-MAP('n', "<c-Space>p", "<cmd>Lazy home<cr>")
+MAP('n', "<c-space>p", "<cmd>Lazy home<cr>")
 
 MAP('n', "<leader>2", vim.cmd.so)
 
@@ -69,28 +70,11 @@ MAP('n', "<c-i>", "<c-i>zz")
 MAP('n', 'n', "nzzzv")
 MAP('n', 'N', "Nzzzv")
 
--- keep clipboard copy after delete word
-MAP('x', "<leader>pp", "\"_dP")
-
--- delete to void register
-MAP({ 'n', 'v' }, "<leader>dd", "\"_d<cr>")
-
--- copy to system clipboard
-MAP({ 'n', 'v' }, "<leader>y", "\"+y")
-MAP('n', "<leader>Y", "\"+Y")
-
--- code folding
-MAP('n', "[e", "za")
-
 -- horizontal scroll
 MAP('n', "<m-9>", "10zh")
 MAP('n', "<m-0>", "10zl")
 MAP('n', "<m-s-9>", "zH")
 MAP('n', "<m-s-0>", "zL")
-
--- move lines up and down in visual mode
-MAP('v', 'J', ":m '>+1<cr>gv=gv", { silent = true })
-MAP('v', 'K', ":m '<-2<cr>gv=gv", { silent = true })
 
 -- tabs
 MAP('n', "<m-.>", "gt")
@@ -127,6 +111,9 @@ MAP('n', "<leader>vn", vim.cmd.vne)
 MAP('n', "<leader>hs", vim.cmd.split)
 MAP('n', "<leader>vs", vim.cmd.vsplit)
 
+-- code folding
+MAP('n', "[e", "za")
+
 -- wrap
 MAP('n', "||", function()
     vim.wo.wrap = not vim.wo.wrap
@@ -137,22 +124,27 @@ MAP('n', "||", function()
     end
 end)
 
--- cd into bufdir
-MAP('n', "<leader>cd", function()
-    vim.cmd("cd " .. BUFDIR())
-end)
+-- keep clipboard copy after delete word
+MAP('x', "<leader>pp", "\"_dP")
 
--- open cwd in new
-MAP('n', "<leader>pt", function() -- terminal tab
-    os.execute("newtab " .. os.getenv("TERMINAL") .. " " .. BUFDIR())
-end)
-MAP('n', "<leader>pT", function() -- tmux window
-    os.execute("tmux new-window; cd " .. BUFDIR())
-end)
+-- delete to void register
+MAP({ 'n', 'v' }, "<leader>dd", "\"_d<cr>")
+
+-- copy to system clipboard
+MAP({ 'n', 'v' }, "<leader>y", "\"+y")
+MAP('n', "<leader>Y", "\"+Y")
+
+-- move lines up and down in visual mode
+MAP('v', 'J', ":m '>+1<cr>gv=gv", { silent = true })
+MAP('v', 'K', ":m '<-2<cr>gv=gv", { silent = true })
+
+-- replace word
+MAP('n', "<leader>s", ":%s/\\<<c-r><c-w>\\>/<c-r><c-w>/gI<Left><Left><Left>")
+MAP('n', "<leader>S", ":%s/\\<<c-r><c-a>\\>/<c-r><c-a>/gI<Left><Left><Left>")
 
 -- nice
 local prose = false
-MAP('n', "<c-Space>w", function()
+MAP('n', "<c-space>w", function()
     if prose then
         vim.wo.wrap = false
         vim.opt_local.spell = false
@@ -168,14 +160,17 @@ MAP('n', "<c-Space>w", function()
     end
 end)
 
--- replace word
-MAP('n', "<leader>s", ":%s/\\<<c-r><c-w>\\>/<c-r><c-w>/gI<Left><Left><Left>")
-MAP('n', "<leader>S", ":%s/\\<<c-r><c-a>\\>/<c-r><c-a>/gI<Left><Left><Left>")
+-- cd into bufdir
+MAP('n', "<leader>cd", function()
+    vim.cmd("cd " .. BUFDIR())
+end)
 
--- color picker. will be deprecated eventually
-MAP({ 'n', 'v' }, "<leader>qp", function()
-    local color = vim.fn.expand("<cWORD>")
-    os.execute("zenity --color-selection --color=" .. color)
+-- open cwd in new
+MAP('n', "<leader>pt", function() -- terminal tab
+    os.execute("newtab " .. os.getenv("TERMINAL") .. " " .. BUFDIR())
+end)
+MAP('n', "<leader>pT", function() -- tmux window
+    os.execute("tmux new-window; cd " .. BUFDIR())
 end)
 
 -- file stats
@@ -201,3 +196,8 @@ MAP('n', "<S-F10>", function()
     os.execute("runfile " .. FILE() .. " " .. BUFDIR() .. " " .. args)
 end)
 
+-- color picker
+MAP({ 'n', 'v' }, "<leader>qp", function()
+    local color = vim.fn.expand("<cWORD>")
+    os.execute("zenity --color-selection --color=" .. color)
+end)

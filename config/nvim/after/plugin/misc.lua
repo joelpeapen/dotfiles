@@ -41,7 +41,7 @@ local autopairs = require("nvim-autopairs")
 autopairs.setup({
     ignored_next_char = "[%w%.%'%\"%(%)%[%]%{%}%$]",
     fast_wrap = {
-        map = "<m-\\>",
+        map = "<m-bslash>",
         chars = { '{', '[', '(', '"', "'", '<', '`' },
         end_key = " "
     }

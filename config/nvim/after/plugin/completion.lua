@@ -18,10 +18,10 @@ cmp.setup({
         documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
-        ["<c-Space>"] = cmp.mapping.complete(),
+        ["<c-space>"] = cmp.mapping.complete(),
         ["<m-;>"] = cmp.mapping.select_next_item(),
         ["<m-'>"] = cmp.mapping.select_prev_item(),
-        ["<m-Space>"] = cmp.mapping.confirm({ select = true }),
+        ["<m-space>"] = cmp.mapping.confirm({ select = true }),
         ["<m-d>"] = cmp.mapping.scroll_docs(4),
         ["<m-u>"] = cmp.mapping.scroll_docs(-4),
         ["<m-o>"] = function()

@@ -1,5 +1,3 @@
-vim.opt.termguicolors = true
-
 function Pencils(color)
     color = color or vim.g.colors_name
     vim.cmd.colorscheme(color)

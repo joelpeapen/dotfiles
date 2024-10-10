@@ -65,7 +65,6 @@ MAP('n', "<leader>of", builtin.oldfiles)
 MAP('n', "<leader>th", builtin.help_tags)
 MAP('n', "<leader>tm", builtin.man_pages)
 MAP('n', "<leader>cs", builtin.spell_suggest)
-MAP('n', "<c-Space>t", builtin.colorscheme)
 
 -- places
 MAP('n', "<leader>6", function()
