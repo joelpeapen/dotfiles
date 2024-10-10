@@ -1,5 +1,10 @@
 local dap = require("dap")
 
+local function args()
+    local a = vim.fn.input("args: ")
+    return a ~= "" and a or {}
+end
+
 -- c/c++
 dap.adapters.codelldb = {
     type = "server",
@@ -17,19 +22,17 @@ dap.configurations.c = {
         request = "launch",
         program = "${fileBasenameNoExtension}",
         cwd = "${fileDirname}",
-        stopOnEntry = false,
-        args = {}
+        args = function() return args() end
     },
     {
         name = "Debug file (with path)",
         type = "codelldb",
         request = "launch",
         program = function()
-            vim.fn.input("path: ", BUFDIR() .. '/', "file")
+            return vim.fn.input("path: ", BUFDIR() .. '/', "file")
         end,
         cwd = "${fileDirname}",
-        stopOnEntry = false,
-        args = {}
+        args = function() return args() end
     }
 }
 dap.configurations.cpp = dap.configurations.c

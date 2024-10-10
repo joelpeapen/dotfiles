@@ -17,11 +17,6 @@ dapui.setup({
     }
 })
 
-MAP('n', "<leader>od", dapui.toggle)
-dap.listeners.after.event_initialized["dapui_config"] = dapui.open
-dap.listeners.before.event_terminated["dapui_config"] = dapui.close
-dap.listeners.before.event_exited["dapui_config"] = dapui.close
-
 MAP({ 'n', 'v' }, "<leader>dh", function() widgets.hover() end)
 MAP({ 'n', 'v' }, "<leader>dp", function() widgets.preview() end)
 MAP('n', "<leader>df", function() widgets.centered_float(widgets.frames) end)
@@ -31,3 +26,8 @@ local sign = vim.fn.sign_define
 sign("DapBreakpoint", { text = "●" })
 sign("DapBreakpointCondition", { text = "●" })
 sign("DapLogPoint", { text = "◆" })
+
+MAP('n', "<leader>od", dapui.toggle)
+dap.listeners.after.event_initialized["dapui_config"] = dapui.open
+dap.listeners.before.event_terminated["dapui_config"] = dapui.close
+dap.listeners.before.event_exited["dapui_config"] = dapui.close
