@@ -1,0 +1,219 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "padding": {
+            "top": 2
+        }
+    },
+    "display": {
+        "separator": " -> ",
+        "constants": [
+            "╭─",
+            "├─",
+            "╰─",
+            "────────────────────"
+        ],
+        "bar": {
+            "charElapsed": "=",
+            "charTotal": "-",
+            "width": 13
+        },
+        "percent": {
+            "type": 3
+        }
+    },
+    "modules": [
+        {
+            "type": "title",
+            "keyWidth": 50,
+            "color": {
+                "user": "green",
+                "at": "blue",
+                "host": "red"
+            }
+        },
+        {
+            "type": "custom",
+            "format": "{$4}{$4}",
+            "outputColor": "90"
+        },
+        {
+            "type": "host",
+            "key": "🖳 host    ",
+            "keyColor": "blue",
+        },
+        {
+            "type": "os",
+            "key": " os      ",
+            "keyColor": "blue",
+        },
+        {
+            "type": "shell",
+            "key": " shell   ",
+            "keyColor": "blue"
+        },
+        {
+            "type": "packages",
+            "key": "󰏖 packages",
+            "keyColor": "blue"
+        },
+        {
+            "type": "uptime",
+            "key": " uptime  ",
+            "keyColor": "blue"
+        },
+        "break",
+
+        {
+            "type": "kernel",
+            "key": "󰞸 kernel",
+            "keyColor": "green"
+        },
+        {
+            "type": "bios",
+            "key": "󰛸 bios  ",
+            "keyColor": "green"
+        },
+        {
+            "type": "board",
+            "key": " board ",
+            "keyColor": "green"
+        },
+        {
+            "type": "cpu",
+            "key": "󰻠 CPU   ",
+            "keyColor": "green"
+        },
+        {
+            "type": "gpu",
+            "key": "󰾲 CPU   ",
+            "keyColor": "green"
+        },
+        "break",
+
+        {
+            "type": "brightness",
+            "key": "󰃞 brightness",
+            "keyColor": "red"
+        },
+        {
+            "type": "display",
+            "key": "󰍹 display   ",
+            "keyColor": "red"
+        },
+        {
+            "type": "monitor",
+            "key": "󰹑 monitor   ",
+            "keyColor": "red"
+        },
+        {
+            "type": "camera",
+            "key": " camera    ",
+            "keyColor": "red"
+        },
+        "break",
+
+        {
+            "type": "terminal",
+            "key": " terminal",
+            "keyColor": "light_yellow"
+        },
+        {
+            "type": "terminalfont",
+            "key": " font    ",
+            "keyColor": "light_yellow"
+        },
+        "break",
+
+        {
+            "type": "de",
+            "key": " de      ",
+            "keyColor": "light_yellow"
+        },
+        {
+            "type": "wm",
+            "key": " wm      ",
+            "keyColor": "light_yellow"
+        },
+        {
+            "type": "theme",
+            "key": "󰸌 theme   ",
+            "keyColor": "light_yellow"
+        },
+        {
+            "type": "icons",
+            "key": "󰀻 icons   ",
+            "keyColor": "light_yellow"
+        },
+        {
+            "type": "font",
+            "key": " font    ",
+            "keyColor": "light_yellow"
+        },
+        {
+            "type": "cursor",
+            "key": "󰆿 cursor  ",
+            "keyColor": "light_yellow"
+        },
+        {
+            "type": "locale",
+            "key": " locale  ",
+            "keyColor": "light_yellow"
+        },
+        "break",
+
+        {
+            "type": "memory",
+            "key": "󰑭 ram ",
+            "keyColor": "magenta"
+        },
+        {
+            "type": "swap",
+            "key": "󰓡 swap",
+            "keyColor": "magenta"
+        },
+        {
+            "type": "disk",
+            "key": " disk",
+            "keyColor": "magenta"
+        },
+        {
+            "type": "physicaldisk",
+            "key": "󰋊 disk",
+            "keyColor": "magenta"
+        },
+        "break",
+
+        {
+            "type": "battery",
+            "key": "  battery",
+            "keyColor": "green"
+        },
+        "break",
+
+        {
+            "type": "localip",
+            "key": "󰩟 localip",
+            "compact": true,
+            "keyColor": "blue"
+        },
+        {
+            "type": "wifi",
+            "key": " wifi   ",
+            "format": "{ssid}",
+            "keyColor": "blue"
+        },
+        {
+            "type": "dns",
+            "key": " dns    ",
+            "compact": true,
+            "keyColor": "blue"
+        },
+        "break",
+
+        {
+            "type": "custom",
+            "format": " {#90}  {#31}  {#32}  {#33}  {#34}  {#35}  {#36}  {#37}  {#38}  {#39} "
+        }
+    ]
+}
