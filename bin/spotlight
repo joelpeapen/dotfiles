@@ -6,12 +6,12 @@ export CLEAR="kitty icat --clear"
 
 # bindings
 export RELOAD="ctrl-r"
-export IGNORE="alt-g"
+export IGNORE="alt-I"
 export DIRS="ctrl-d"
 export FILES="ctrl-f"
 export DELETE="alt-r"
 export COPY_PATH="alt-y"
-export DRAGON="ctrl-t"
+export DRAGON="alt-g"
 export CLEAR_IMG="ctrl-l"
 
 files=$(fzf \
