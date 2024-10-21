@@ -83,6 +83,7 @@ map <a-T> tmux-tab
 map \\ zi
 map <a-f> fzf_dir
 map <a-s> fzf_file
+map <a-S> fzf_file1
 map <a-F> fzf_dir1
 map <a-r> fzf_search
 map <a-e> filexplore
@@ -377,6 +378,11 @@ cmd fzf_dir ${{
 
 cmd fzf_file ${{
     file="$(fd -t f -LH | fzf --header='files …' --border --padding=1)" || true
+    lf -remote "send $id select \"$file\""
+}}
+
+cmd fzf_file1 ${{
+    file="$(fd -t f -d 1 -LH | fzf --header='files …' --border --padding=1)" || true
     lf -remote "send $id select \"$file\""
 }}
 
