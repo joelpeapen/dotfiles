@@ -36,8 +36,6 @@ alias -g CA="2>&1 | cat -A"
 alias -g NE="2> /dev/null"
 alias -g NUL="&>/dev/null"
 
-alias -g DAE='&>/dev/null &; disown %$(ps -p $! -o comm=)'
-
 # session
 alias :q="exit"
 alias quit="gnome-session-quit"

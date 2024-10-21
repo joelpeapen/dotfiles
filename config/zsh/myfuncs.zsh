@@ -132,6 +132,10 @@ function man {
     command man "$@"
 }
 
+function dae {
+    setsid $1 &>/dev/null
+}
+
 #----------------------------nav----------------------------
 
 function .. {
@@ -186,11 +190,6 @@ function sudo-log {
 function crypt-log {
     sudo journalctl /usr/lib/systemd/systemd-cryptsetup |\
         grep Failed | sed -r -e 's/(^.*).*: (Failed.*$)/\1 \2/'
-}
-
-# check for recent intel atomic failures from syslog
-function atomic {
-    cat /var/log/syslog | rg Atomic
 }
 
 #----------------------------searching----------------------------
