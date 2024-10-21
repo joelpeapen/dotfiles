@@ -339,7 +339,7 @@ cmd chmod %{{
 cmd tmux-tab &{{
     case $(file --mime-type -Lb "$f") in
         inode/directory) c="$f" ;;
-        *) c="$(dirname "$(realpath "$f")")";;
+        *) c="$PWD";;
     esac
     tmux new-window; cd "$c"
 }}
@@ -347,7 +347,7 @@ cmd tmux-tab &{{
 cmd kitty-tab &{{
     case $(file --mime-type -Lb "$f") in
         inode/directory) c="$f" ;;
-        *) c="$(dirname "$(realpath "$f")")";;
+        *) c="$PWD";;
     esac
     kitty @launch --type=tab --cwd="$c"
 }}
@@ -387,6 +387,6 @@ cmd fzf_dir1 ${{
 
 cmd fzf_search ${{ rgf }}
 
-cmd dragon %{{
+cmd dragon &{{
     setsid -f dragon -x -a $fx
 }}
