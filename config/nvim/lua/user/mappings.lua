@@ -184,16 +184,16 @@ end)
 
 -- build file
 MAP('n', "<F9>", function()
-    os.execute("buildfile " .. FILE())
+    os.execute("file_build " .. FILE())
 end)
 
 -- run file
 MAP('n', "<F10>", function()
-    os.execute("runfile " .. FILE() .. " " .. BUFDIR())
+    os.execute("file_run " .. FILE() .. " " .. BUFDIR())
 end)
 MAP('n', "<S-F10>", function()
     local args = vim.fn.input("args: ")
-    os.execute("runfile " .. FILE() .. " " .. BUFDIR() .. " " .. args)
+    os.execute("file_run " .. FILE() .. " " .. BUFDIR() .. " " .. args)
 end)
 
 -- color picker
