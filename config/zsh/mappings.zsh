@@ -8,6 +8,9 @@ bindkey -s ',2' "sync-dots\n"
 bindkey -s ',g' "git status\n"
 bindkey -s ',c' "git oneline\n"
 
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+
 bindkey "\em" copy-prev-shell-word
 
 autoload -U edit-command-line

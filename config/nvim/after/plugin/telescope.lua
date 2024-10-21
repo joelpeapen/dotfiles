@@ -77,9 +77,11 @@ MAP('n', "<leader>8", function()
         search_dirs = { "~/.zsh", "~/.config/nvim" }
     })
 end)
+
+local code_files = os.getenv("DATA") .. "/code/lang"
 MAP('n', "<leader>9", function()
     builtin.find_files({
-        search_dirs = { "~/Documents/academics/code/lang" }
+        search_dirs = { code_files }
     })
 end)
 

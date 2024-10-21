@@ -1,37 +1,38 @@
 #--------------------configs, sync package lists--------------------
 
 function sync-pkgs {
-    ls $HOME/.local/user/{dev,program} | tee > $HOME/Documents/LINUX_SOFTWARE/binaries
-    pip list | tail -n +3 | sort -u | tee > $HOME/Documents/LINUX_SOFTWARE/pip
-    apt list --installed | sed 's/\/.*//' | sort -u | tee > $HOME/Documents/LINUX_SOFTWARE/apt
+    ls $HOME/.local/user/{dev,program} | tee > $DATA/config/LINUX_SOFTWARE/binaries
+    pip list | tail -n +3 | sort -u | tee > $DATA/config/LINUX_SOFTWARE/pip
+    dpkg --get-selections | awk '{print $1}' | tee > $DATA/config/LINUX_SOFTWARE/apt
 }
 
 function sync-dots {
     cd $DOTDIR
 
-    cp $ZSHRC $DOTDIR/config/zsh/zshrc
+    cp $ZSHRC $DOTDIR/config/zsh/
     cp $ZDOTDIR/*.zsh $DOTDIR/config/zsh/
-    cp $HOME/.zshenv $DOTDIR/config/zsh/zshenv
-    cp $ZDOTDIR/plugins/* $DOTDIR/config/zsh/plugins/
+    cp $HOME/.zshenv $DOTDIR/config/zsh/
+    cp $ZDOTDIR/addon/* $DOTDIR/config/zsh/addon/
     cp $XDG_CONFIG_HOME/starship.toml $DOTDIR/config/
-    cp $HOME/.bashrc $DOTDIR/config/bashrc
+    cp $HOME/.bashrc $DOTDIR/config/
 
+    cp $HOME/.tmux.conf $DOTDIR/config/
     cp -r $XDG_CONFIG_HOME/lf/ $DOTDIR/config/
     cp -r $XDG_CONFIG_HOME/nvim/ $DOTDIR/config/
-    cp $HOME/.tmux.conf $DOTDIR/config/tmux.conf
     cp $XDG_CONFIG_HOME/zathura/zathurarc $DOTDIR/config/zathura/
     cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/kitty/
 
     cp $XDG_CONFIG_HOME/rofi/*.rasi $DOTDIR/config/rofi/
     cp $HOME/.local/user/program/spotlight/* $DOTDIR/bin/
-    cp $XDG_CONFIG_HOME/warpd/config $DOTDIR/config/warpd/config
+    cp $XDG_CONFIG_HOME/warpd/config $DOTDIR/config/warpd/
+    cp $XDG_CONFIG_HOME/fastfetch/config.jsonc $DOTDIR/config/fastfetch/
 
-    cp $HOME/.gitconfig $DOTDIR/config/git/gitconfig
+    cp $HOME/.gitconfig $DOTDIR/config/git/
     cp $XDG_CONFIG_HOME/nano/nanorc $DOTDIR/config/nano/
-    cp $XDG_CONFIG_HOME/fd/ignore $DOTDIR/config/fd/ignore
-    cp $XDG_CONFIG_HOME/bat/config $DOTDIR/config/bat/config
+    cp $XDG_CONFIG_HOME/fd/ignore $DOTDIR/config/fd/
+    cp $XDG_CONFIG_HOME/bat/config $DOTDIR/config/bat/
     cp $XDG_CONFIG_HOME/kmonad/config.kdb $DOTDIR/config/kmonad/
-    cp $XDG_CONFIG_HOME/ripgrep/ripconf $DOTDIR/config/ripgrep/ripconf
+    cp $XDG_CONFIG_HOME/ripgrep/ripconf $DOTDIR/config/ripgrep/
 
     git status
 }
