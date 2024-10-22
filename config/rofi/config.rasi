@@ -1,5 +1,5 @@
 configuration {
-    modi: [run,windowcd];
+    modi: [run,window];
 
     sort: true;
     show-icons: true;
@@ -8,7 +8,7 @@ configuration {
 
     display-run: " RUN";
     display-drun: " DRUN";
-    display-windowcd : " WINDOWS";
+    display-window : " WINDOWS";
     drun-display-format: "{icon} {name}";
 
     kb-element-next: "Alt+j,Tab";
