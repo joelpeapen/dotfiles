@@ -394,5 +394,5 @@ cmd fzf_dir1 ${{
 cmd fzf_search ${{ rgf }}
 
 cmd dragon &{{
-    setsid -f dragon -x -a $fx
+    setsid -f dragon -x -a $fx && kill $id
 }}
