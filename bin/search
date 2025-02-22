@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
 
-declare -A choices=(
+declare -A sites=(
     [url]=""
-    [search]=""
-    [github]="https://github.com/search?q="
-    [youtube]="https://youtube.com/results?search_query="
+    [search]="https://duckduckgo.com/?q="
+    [google]="https://google.com/search?q="
 )
 
-q=$(printf "%s\n" "${!choices[@]}" | rofi -dmenu -i -p "SELECT" -no-custom)
+case "$XDG_SESSION_TYPE" in
+    "wayland")
+        [[ $* == "--selection" ]] && CLIP="wl-paste --primary" || CLIP="wl-paste" ;;
+    "x11")
+        [[ $* == "--selection" ]] && CLIP="xsel" || CLIP="xsel -b" ;;
+esac
 
-if [ -n "$q" ]; then
-    case "$q" in
-        search) search-internet ;;
-        *) o=$(printf ''| rofi -dmenu -p "$q")
-           [[ -n "$o" ]] && firefox --private-window "${choices[$q]}${o}" 2> /dev/null ;;
-    esac
+if [[ $* != "" ]]; then
+    QUERY=$($CLIP) && SITE="search"
+else
+    SITE=$(printf "%s\n" "${!sites[@]}" | rofi -dmenu -i -p "SELECT" -no-custom)
+    [[ -n "$SITE" ]] && QUERY=$(printf ''| rofi -dmenu -p "$SITE")
 fi
+
+[[ -n "$QUERY" ]] && firefox --private-window "${sites[$SITE]}${QUERY}" 2> /dev/null
