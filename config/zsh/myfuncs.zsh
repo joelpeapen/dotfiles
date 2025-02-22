@@ -31,7 +31,7 @@ function sync-dots {
     cp $XDG_CONFIG_HOME/nano/nanorc $DOTDIR/config/nano/
     cp $XDG_CONFIG_HOME/fd/ignore $DOTDIR/config/fd/
     cp $XDG_CONFIG_HOME/bat/config $DOTDIR/config/bat/
-    cp $XDG_CONFIG_HOME/kmonad/config.kdb $DOTDIR/config/kmonad/
+    cp $XDG_CONFIG_HOME/kmonad/config.kbd $DOTDIR/config/kmonad/
     cp $XDG_CONFIG_HOME/ripgrep/ripconf $DOTDIR/config/ripgrep/
 
     git status
