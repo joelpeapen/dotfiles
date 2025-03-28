@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# screen selector for wf-recorder
+
+d=$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp -o)
+
+[ -n "$d" ] && wf-recorder -g "$d" --file="$HOME/Videos/$(date +"%Y-%m-%d_%H-%M-%S").mp4" || exit 1

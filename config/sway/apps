@@ -1,0 +1,76 @@
+set $term   kitty
+set $editor nvim
+set $files  nautilus
+set $menu   "rofi -show run"
+set $wins   "rofi -show window"
+
+bindsym {
+    $mod+d       exec $menu
+    $mod+w       exec $wins
+    $mod+return  exec $term
+    $mod+v       exec $term $editor
+    $mod+e       exec $files
+    $mod+i       exec $term "lf"
+    $mod+x       exec $term "btop"
+    $mod+p       exec "zsh -c killp"
+    $mod+u       exec "runcmd"
+    $mod+m       exec "helpman"
+    $mod+shift+t exec $term "todo"
+    $mod+shift+v exec $term "calcurse"
+    $mod+shift+d exec $term "spotlight"
+}
+
+mode browser {
+    bindsym {
+        b exec librewolf; mode "default"
+        i exec librewolf --private-window; mode "default"
+        $mod+i [app_id="librewolf"] focus; mode "default"
+        $mod+b [app_id="librewolf"] focus; mode "default"
+
+        escape mode "default"
+        return mode "default"
+    }
+}
+bindsym $mod+b mode browser
+
+set $search "search [o] [s]el [c]lip"
+mode $search {
+    bindsym {
+        o exec search; mode "default"
+        s exec search --selection; mode "default"
+        c exec search --clipboard; mode "default"
+
+        escape mode "default"
+        return mode "default"
+    }
+}
+bindsym $mod+o mode $search
+
+set $screenshot "screenshot [f]ull [c]lip [r]ecord"
+mode $screenshot {
+    bindsym {
+        c exec grimshot copy area; mode "default"
+        f exec grimshot savecopy anything ~/Pictures/Screenshots/"$(date +"%Y-%m-%d_%H-%M-%S").jpg"; mode "default"
+        r exec wfrecord; mode "default"
+
+        escape mode "default"
+        return mode "default"
+    }
+}
+bindsym print mode $screenshot
+bindsym $mod+shift+r exec pkill -SIGINT wf-recorder
+
+# keyboard mouse
+set $warpd "warpd [ ] [a] [d] [l]"
+mode $warpd {
+    bindsym {
+        space exec warpd --normal; mode "default"
+        a exec warpd --hint2 --oneshot --click 1; mode "default"
+        d exec warpd --hint2 --oneshot --click 2; mode "default"
+        l exec warpd --hint2 --oneshot --click 3; mode "default"
+
+        escape mode "default"
+        return mode "default"
+    }
+}
+bindsym $mod+shift+p mode $warpd

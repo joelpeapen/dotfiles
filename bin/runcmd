@@ -1,0 +1,5 @@
+#!/bin/env bash
+
+cmd=$(rofi -dmenu -p "Run command")
+
+eval "$cmd"

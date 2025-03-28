@@ -1,0 +1,23 @@
+font pango:Inter V Regular 14
+
+gaps inner 3
+gaps outer 3
+smart_gaps off
+
+smart_borders on
+default_border pixel 3
+default_floating_border pixel 4
+
+blur_radius 3
+for_window [app_id="kitty"] blur enable
+layer_effects "swaync-control-center" blur enable;
+
+#                        border      bg     text   indicator  child border
+client.focused           #076678  #076678  #333333  #99a2ea   #076678
+client.focused_inactive  #342f73  #342f73  #f4f4f8  #342f73   #342f73
+client.unfocused         #333142  #333142  #666666  #342f73   #333142
+client.urgent            #fd472f  #fd472f  #333142  #e78a4e   #fd472f
+
+exec_always swaybg -i ~/.local/share/backgrounds/fern.jpg -m fill -c '#000000'
+
+include /etc/sway/config.d/*

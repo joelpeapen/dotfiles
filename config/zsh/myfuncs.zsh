@@ -16,6 +16,11 @@ function sync-dots {
     cp $XDG_CONFIG_HOME/starship.toml $DOTDIR/config/
     cp $HOME/.bashrc $DOTDIR/config/
 
+    cp $XDG_CONFIG_HOME/sway/* $DOTDIR/config/sway/
+    cp $XDG_CONFIG_HOME/swaync/* $DOTDIR/config/swaync/
+    cp $XDG_CONFIG_HOME/swaylock/* $DOTDIR/config/swaylock/
+    cp $XDG_CONFIG_HOME/waybar/* $DOTDIR/config/waybar/
+
     cp $HOME/.tmux.conf $DOTDIR/config/
     cp -r $XDG_CONFIG_HOME/{lf,nvim}/ $DOTDIR/config/
     cp $XDG_CONFIG_HOME/zed/*.json $DOTDIR/config/zed/

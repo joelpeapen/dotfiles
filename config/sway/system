@@ -1,0 +1,91 @@
+# input
+input "type:keyboard" {
+    xkb_layout us,us(colemak)
+    xkb_options "compose:ralt,\
+                 grp:win_space_toggle,\
+                 shift:both_capslock"
+}
+
+input "type:touchpad" {
+    tap enabled
+    dwt disabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
+
+# brightness
+exec brightnessctl s 2%
+bindsym {
+    XF86MonBrightnessUp exec brightnessctl s +1%
+    XF86MonBrightnessDown exec brightnessctl s 1%-
+}
+
+# volume
+exec amixer set Speaker on
+exec amixer set Capture nocap
+set $mute amixer set Master toggle
+set $mute_mic amixer set Capture toggle
+set $vol_up amixer set Master 5%+
+set $vol_down amixer set Master 5%-
+
+bindsym {
+    $alt+delete exec $mute
+    XF86AudioMute exec $mute
+    $alt+insert exec $mute_mic
+    XF86AudioMicMute exec $mute_mic
+
+    $alt+f12 exec $vol_up
+    XF86AudioRaiseVolume exec $vol_up
+
+    $alt+f11 exec $vol_down
+    XF86AudioLowerVolume exec $vol_down
+}
+
+# media control
+bindsym {
+    XF86AudioNext exec playerctl next
+    XF86AudioPrev exec playerctl previous
+    XF86AudioPlay exec playerctl play-pause
+
+    $alt+f10 exec playerctl next
+    $alt+f9 exec playerctl previous
+    $alt+f8 exec playerctl play-pause
+
+    $alt+shift+f9 exec playerctl position 5-
+    $alt+shift+f10 exec playerctl position 5+
+}
+
+# bluetooth
+# bindsym XF86Bluetooth exec bluetoothctl power \
+#     $(bluetoothctl show | grep -q 'Powered: yes' && echo off || echo on)
+
+# lock
+set $lock swaylock -elfF --indicator \
+    --clock \
+    --timestr "%I:%M:%S" \
+    --datestr "%b %d %Y"
+
+bindsym $mod+shift+escape exec $lock
+
+exec swayidle -w \
+     timeout 120 'exec $lock' \
+     timeout 120 'swaymsg "output * dpms off"' \
+     resume 'swaymsg "output * dpms on"' \
+     before-sleep 'exec $lock'
+
+exec sway-audio-idle-inhibit
+
+# power menu
+set $exit "[s]leep [l]ogout [r]eboot [p]oweroff"
+mode $exit {
+    bindsym {
+        s exec systemctl suspend
+        p exec systemctl poweroff
+        r exec systemctl reboot
+        l exec swaymsg exit
+
+        return mode "default"
+        escape mode "default"
+    }
+}
+bindsym $mod+shift+e mode $exit

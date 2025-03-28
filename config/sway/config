@@ -1,0 +1,160 @@
+# keys
+set $mod mod4
+set $alt mod1
+
+# moving around
+bindsym {
+    $mod+k focus up
+    $mod+j focus down
+    $mod+h focus left
+    $mod+l focus right
+
+    $mod+up focus up
+    $mod+down focus down
+    $mod+left focus left
+    $mod+right focus right
+}
+
+# go to last used app
+bindsym $alt+tab focus tiling
+
+# move focus to parent container
+bindsym $mod+a focus parent
+
+# move focused window
+bindsym {
+    $mod+shift+k move up
+    $mod+shift+j move down
+    $mod+shift+h move left
+    $mod+shift+l move right
+
+    $mod+shift+up move up
+    $mod+shift+down move down
+    $mod+shift+left move left
+    $mod+shift+right move right
+}
+
+# workspaces
+bindsym {
+    $mod+1 workspace 1
+    $mod+2 workspace 2
+    $mod+3 workspace 3
+    $mod+4 workspace 4
+    $mod+5 workspace 5
+    $mod+6 workspace 6
+    $mod+7 workspace 7
+    $mod+8 workspace 8
+    $mod+9 workspace 9
+    $mod+0 workspace 10
+}
+
+bindgesture {
+    swipe:3:left workspace next
+    swipe:3:right workspace prev
+}
+
+bindsym {
+    $mod+shift+1 move container to workspace 1; workspace 1
+    $mod+shift+2 move container to workspace 2; workspace 2
+    $mod+shift+3 move container to workspace 3; workspace 3
+    $mod+shift+4 move container to workspace 4; workspace 4
+    $mod+shift+5 move container to workspace 5; workspace 5
+    $mod+shift+6 move container to workspace 6; workspace 6
+    $mod+shift+7 move container to workspace 7; workspace 7
+    $mod+shift+8 move container to workspace 8; workspace 8
+    $mod+shift+9 move container to workspace 9; workspace 9
+    $mod+shift+0 move container to workspace 10; workspace 10
+}
+
+# go to last used workspace
+bindsym $mod+tab workspace back_and_forth
+
+# output configuration
+workspace 1 output eDP-1
+workspace 2 output eDP-1
+workspace 3 output eDP-1
+workspace 4 output eDP-1
+workspace 5 output eDP-2
+workspace 6 output eDP-2
+workspace 7 output eDP-1
+workspace 8 output eDP-1
+workspace 9 output eDP-1
+workspace 10 output eDP-1
+
+# make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+floating_modifier $mod
+
+# toggle between tiling and floating
+bindsym $mod+comma floating toggle
+
+# swap focus between the tiling area and the floating area
+bindsym $mod+period focus mode_toggle
+
+for_window [class="ffplay"] floating enable
+for_window [app_id="eog|shotwell"] floating enable
+for_window [title="Media viewer"] floating enable
+for_window [app_id="dragon"] floating enable
+
+# scratchpad
+bindsym {
+    $mod+minus scratchpad show
+    $mod+shift+minus move scratchpad
+}
+
+# kill focused window
+bindsym {
+    $alt+f4 kill
+    $mod+shift+w kill
+}
+
+# switch the current container between different layout styles
+bindsym {
+    $mod+s layout stacking
+    $mod+t layout tabbed
+    $mod+slash layout toggle split
+}
+
+default_orientation horizontal
+for_window [app_id=".*"] split toggle
+
+bindsym $mod+shift+s sticky toggle
+
+# resize
+mode "resize" {
+    bindsym {
+        k resize shrink height 10px
+        j resize grow height 10px
+        h resize shrink width 10px
+        l resize grow width 10px
+
+        up resize shrink height 10px
+        down resize grow height 10px
+        left resize shrink width 10px
+        right resize grow width 10px
+
+        return mode "default"
+        escape mode "default"
+    }
+}
+bindsym $mod+r mode "resize"
+
+# status bar
+bar {
+    swaybar_command waybar
+}
+exec nm-applet
+# exec blueman-applet
+
+xwayland enable
+
+# notifications
+exec swaync
+bindsym $mod+n exec swaync-client -t -sw
+
+# config
+bindsym $mod+shift+c reload
+include ~/.config/sway/theme
+include ~/.config/sway/apps
+include ~/.config/sway/system
