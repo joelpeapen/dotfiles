@@ -30,7 +30,8 @@ telescope.setup({
 })
 
 -- find files
-MAP('n', "<leader>f", function()
+MAP('n', "<leader>f", builtin.fd)
+MAP('n', "<leader>F", function()
     builtin.fd({ cwd = BUFDIR() })
 end)
 
@@ -39,8 +40,8 @@ MAP('n', "<m-f>", builtin.current_buffer_fuzzy_find)
 MAP('n', "<m-V>", "<cmd>Telescope harpoon marks<cr>")
 
 -- grep
-MAP('n', "<leader>lG", builtin.live_grep) -- vim dir
-MAP('n', "<leader>lg", function()
+MAP('n', "<leader>lg", builtin.live_grep) -- vim dir
+MAP('n', "<leader>lG", function()
     builtin.live_grep({ cwd = BUFDIR() })
 end)
 MAP('n', "<leader>lv", function()
