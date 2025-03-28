@@ -18,6 +18,7 @@ function sync-dots {
 
     cp $HOME/.tmux.conf $DOTDIR/config/
     cp -r $XDG_CONFIG_HOME/{lf,nvim}/ $DOTDIR/config/
+    cp $XDG_CONFIG_HOME/zed/*.json $DOTDIR/config/zed/
     cp $XDG_CONFIG_HOME/nano/nanorc $DOTDIR/config/nano/
     cp $XDG_CONFIG_HOME/zathura/zathurarc $DOTDIR/config/zathura/
     cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/kitty/

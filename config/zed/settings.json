@@ -1,0 +1,88 @@
+{
+    "base_keymap": "VSCode",
+
+    "ui_font_size": 18,
+    "buffer_font_family": "FiraCode Nerd Font",
+    "buffer_font_size": 18,
+    "buffer_font_weight": 450,
+
+    "cursor_blink": false,
+    "relative_line_numbers": true,
+
+    "theme": {
+        "mode": "system",
+        "light": "One Light",
+        "dark": "Kanagawa Dragon"
+    },
+
+    "vim_mode": true,
+    "vim": {
+        "use_system_clipboard": "always",
+        "use_multiline_find": true,
+        "use_smartcase_find": true
+    },
+
+    "indent_guides": {
+        "enabled": true,
+        "coloring": "disabled"
+    },
+    "ensure_final_newline_on_save": false,
+    "features": {
+        "edit_prediction_provider": "zed"
+    },
+
+    "pane_split_direction_vertical": "right",
+    "pane_split_direction_horizontal": "down",
+
+    "tabs": {
+        "file_icons": true,
+        "git_status": true,
+        "show_diagnostics": "all"
+    },
+
+    "terminal": {
+        "button": true,
+        "font_size": 15,
+        "font_family": "FiraCode Nerd Font",
+        "shell": "system",
+        "dock": "bottom",
+        "default_width": 640,
+        "default_height": 320,
+        "line_height": "comfortable",
+        "toolbar": { "title": true },
+        "alternate_scroll": "off",
+        "blinking": "terminal_controlled",
+        "working_directory": "current_project_directory"
+    },
+
+    "lsp": {
+        "java": {
+            "java.jdt.ls.lombokSupport.enabled:": true
+        }
+    },
+
+    "format_on_save": "off",
+    "JSON": {
+        "prettier": {
+            "allowed": false
+        }
+    },
+
+    "calls": {
+        "mute_on_join": true,
+        "share_on_join": true
+    },
+
+    "assistant": {
+        "version": "2",
+        "enabled": true,
+        "button": false
+    },
+
+    "telemetry": {
+        "diagnostics": false,
+        "metrics": false
+    },
+
+    "auto_update": false
+}

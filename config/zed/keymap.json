@@ -1,0 +1,198 @@
+[
+    {
+        "context": "Workspace",
+        "bindings": {
+            "alt-z": ["app_menu::OpenApplicationMenu", "Zed"],
+            "alt-f": ["app_menu::OpenApplicationMenu", "File"],
+            "alt-s": ["app_menu::OpenApplicationMenu", "Selection"],
+            "alt-v": ["app_menu::OpenApplicationMenu", "View"],
+            "alt-g": ["app_menu::OpenApplicationMenu", "Go"]
+        }
+    },
+
+    {
+        "context": "Workspace || Editor",
+        "bindings": {
+            "alt-m": "workspace::ToggleLeftDock",
+            "alt-e": "project_panel::ToggleFocus",
+            "alt-shift-e": "pane::RevealInProjectPanel",
+            "alt-\\": "workspace::ToggleRightDock",
+            "space g s": "git_panel::ToggleFocus",
+            "g s": "outline::Toggle",
+            "g S": "project_symbols::Toggle",
+            "alt-a": "editor::SelectAll"
+        }
+    },
+
+    {
+        "context": "Prompt || Picker || menu",
+        "bindings": {
+            "alt-space": "menu::Confirm",
+            "alt-'": "menu::SelectPrev",
+            "alt-;": "menu::SelectNext"
+        }
+    },
+
+    {
+        "context": "Editor && (showing_code_actions || showing_completions)",
+        "bindings": {
+            "alt-'": "editor::ContextMenuPrev",
+            "alt-;": "editor::ContextMenuNext",
+            "tab": "editor::ContextMenuNext",
+            "shift-tab": "editor::ContextMenuPrev",
+            "alt-space": "editor::ConfirmCompletion"
+        }
+    },
+
+    {
+        "context": "Editor && vim_mode == insert",
+        "bindings": {
+            "alt-k": "editor::MoveUp",
+            "alt-j": "editor::MoveDown",
+            "alt-h": "editor::MoveLeft",
+            "alt-l": "editor::MoveRight",
+            "alt-enter": "editor::MoveToEndOfLine",
+            "alt-shift-enter": "editor::MoveToBeginningOfLine",
+
+            "alt-b": "editor::MoveToPreviousWordStart",
+            "alt-f": "editor::MoveToNextWordEnd",
+            "ctrl-w": "editor::DeleteToPreviousWordStart",
+            "alt-d": "editor::DeleteToNextWordEnd"
+        }
+    },
+
+    {
+        "context": "Editor && vim_mode == normal && !menu",
+        "bindings": {
+            "space w w": "workspace::Save",
+            "space w escape": "workspace::Save",
+            "space w a": "workspace::AddFolderToProject",
+
+            "space f": "file_finder::Toggle",
+            "alt-shift-f": "project_panel::NewSearchInDirectory",
+
+            "alt-t": "workspace::NewFile",
+            "space v s": "pane::SplitVertical",
+            "space h s": "pane::SplitHorizontal",
+            "space n": "workspace::NewFileSplitHorizontal",
+            "space v n": "workspace::NewFileSplitVertical",
+
+            "alt-,": "pane::ActivatePrevItem",
+            "alt-.": "pane::ActivateNextItem",
+            "alt-w": "pane::CloseActiveItem",
+            "space q": "pane::CloseActiveItem",
+            "alt-W": "pane::CloseInactiveItems",
+            "space 1 1": ["pane::CloseActiveItem", { "save_intent": "skip" }],
+
+            "ctrl-p": "workspace::ActivatePreviousPane",
+            "ctrl-h": "workspace::ActivatePaneLeft",
+            "ctrl-l": "workspace::ActivatePaneRight",
+            "ctrl-k": "workspace::ActivatePaneUp",
+            "ctrl-j": "workspace::ActivatePaneDown",
+            "ctrl-alt-h": "workspace::SwapPaneLeft",
+            "ctrl-alt-l": "workspace::SwapPaneRight",
+            "ctrl-alt-k": "workspace::SwapPaneUp",
+            "ctrl-alt-j": "workspace::SwapPaneDown",
+
+            "[ e": "editor::Fold",
+            "] e": "editor::UnfoldLines",
+            "z v": "editor::FoldSelectedRanges",
+
+            "f3": "editor::Format",
+            "c ;": "editor::ToggleCodeActions",
+
+            "g d": "editor::GoToDefinition",
+            "g D": "editor::GoToDeclaration",
+            "g i": "editor::GoToImplementation",
+            "g t": "editor::GoToTypeDefinition",
+
+            "g r": "editor::FindAllReferences",
+            "] d": "editor::GoToDiagnostic",
+            "[ d": "editor::GoToPrevDiagnostic",
+
+            "space x x": "diagnostics::Deploy"
+        }
+    },
+
+    {
+        "context": "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu",
+        "bindings": {
+            "alt-k": "vim::ScrollUp",
+            "alt-j": "vim::ScrollDown",
+            "alt-enter": "vim::EndOfLine",
+            "alt-shift-enter": "vim::StartOfLineDownward",
+
+            "g f": "editor::OpenExcerpts",
+            "g F": "editor::OpenExcerptsSplit",
+
+            "ctrl-/": "editor::ToggleComments",
+
+            "space s w": "pane::DeploySearch",
+
+            "space z": "workspace::ToggleCenteredLayout",
+
+            "space o f": "projects::OpenRecent",
+            "space m p": "markdown::OpenPreview",
+            "space m P": "markdown::OpenPreviewToTheSide",
+
+            "space g h d": "editor::ToggleSelectedDiffHunks",
+            "space g h r": "git::Restore",
+
+            "space u w": "editor::ToggleSoftWrap",
+            "space t i": "editor::ToggleInlayHints"
+        }
+    },
+
+    {
+        // when there is no active editor
+        "context": "EmptyPane || SharedScreen",
+        "bindings": {
+            "space f": "file_finder::Toggle",
+            "space o f": "projects::OpenRecent"
+        }
+    },
+
+    {
+        // vim-surround
+        "context": "Editor && vim_mode == visual",
+        "bindings": {
+            "shift-s": ["vim::PushAddSurrounds", {}],
+            "shift-k": "editor::MoveLineUp",
+            "shift-j": "editor::MoveLineDown"
+        }
+    },
+
+    {
+        // file panel
+        "context": "ProjectPanel && not_editing",
+        "bindings": {
+            "a f": "project_panel::NewFile",
+            "a d": "project_panel::NewDirectory",
+            "r": "project_panel::Rename",
+            "d": "project_panel::Delete",
+            "x": "project_panel::Cut",
+            "y": "project_panel::Copy",
+            "p": "project_panel::Paste"
+        }
+    },
+
+    {
+        // terminal
+        "context": "Workspace",
+        "bindings": {
+            "alt-/": "workspace::ToggleBottomDock"
+        }
+    },
+
+    {
+        "context": "Terminal",
+        "bindings": {
+            "alt-f": ["terminal::SendKeystroke", "alt-f"],
+            "alt-b": ["terminal::SendKeystroke", "alt-b"],
+            "ctrl-p": ["terminal::SendKeystroke", "ctrl-p"],
+            "ctrl-n": ["terminal::SendKeystroke", "ctrl-n"],
+            "ctrl-shift-g": "buffer_search::Deploy",
+            "alt-\\": "workspace::ToggleRightDock"
+        }
+    }
+]
