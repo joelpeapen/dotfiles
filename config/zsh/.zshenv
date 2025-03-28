@@ -1,7 +1,6 @@
 export PATH=$HOME/.local/bin:$PATH
 
 export PLATFORM="$(uname)"
-export TERMINAL="$(ps -p $PPID -o comm=)"
 export OS_RELEASE="$(grep "^NAME" /etc/os-release | sed -E 's/^.*"(.*)"$/\1/')"
 
 # XDG
@@ -23,6 +22,8 @@ export ZSHRC="$ZDOTDIR/.zshrc"
 export DOTDIR="$DATA/config/dotfiles/mine"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripconf"
 
-export PAGER="moar"
+export TERMINAL="$(ps -p $PPID -o comm=)"
 export EDITOR="nvim"
-export BROWSER="firefox -private"
+
+export PAGER="moar"
+export MOAR="--statusbar=bold --no-linenumbers=false"
