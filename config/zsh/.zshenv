@@ -27,3 +27,5 @@ export EDITOR="nvim"
 
 export PAGER="moar"
 export MOAR="--statusbar=bold --no-linenumbers=false"
+
+export BROWSER="librewolf --private-window"

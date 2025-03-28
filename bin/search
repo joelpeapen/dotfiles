@@ -20,4 +20,4 @@ else
     [[ -n "$SITE" ]] && QUERY=$(printf ''| rofi -dmenu -p "$SITE")
 fi
 
-[[ -n "$QUERY" ]] && firefox --private-window "${sites[$SITE]}${QUERY}" 2> /dev/null
+[[ -n "$QUERY" ]] && librewolf --private-window "${sites[$SITE]}${QUERY}" 2> /dev/null

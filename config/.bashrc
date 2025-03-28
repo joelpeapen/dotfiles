@@ -67,16 +67,11 @@ alias g++="g++ -std=c++17"
 alias H='| head'
 alias T='| tail'
 alias G='| grep'
-alias L="| less"
-alias M="| most"
+alias L="| moar"
 alias LL="2>&1 | less"
 alias CA="2>&1 | cat -A"
 alias NE="2> /dev/null"
 alias NUL="&>/dev/null"
-
-# session
-alias :q="exit"
-alias quit="gnome-session-quit"
 
 # git
 alias gq="git amend"
@@ -89,9 +84,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 
-export PLATFORM=$(uname)
-export TERMINAL=$(ps -p $PPID -o comm=)
-export OS_RELEASE=$(grep "^NAME" /etc/os-release | sed -E 's/^.*"(.*)"$/\1/')
+export PLATFORM="$(uname)"
+export TERMINAL="$(ps -p $PPID -o comm=)"
+export OS_RELEASE="$(grep "^NAME" /etc/os-release | sed -E 's/^.*"(.*)"$/\1/')"
 
 export EDITOR="nvim"
-export BROWSER="firefox -private"
+export BROWSER="librewolf --private-window"
