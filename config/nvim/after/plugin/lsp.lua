@@ -26,17 +26,17 @@ lsp.gopls.setup({
     }
 })
 
-lsp.jdtls.setup({
-    init_options = {
-        bundles = {
-           vim.fn.glob(os.getenv("HOME") .. "/.local/user/dev/java-debug-adapter/server/com.microsoft.java.debug.plugin-0.53.0.jar")
-        }
+lsp.jdtls.setup({})
+
+lsp.ruff.setup({})
+lsp.pyright.setup({
+    handlers = {
+        ["textDocument/publishDiagnostics"] = function() end
     }
 })
 
 lsp.bashls.setup({})
 lsp.emmet_ls.setup({})
-lsp.pyright.setup({})
 
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("lsp_mappings", {}),
