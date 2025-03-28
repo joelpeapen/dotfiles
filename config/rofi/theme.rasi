@@ -1,23 +1,23 @@
 * {
-    fg: #dcd7ba;
-    bg:  #2a2e3b;
+    fg: #ccc;
+    bg:  #0c1a24;
     grey: #928374;
     dgrey: #665c54;
     red: #dc6472;
     green: #a9b665;
     blue: #35abff;
     orange: #e78a4e;
-    selected: #394260;
-    unselected: #2a2e3b;
+    selected: #1e3e54;
+    unselected: @bg;
     background-color: @bg;
 }
 
 window {
-    width: 45%;
-    height: 35%;
-    border: 5px;
-    border-radius: 15px;
-    border-color: #252525;
+    width: 40%;
+    // height: 35%;
+    border: 5;
+    border-radius: 20;
+    border-color: @selected;
 }
 
 element-text, element-icon, listview, mode-switcher {
@@ -38,12 +38,12 @@ element {
 }
 
 element-text {
-    margin: 0.5% 0 0 0;
+    margin: 0.7% 0 0 0;
 }
 
 element-icon {
-    size: 30px;
-    margin: 0 0.5% 0 0;
+    size: 35;
+    margin: 0 0.5% 0 0.5%;
 }
 
 element selected {
@@ -53,15 +53,15 @@ element selected {
 
 inputbar {
     padding: 0.5%;
-    margin: 0px 0px 5px 0px;
-    border-radius: 5px;
+    margin: 0 0 5 0;
+    border-radius: 5;
     background-color: @bg;
     children: [prompt,entry];
 }
 
 prompt, entry {
-    margin: 5px 0px 0px 0px;
-    padding: 3px 10px 3px 10px;
+    margin: 5 0 0 0;
+    padding: 3 10 3 10;
 }
 
 prompt {
