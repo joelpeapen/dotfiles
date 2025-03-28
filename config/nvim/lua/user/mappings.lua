@@ -9,10 +9,7 @@ MAP('n', "<esc>", function()
     vim.cmd.noh()
 end)
 
-MAP('n', "<m-q>", function()
-    vim.cmd.LspStop()
-    vim.cmd.SClose()
-end)
+MAP('n', "<m-q>", vim.cmd.SClose)
 
 -- netrw
 MAP('n', "<m-o>", function()

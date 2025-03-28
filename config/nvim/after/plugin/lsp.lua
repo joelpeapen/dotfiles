@@ -1,42 +1,11 @@
-local lsp = require("lspconfig")
-
-lsp.lua_ls.setup({
-    settings = {
-        Lua = {
-            telemetry = { enable = false },
-            diagnostics = { globals = { "vim" } },
-            workspace = {
-                checkThirdParty = false,
-                library = {
-                    vim.fn.stdpath("config"),
-                    vim.fn.expand("$VIMRUNTIME/lua")
-                }
-            }
-        }
-    }
+vim.lsp.config('*', {
+    root_markers = { '.git' }
 })
 
-lsp.clangd.setup({})
-
-lsp.gopls.setup({
-    settings = {
-        gopls = {
-            gofumpt = true,
-        }
-    }
+vim.lsp.enable({
+    "clangd", "gopls", "jdtls", "lua_ls",
+    "ruff", "pyright", "emmet_ls", "bashls"
 })
-
-lsp.jdtls.setup({})
-
-lsp.ruff.setup({})
-lsp.pyright.setup({
-    handlers = {
-        ["textDocument/publishDiagnostics"] = function() end
-    }
-})
-
-lsp.bashls.setup({})
-lsp.emmet_ls.setup({})
 
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("lsp_mappings", {}),

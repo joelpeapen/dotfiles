@@ -61,9 +61,8 @@ require("lazy").setup({
     ----------------- LSP -----------------
 
     {
-        "neovim/nvim-lspconfig",
+        "Saghen/blink.cmp",
         dependencies = {
-            "Saghen/blink.cmp",
             "L3MON4D3/LuaSnip",
             "rafamadriz/friendly-snippets"
         }
