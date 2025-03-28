@@ -1,13 +1,15 @@
 configuration {
     modi: [run,window];
 
-    sort: true;
-    show-icons: true;
-    sidebar-mode: true;
     font: "FiraCode Nerd Font Ret 13";
 
-    display-run: " RUN";
-    display-drun: " DRUN";
+    sort: true;
+    show-icons: true;
+    // sidebar-mode: true; // bottom buttons
+    fixed-num-lines: false;
+
+    display-run: " RUN";
+    display-drun: " RUN";
     display-window : " WINDOWS";
     drun-display-format: "{icon} {name}";
 
