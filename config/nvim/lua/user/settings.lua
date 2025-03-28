@@ -20,6 +20,7 @@ o.whichwrap:append("hl<>[]")
 o.winbar = "%m"
 o.laststatus = 2
 o.showmode = false
+o.winborder = "rounded"
 
 o.splitright = true
 o.splitbelow = true
@@ -40,8 +41,8 @@ o.scrolloff = 5
 o.signcolumn = "yes"
 o.inccommand = "split"
 o.nrformats:append("alpha")
-o.completeopt:append("menuone,noselect")
-o.guicursor:append("v-ci:hor100,a:reverse")
+o.completeopt:append("menuone,noselect,fuzzy")
+o.guicursor:append("v-ci:hor100,t:ver100")
 
 o.backup = false
 o.updatetime = 50

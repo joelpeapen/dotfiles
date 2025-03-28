@@ -1,4 +1,5 @@
 vim.diagnostic.config({
+    virtual_lines = true,
     severity_sort = true,
     float = { border = "rounded" }
 })
