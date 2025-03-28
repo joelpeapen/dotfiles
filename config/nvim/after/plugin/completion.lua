@@ -1,50 +1,31 @@
-local cmp = require("cmp")
-
-cmp.setup({
-    snippet = {
-        expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-        end
+require("blink.cmp").setup({
+    snippets = { preset = "luasnip" },
+    signature = {
+        enabled = true,
+        window = { border = "rounded" }
     },
-    sources = cmp.config.sources {
-        { name = "path" },
-        { name = "luasnip" },
-        { name = "buffer" },
-        { name = "nvim_lua" },
-        { name = "nvim_lsp" }
+    completion = {
+        menu = {
+            -- border = "rounded",
+            draw = {
+                columns = {
+                    { "label", "label_description" },
+                    { "kind_icon", "kind", gap = 1 }
+                }
+            }
+        },
+        documentation = {
+            auto_show = true,
+            auto_show_delay_ms = 300,
+            window = { border = "rounded" }
+        }
     },
-    window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-    },
-    mapping = cmp.mapping.preset.insert({
-        ["<c-space>"] = cmp.mapping.complete(),
-        ["<m-;>"] = cmp.mapping.select_next_item(),
-        ["<m-'>"] = cmp.mapping.select_prev_item(),
-        ["<m-space>"] = cmp.mapping.confirm({ select = true }),
-        ["<m-d>"] = cmp.mapping.scroll_docs(4),
-        ["<m-u>"] = cmp.mapping.scroll_docs(-4),
-        ["<m-o>"] = function()
-            if cmp.visible_docs() then
-                cmp.close_docs()
-            else
-                cmp.open_docs()
-            end
-        end
-    })
-})
-
-cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = ({
-        { name = "path" },
-        { name = "cmdline" }
-    })
-})
-
-cmp.setup.cmdline({ '/', '?' }, {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = ({
-        { name = "buffer" },
-    })
+    keymap = {
+        ["<m-space>"] = { "accept", "fallback" },
+        ["<m-'>"] = { "select_prev", "fallback" },
+        ["<m-;>"] = { "select_next", "fallback" },
+        ["<m-o>"] = { "show_documentation", "hide_documentation" },
+        ["<m-u>"] = { "scroll_documentation_up", "fallback" },
+        ["<m-d>"] = { "scroll_documentation_down", "fallback" }
+    }
 })
