@@ -1,7 +1,7 @@
 #--------------------configs, sync package lists--------------------
 
 function sync-pkgs {
-    ls $HOME/.local/user/{dev,program} | tee > $DATA/config/LINUX_SOFTWARE/binaries
+    ls $HOME/.local/user/ | tee > $DATA/config/LINUX_SOFTWARE/binaries
     pip list | tail -n +3 | sort -u | tee > $DATA/config/LINUX_SOFTWARE/pip
     dpkg --get-selections | awk '{print $1}' | tee > $DATA/config/LINUX_SOFTWARE/apt
 }
@@ -10,25 +10,25 @@ function sync-dots {
     cd $DOTDIR
 
     cp $ZSHRC $DOTDIR/config/zsh/
-    cp $ZDOTDIR/*.zsh $DOTDIR/config/zsh/
     cp $HOME/.zshenv $DOTDIR/config/zsh/
-    cp $ZDOTDIR/addon/* $DOTDIR/config/zsh/addon/
+    cp $ZDOTDIR/*.zsh $DOTDIR/config/zsh/
+    cp -r $ZDOTDIR/addon/ $DOTDIR/config/zsh/
     cp $XDG_CONFIG_HOME/starship.toml $DOTDIR/config/
     cp $HOME/.bashrc $DOTDIR/config/
 
     cp $HOME/.tmux.conf $DOTDIR/config/
-    cp -r $XDG_CONFIG_HOME/lf/ $DOTDIR/config/
-    cp -r $XDG_CONFIG_HOME/nvim/ $DOTDIR/config/
+    cp -r $XDG_CONFIG_HOME/{lf,nvim}/ $DOTDIR/config/
+    cp $XDG_CONFIG_HOME/nano/nanorc $DOTDIR/config/nano/
     cp $XDG_CONFIG_HOME/zathura/zathurarc $DOTDIR/config/zathura/
     cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/kitty/
 
+    cp $HOME/.local/user/spotlight/* $DOTDIR/bin/
     cp $XDG_CONFIG_HOME/rofi/*.rasi $DOTDIR/config/rofi/
-    cp $HOME/.local/user/program/spotlight/* $DOTDIR/bin/
     cp $XDG_CONFIG_HOME/warpd/config $DOTDIR/config/warpd/
     cp $XDG_CONFIG_HOME/fastfetch/config.jsonc $DOTDIR/config/fastfetch/
 
     cp $HOME/.gitconfig $DOTDIR/config/git/
-    cp $XDG_CONFIG_HOME/nano/nanorc $DOTDIR/config/nano/
+    cp $HOME/.{clang-format,gdbinit} $DOTDIR/config/
     cp $XDG_CONFIG_HOME/fd/ignore $DOTDIR/config/fd/
     cp $XDG_CONFIG_HOME/bat/config $DOTDIR/config/bat/
     cp $XDG_CONFIG_HOME/kmonad/config.kbd $DOTDIR/config/kmonad/
@@ -41,12 +41,6 @@ function sync-dots {
 
 function restart {
     source $ZSHRC && rehash
-}
-
-function vim { nvim }
-
-function is_in_path {
-    command -v $1 &> /dev/null
 }
 
 function mcd { mkdir -p "$1" && cd "$1" }
@@ -358,7 +352,6 @@ function lightmode {
     sed -E -i "s/250/240/" $ZDOTDIR/plugins.zsh
 }
 
-zle -N vim vim
 zle -N zo zo
 zle -N files files
 zle -N bmv bmv
@@ -368,7 +361,6 @@ zle -N skdiff skdiff
 zle -N theme theme
 zle -N restart restart
 
-bindkey ',v' vim
 bindkey ',z' zo
 bindkey ',e' files
 bindkey ',b' bmv

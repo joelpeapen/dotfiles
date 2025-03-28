@@ -3,6 +3,7 @@ bindkey -s ',q' "\n"
 bindkey -s ',f' "l\n"
 bindkey -s ',a' "ll\n"
 bindkey -s '\eo' "lf\n"
+bindkey -s ',v' "nvim\n"
 
 bindkey -s ',2' "sync-dots\n"
 bindkey -s ',g' "git status\n"
