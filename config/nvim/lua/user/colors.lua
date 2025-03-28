@@ -20,9 +20,9 @@ vim.cmd("set bg=dark")
 
 require("kanagawa").setup({
     compile = true,
+    background = { dark = "dragon" },
     commentStyle = { italic = false },
     keywordStyle = { italic = false },
-    colors = { theme = { all = { ui = { bg_gutter = "none" } } } },
-    background = { dark = "dragon" }
+    colors = { theme = { all = { ui = { bg_gutter = "none" } } } }
 })
 vim.cmd.colorscheme("kanagawa")

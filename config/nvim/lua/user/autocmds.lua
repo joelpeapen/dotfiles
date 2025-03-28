@@ -25,15 +25,6 @@ autocmd({ "BufWritePre" }, {
     command = [[%s/\s\+$//e]]
 })
 
--- fix folds
-autocmd({ "BufRead", "SourcePost" }, {
-    group = auGroups,
-    callback = function()
-        vim.cmd.norm("zx")
-        vim.cmd.norm("zR")
-    end
-})
-
 -- prose
 autocmd({ "Filetype" }, {
     group = auGroups,

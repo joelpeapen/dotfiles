@@ -147,15 +147,15 @@ local prose = false
 MAP('n', "<c-space>w", function()
     if prose then
         vim.wo.wrap = false
-        vim.opt_local.spell = false
-        vim.opt_local.textwidth = 0
-        vim.opt_local.colorcolumn = ""
+        vim.bo.spell = false
+        vim.bo.textwidth = 0
+        vim.bo.colorcolumn = ""
         prose = false
     else
         vim.wo.wrap = true
-        vim.opt_local.spell = true
-        vim.opt_local.textwidth = 80
-        vim.opt_local.colorcolumn = "80"
+        vim.bo.spell = true
+        vim.bo.textwidth = 80
+        vim.bo.colorcolumn = "80"
         prose = true
     end
 end)
