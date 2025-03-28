@@ -319,16 +319,6 @@ function ocr {
     fi
 }
 
-function yt {
-    while getopts "pa" o; do
-        case $o in
-            p) yt-dlp -f "mp4" "$2" -o "%(playlist_index)s - %(title)s.%(ext)s";;
-            a) yt-dlp -f 'ba' -x --audio-format mp3 "$2" -o "%(playlist_index)s - %(title)s.%(ext)s";;
-        esac
-    done
-    [[ "$OPTIND" -eq 1 ]] && yt-dlp -f "mp4" -o "%(title)s.%(ext)s" $1
-}
-
 #----------------------------ui----------------------------
 
 function theme {

@@ -1,0 +1,40 @@
+#!/bin/env bash
+
+c=$(gum choose --limit=2 audio video 'audio playlist' 'video playlist' subs)
+args=("-N" "3" "--trim-filenames" "184" "--embed-chapters")
+if [[ $c ]]; then
+    IFS=' ' read -r -a choices <<< "$c"
+
+    for choice in "${choices[@]}"; do
+        case $choice in
+            audio)
+                args+=("--no-playlist"\
+                    "-f" "ba" "--audio-format" "m4a"\
+                    "-o" "%(title)s.%(ext)s")
+                ;;
+            video)
+                yt-dlp -F "$1"
+                i=$(gum input --placeholder 'pick id')
+                args+=("--no-playlist")
+                [[ $i ]] && args+=("-f" "${i}+ba")
+                args+=("-o" "%(title)s.%(ext)s")
+                ;;
+            'audio playlist')
+                args+=("--yes-playlist"\
+                    "-f" "ba" "--audio-format" "m4a"\
+                    "-o" "%(playlist_index)s_%(title)s.%(ext)s")
+                ;;
+            'video playlist')
+                yt-dlp -F "$1"
+                args+=("--yes-playlist")
+                i=$(gum input --placeholder 'pick id')
+                [[ $i ]] && args+=("-f" "${i}+ba")
+                args+=("-o" "%(playlist_index)s_%(title)s.%(ext)s")
+                ;;
+            subs)
+                args+=("--write-subs" "--sub-format" "srt/best" "--sub-langs" "en.*")
+                ;;
+        esac
+    done
+    yt-dlp "${args[@]}" "$1"
+fi
