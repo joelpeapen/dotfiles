@@ -2,12 +2,13 @@
 
 procs="$(ps -eo user,pid,rss,comm --sort=-rss | tail -n +2 | awk '{print $1"\t"$2"\t"$3"\t"$4}' | rofi -dmenu -i -p "kill")"
 
+user=$(awk '{print $1}' <<< "$procs")
 pid=$(awk '{print $2}' <<< "$procs")
 name=$(awk '{print $4}' <<< "$procs")
 
-if [[ ! -z $procs ]]; then
-    a="$(echo -e "Yes\nNo" | rofi -dmenu -i -p "kill $name?")"
-    if [[ $a == "Yes" ]]; then
-        kill -9 "$pid"
+if [[ -n $procs && $(ps -p "$pid" | wc -l) == 2 ]]; then
+    a="$(echo -e "yes\nno" | rofi -dmenu -i -p "kill $name?")"
+    if [[ $a == "yes" ]]; then
+        [[ "$user" == "$USER" ]] && kill -9 "$pid" || sudo -A kill -9 "$pid"
     fi
 fi

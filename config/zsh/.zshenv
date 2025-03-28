@@ -29,3 +29,4 @@ export PAGER="moar"
 export MOAR="--statusbar=bold --no-linenumbers=false"
 
 export BROWSER="librewolf --private-window"
+export SUDO_ASKPASS="/bin/askpass"

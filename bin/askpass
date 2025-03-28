@@ -1,0 +1,3 @@
+#!/bin/env sh
+
+rofi -dmenu -password -p "$(printf "$1" | sed s/://)"
