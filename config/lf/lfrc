@@ -7,6 +7,7 @@ set mouse
 set icons
 set hidden
 set drawbox
+set roundbox
 set dirfirst
 set dircounts
 set info size
@@ -38,19 +39,19 @@ set previewer ~/.config/lf/preview
 
 # -------------------- mappings --------------------
 
-map <!> shell
-map i $$PAGER "$f"
+map R reload
+map <f-2> $$EDITOR $XDG_CONFIG_HOME/lf/lfrc
 
 map o open
+map E filexplore
+map i $$PAGER "$f"
 map O $$EDITOR "$f"
-map S $setsid -f xdg-open "$f"
+map S &xdg-open "$f"
 map X &lf -remote "send $id &$f"
-map U !du -h
 
 map x cut
 map y copy
-map p paste
-map P fcp
+map p pasta
 map d delete
 map e rename
 map r :rename; cmd-end
@@ -76,45 +77,38 @@ map V invert-below
 map D select-dirs
 map F select-files
 
-map <a-u> hists
-map <a-t> kitty-tab
-map <a-T> tmux-tab
-
-map \\ zi
-map <a-f> fzf_dir
-map <a-s> fzf_file
-map <a-S> fzf_file1
-map <a-F> fzf_dir1
-map <a-r> fzf_search
-map <a-e> filexplore
-map <a-.> jump-next
-map <a-,> jump-prev
-
-map R reload
 map <a-k> half-up
 map <a-j> half-down
-map <a-h> scroll-up
-map <a-\;> scroll-down
+map <a-i> scroll-up
+map <a-e> scroll-down
 
 map K :updir; set dironly true; up; set dironly!; open
 map J :updir; set dironly true; down; set dironly!; open
 
-map <c-space> toggle-preview
+map \\ zi
+map <a-f> fzf_dir
+map <a-F> fzf_dir1
+map <a-s> fzf_file
+map <a-S> fzf_file1
+map <a-r> $rgf
 
-map <a-g> dragon
-map <f-3> &{{
-    ffplay -loop 0 $f
-}}
+map <a-.> jump-next
+map <a-,> jump-prev
+map <a-t> term-tab
+map <a-T> tmux-tab
+
+map <a-u> hists
+map <a-g> &dragon -x -a $fx
+map <f-3> &ffplay -loop 0 $f
+map U !exec dust || exec du -h
 
 map ` !true # cmds output
 map <c-l> $printf "\033[2J\033[H" # clear output
+map <c-space> toggle-preview
 
 map <c-z> $ kill -STOP $PPID
-
 map <esc> :read; cmd-escape
 map . :read; cmd-history-prev; cmd-enter
-
-map <f-2> $$EDITOR $XDG_CONFIG_HOME/lf/lfrc
 
 # -------------------- general --------------------
 
@@ -146,6 +140,9 @@ cmd toggle-preview &{{
     fi
 }}
 
+map se :{{ set sortby ext; set info size; }}
+map sn :{{ set sortby natural; set info size; }}
+
 # -------------------- files --------------------
 
 cmd open ${{
@@ -156,41 +153,49 @@ cmd open ${{
 }}
 
 cmd touch %{{
-    printc -c g -s b " file name: "
-    read file
-    touch $file
+    printf '\e[1;32m%b\e[0m' " file name: "; read file
+    [ -w "$PWD" ] && touch $file || lf -remote "send $id $ sudo -u root touch $file"
     lf -remote "send $id select \"$file\""
 }}
 
 cmd mkdir %{{
-    printc -c g -s b " folder name: "
-    read folder
-    mkdir $folder
+    printf '\e[1;32m%b\e[0m' " folder name: "; read folder
+    [ -w "$PWD" ] && mkdir $folder || lf -remote "send $id $ sudo -u root mkdir $folder"
     lf -remote "send $id select \"$folder\""
 }}
 
 cmd bundle %{{
     set -f
-    printc -c g -s b " folder name: "
-    read ned
-    mkdir -- "$ned"
-    mv -- $fx "$ned"
+    printf '\e[1;32m%b\e[0m' " folder name: "; read ned
+    [ -w "$PWD" ] && mkdir "$ned" || lf -remote "send $id $ sudo -u root mkdir \"$ned\""
+    [ -w "$PWD" ] && mv $fx "$ned" || lf -remote "send $id $ sudo mv $fx $ned"
 }}
 
-cmd delete %{{
+cmd del %{{
     set -f
-    printc -c r -s b " delete? "
-    read ans
-    [ "$ans" = "y" ] && rm -rf $fx
+    o=$(head -n1 <<< "$fx")
+    if [[ $(stat -c '%U' "$o") == "$USER" ]]; then
+        lf -remote "send $id delete"
+    else
+        lf -remote "send $id $ sudo rm -rf $fx"
+    fi
 }}
 
-cmd fcp &{{
-    set -- $(cat ~/.local/share/lf/files)
+cmd pasta &{{
+    if [ -w "$PWD" ]; then
+        lf -remote "send $id paste"
+    else
+        lf -remote "send $id pastsu"
+    fi
+}}
+
+cmd pastsu ${{
+    set $(cat ~/.local/share/lf/files)
     mode="$1"
     shift
     case "$mode" in
-        copy) fcp "$@" "$PWD";;
-        move) mv -n "$@" .;;
+        copy) sudo cp -r "$@" .;;
+        move) sudo mv -n "$@" .;;
     esac
     rm ~/.local/share/lf/files
     lf -remote "send clear"
@@ -198,66 +203,17 @@ cmd fcp &{{
 
 cmd symlink %{{
     for f in $fx; do
-        ln -s $f "${f} link"
+        ln -s $f "$f link"
     done
 }}
 
 cmd follow_link %{{
-    lf -remote "send ${id} select '$(readlink -f $f)'"
+    lf -remote "send $id select '$(realpath $f)'"
 }}
 
-cmd copy-path $printf '%s' "$fx" | xclip -i -selection clipboard
-
-cmd select-files &{{
-    get_files() {
-        if [ "$lf_hidden" = 'true' ]; then
-            find . -mindepth 1 -maxdepth 1 -type f -print0
-        else
-            find . -mindepth 1 -maxdepth 1 -type f -not -name '.*' -print0
-        fi |
-        xargs -0 printf ' %q'
-    }
-    lf -remote "send $id :unselect; toggle $(get_files)"
-}}
-
-cmd select-dirs &{{
-    get_dirs() {
-        if [ "$lf_hidden" = 'true' ]; then
-            find . -maxdepth 1 -type d -print0
-        else
-            find . -maxdepth 1 -type d -not -name '.*' -print0
-        fi |
-        xargs -0 printf ' %q'
-    }
-    lf -remote "send $id :unselect; toggle $(get_dirs)"
-}}
-
-cmd select-ft %{{
-    printc -c g -s b " filetype: "; read ft
-    arr=('*''.'"$ft")
-    get_ft() {
-        if [ "$lf_hidden" = 'true' ]; then
-            find . -maxdepth 1 -type f -name "${arr[@]}" -print0
-        else
-            find . -maxdepth 1 -type f -name "${arr[@]}" -not -path '*/.*' -print0
-        fi |
-        xargs -0 printf ' %q'
-    }
-    lf -remote "send $id :unselect; toggle $(get_ft)"
-}}
-
-cmd select-pt %{{
-    printc -c g -s b " pattern: "; read pt
-    arr=('.''*'"$pt"'.''*')
-    get_pt() {
-        if [ "$lf_hidden" = 'true' ]; then
-            find . -maxdepth 1 -regex "${arr[@]}" -print0
-        else
-            find . -maxdepth 1 -regex "${arr[@]}" -not -name '.*' -print0
-        fi |
-        xargs -0 printf ' %q'
-    }
-    lf -remote "send $id :unselect; toggle $(get_pt)"
+cmd copy-path &{{
+    [[ $XDG_SESSION_TYPE == "x11" ]] && CLIP="xclip -selection clipboard" || CLIP="wl-copy"
+    printf '%s' "$fx" | $CLIP
 }}
 
 # bulk rename
@@ -274,18 +230,17 @@ cmd bmv ${{
         if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
             continue
         fi
-        mv -- "$src" "$dst"
+        mv "$src" "$dst"
     done
-    rm -- "$old" "$new"
+    rm "$old" "$new"
     lf -remote "send $id unselect"
 }}
 
 cmd zip ${{
     printf "\033[2J\033[1;1H"
     echo "1 7z 2 zip 3 rar 4 tar 5 tar.gz 6 tar.xz 7 tar.bz2" | xargs -n2
-    printc -c b -s b "enter type: "
-    read ans
-    case $ans in
+    printf '\e[1;34m%b\e[0m' "enter type: "; read d
+    case $t in
         1) 7zz a $fx; t=7z;;
         2) zip -r "$fx" $fx; t=zip;;
         3) rar a "$fx.rar" $fx; t=zip;;
@@ -311,31 +266,90 @@ cmd extract ${{
             *.gz) gzip -dk "$c";;
         esac
     done
-    lf -remote "send reload"
+    lf -remote "send $id reload"
+}}
+
+cmd select-files &{{
+    get_files() {
+        if [ "$lf_hidden" = 'true' ]; then
+            find -mindepth 1 -maxdepth 1 -type f -print0
+        else
+            find -mindepth 1 -maxdepth 1 -type f ! -name '.*' -print0
+        fi |
+        xargs -0 printf ' %q'
+    }
+    lf -remote "send $id :unselect; toggle $(get_files)"
+}}
+
+cmd select-dirs &{{
+    get_dirs() {
+        if [ "$lf_hidden" = 'true' ]; then
+            find -maxdepth 1 -type d ! -name '.' -print0
+        else
+            find -maxdepth 1 -type d ! -name '.*' -print0
+        fi |
+        xargs -0 printf ' %q'
+    }
+    lf -remote "send $id :unselect; toggle $(get_dirs)"
+}}
+
+cmd select-ft %{{
+    printf '\e[1;32m%b\e[0m' " filetype: "; read ft
+    arr=('*''.'"$ft")
+    get_ft() {
+        if [ "$lf_hidden" = 'true' ]; then
+            find -maxdepth 1 -type f -name "${arr[@]}" -print0
+        else
+            find -maxdepth 1 -type f -name "${arr[@]}" ! -path '*/.*' -print0
+        fi |
+        xargs -0 printf ' %q'
+    }
+    lf -remote "send $id :unselect; toggle $(get_ft)"
+}}
+
+cmd select-pt %{{
+    printf '\e[1;32m%b\e[0m' " pattern: "; read pt
+    arr=('.''*'"$pt"'.''*')
+    get_pt() {
+        if [ "$lf_hidden" = 'true' ]; then
+            find -maxdepth 1 -regex "${arr[@]}" -print0
+        else
+            find -maxdepth 1 -regex "${arr[@]}" ! -name '.*' -print0
+        fi |
+        xargs -0 printf ' %q'
+    }
+    lf -remote "send $id :unselect; toggle $(get_pt)"
 }}
 
 # -------------------- permissions --------------------
 
 cmd xplus &{{
-    chmod 775 $fx
-    lf -remote "send reload"
+    chmod +x $fx
+    lf -remote "send $id reload"
 }}
 
 cmd xminus &{{
-    chmod 664 $fx
-    lf -remote "send reload"
+    chmod -x $fx
+    lf -remote "send $id reload"
 }}
 
 cmd chmod %{{
-    printc -c g -s b " mode bits: "
-    read ans
+    printf '\e[1;32m%b\e[0m' " mode bits: "; read c
     for file in "$fx"; do
-        chmod $ans $file
+        chmod $c $file
     done
-    lf -remote "send reload"
+    lf -remote "send $id reload"
 }}
 
 # -------------------- nav --------------------
+
+cmd term-tab &{{
+    case $(file --mime-type -Lb "$f") in
+        inode/directory) c="$f" ;;
+        *) c="$PWD";;
+    esac
+    kitty @launch --type=tab --cwd="$c"
+}}
 
 cmd tmux-tab &{{
     case $(file --mime-type -Lb "$f") in
@@ -343,14 +357,6 @@ cmd tmux-tab &{{
         *) c="$PWD";;
     esac
     tmux new-window; cd "$c"
-}}
-
-cmd kitty-tab &{{
-    case $(file --mime-type -Lb "$f") in
-        inode/directory) c="$f" ;;
-        *) c="$PWD";;
-    esac
-    kitty @launch --type=tab --cwd="$c"
 }}
 
 cmd filexplore &{{
@@ -376,6 +382,11 @@ cmd fzf_dir ${{
     lf -remote "send $id cd \"$folder\""
 }}
 
+cmd fzf_dir1 ${{
+    folder="$(fd -t d -d 1 -LH | fzf --header='cd into ...' --border --padding=1)" || true
+    lf -remote "send $id cd \"$folder\""
+}}
+
 cmd fzf_file ${{
     file="$(fd -t f -LH | fzf --header='files …' --border --padding=1)" || true
     lf -remote "send $id select \"$file\""
@@ -384,15 +395,4 @@ cmd fzf_file ${{
 cmd fzf_file1 ${{
     file="$(fd -t f -d 1 -LH | fzf --header='files …' --border --padding=1)" || true
     lf -remote "send $id select \"$file\""
-}}
-
-cmd fzf_dir1 ${{
-    folder="$(fd -t d -d 1 -LH | fzf --header='cd into ...' --border --padding=1)" || true
-    lf -remote "send $id cd \"$folder\""
-}}
-
-cmd fzf_search ${{ rgf }}
-
-cmd dragon &{{
-    setsid -f dragon -x -a $fx && kill $id
 }}
