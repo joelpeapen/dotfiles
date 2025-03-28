@@ -57,6 +57,13 @@ map e rename
 map r :rename; cmd-end
 map b bmv
 
+map ay cp-add
+map aY cp-rm
+map ar cut-add
+map aR cut-add
+map aC selxybuf
+map ac selxybuf-add
+
 map af touch
 map ad mkdir
 map <a-n> bundle
@@ -319,6 +326,54 @@ cmd select-pt %{{
         xargs -0 printf ' %q'
     }
     lf -remote "send $id :unselect; toggle $(get_pt)"
+}}
+
+cmd cut-add %{{
+    sed -i '1s/.*/move/' ~/.local/share/lf/files
+    printf '%s\n' "$fx" >> ~/.local/share/lf/files
+    lf -remote "send $id :unselect; sync"
+}}
+
+cmd cut-rm %{{
+    sed -i '1s/.*/move/' ~/.local/share/lf/files
+    printf '%s\n' "$fx" | while IFS= read -r file; do
+        sed -i "\|$file|d" ~/.local/share/lf/files
+    done
+    lf -remote "send $id :unselect; sync"
+}}
+
+cmd cp-add %{{
+    sed -i '1s/.*/copy/' ~/.local/share/lf/files
+    printf '%s\n' "$fx" >> ~/.local/share/lf/files
+    lf -remote "send $id :unselect; sync"
+}}
+
+cmd cp-rm %{{
+    sed -i '1s/.*/copy/' ~/.local/share/lf/files
+    printf '%s\n' "$fx" | while IFS= read -r file; do
+        sed -i "\|$file|d" ~/.local/share/lf/files
+    done
+    lf -remote "send $id :unselect; sync"
+}}
+
+cmd selxybuf &{{
+    files="$(sed -n 's/\\/\\\\/g;s/"/\\"/g;s/^/"/;s/$/"/;2,$p' ~/.local/share/lf/files | tr '\n' ' ')"
+    if [ -z "$files" ]; then
+        lf -remote "send $id echoerr select-buffer: no file in copy/cut buffer"
+        exit
+    fi
+    lf -remote "send $id :unselect; toggle $files"
+}}
+
+cmd selxybuf-add &{{
+    set -- $(cat ~/.local/share/lf/files)
+    shift
+    if [ "$#" -eq 0 ]; then
+        lf -remote "send $id echoerr select-buffer: no file in copy/cut buffer"
+        exit
+    fi
+    files="$(printf '%s\n' "$@" $fs | sort -u | sed 's/\\/\\\\/g;s/"/\\"/g;s/^/"/;s/$/"/' | tr '\n' ' ')"
+    lf -remote "send $id :unselect; toggle $files"
 }}
 
 # -------------------- permissions --------------------
