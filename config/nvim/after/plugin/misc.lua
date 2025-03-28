@@ -62,10 +62,10 @@ hp:setup({
 
 MAP('n', "<m-r>", function() hp:list():add() end)
 MAP('n', "<m-v>", function() hp.ui:toggle_quick_menu(hp:list()) end)
-MAP('n', "<m-J>", function() hp:list():select(1) end)
-MAP('n', "<m-K>", function() hp:list():select(2) end)
-MAP('n', "<m-L>", function() hp:list():select(3) end)
-MAP('n', "<m-s-;>", function() hp:list():select(4) end)
+MAP('n', "<m-1>", function() hp:list():select(1) end)
+MAP('n', "<m-2>", function() hp:list():select(2) end)
+MAP('n', "<m-3>", function() hp:list():select(3) end)
+MAP('n', "<m-4>", function() hp:list():select(4) end)
 MAP('n', "<m-s-p>", function() hp:list():prev() end)
 MAP('n', "<m-s-n>", function() hp:list():next() end)
 
