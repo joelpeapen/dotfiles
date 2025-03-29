@@ -1,15 +1,20 @@
 # DOTFILES
 
+### desktop
+
+- [swayFX](https://github.com/WillPower3309/swayfx) WM
+- [waybar](https://github.com/Alexays/Waybar) desktop panel
+- [swaync](https://github.com/ErikReider/SwayNotificationCenter) notifications
+
 ### editor
 
 - [neovim](https://github.com/neovim/neovim)
+- [zed](https://zed.dev)
 
 ### terminal
 
 - [kitty](https://github.com/kovidgoyal/kitty) emulator
-
 - [zsh](https://www.zsh.org/) shell
-
 - [startship](https://startship.rs/) prompt
 
 ### util
@@ -25,7 +30,3 @@
 - [rofi](https://github.com/davatorium/rofi) dmenu replacement
 - [kmonad](https://github.com/kmonad/kmonad) keyboard manager
 - [warpd](https://github.com/rvaiya/warpd) keyboard driven mouse pointer
-- [fzf-tab](https://github.com/Aloxaf/fzf-tab): fuzzy tab-completion
-- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
-- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
-- [zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)
