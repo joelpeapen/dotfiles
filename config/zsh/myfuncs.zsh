@@ -34,6 +34,7 @@ function sync-dots {
     cp $XDG_CONFIG_HOME/rofi/*.rasi $DOTDIR/config/rofi/
     cp $XDG_CONFIG_HOME/warpd/config $DOTDIR/config/warpd/
     cp $XDG_CONFIG_HOME/fastfetch/config.jsonc $DOTDIR/config/fastfetch/
+    cp -r $XDG_CONFIG_HOME/cava/ $DOTDIR/config/
 
     cp $HOME/.gitconfig $DOTDIR/config/git/
     cp $HOME/.{clang-format,gdbinit} $DOTDIR/config/
