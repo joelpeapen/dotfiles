@@ -1,12 +1,14 @@
 configuration {
     modi: [run,window];
 
+    terminal: "kitty";
     font: "FiraCode Nerd Font Ret 13";
 
     sort: true;
     show-icons: true;
     // sidebar-mode: true; // bottom buttons
     fixed-num-lines: false;
+
 
     display-run: " RUN";
     display-drun: " RUN";
