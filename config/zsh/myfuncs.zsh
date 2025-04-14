@@ -27,6 +27,7 @@ function sync-dots {
     cp $XDG_CONFIG_HOME/nano/nanorc $DOTDIR/config/nano/
     cp $XDG_CONFIG_HOME/zathura/zathurarc $DOTDIR/config/zathura/
     cp $XDG_CONFIG_HOME/kitty/(diff|kitty).conf $DOTDIR/config/kitty/
+    cp -r $XDG_CONFIG_HOME/foot/ $DOTDIR/config/
 
     cp $HOME/.local/user/spotlight/* $DOTDIR/bin/
     cp $XDG_CONFIG_HOME/rofi/*.rasi $DOTDIR/config/rofi/
