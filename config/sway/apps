@@ -15,6 +15,7 @@ bindsym {
     $mod+p       exec "zsh -c killp"
     $mod+u       exec "runcmd"
     $mod+m       exec "helpman"
+    $mod+y       exec "passmenu"
     $mod+shift+t exec $term "todo"
     $mod+shift+v exec $term "calcurse"
     $mod+shift+d exec $term "spotlight"
