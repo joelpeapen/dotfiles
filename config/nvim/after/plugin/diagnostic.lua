@@ -1,7 +1,8 @@
 vim.diagnostic.config({
-    virtual_lines = true,
+    virtual_text = true,
     severity_sort = true,
-    float = { border = "rounded" }
+    float = { border = "rounded" },
+    jump = { float = true }
 })
 
 local trouble = require("trouble")
